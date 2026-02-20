@@ -1,0 +1,8 @@
+{
+  "name": "住宅ローン管理",
+  "short_name": "ローン管理",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f0e0c",
+  "theme_color": "#0f0e0c"
+}

@@ -8,7 +8,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="住宅ローン管理">
 <title>住宅ローン管理</title>
-<link rel="manifest" href="./manifest.json">  
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1724,18 +1723,6 @@ if ('serviceWorker' in navigator) {
   const blob = new Blob([swCode], { type: 'application/javascript' });
   navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
 }
-// --- ここから追加（PWAアプリ化の必須条件） ---
-if ('serviceWorker' in navigator) {
-  const swCode = `
-    const CACHE = 'mortgage-v1';
-    self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./', './index.html']))));
-    self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(res => res || fetch(e.request))));
-  `;
-  const blob = new Blob([swCode], { type: 'application/javascript' });
-  const swUrl = URL.createObjectURL(blob);
-  navigator.serviceWorker.register(swUrl);
-}
-// --- ここまで追加 ---
 </script>
 </body>
 </html>

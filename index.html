@@ -13,19 +13,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f0e0c;
-    --surface: #1a1815;
-    --surface2: #242220;
-    --border: #2e2c28;
+    --bg: #0d0c0a;
+    --surface: #161412;
+    --surface2: #1e1c19;
+    --surface3: #252320;
+    --border: #2a2825;
+    --border2: #353330;
     --accent: #c8a96e;
-    --accent2: #e8c98a;
-    --text: #e8e4dc;
-    --muted: #7a7568;
-    --danger: #c4715a;
-    --safe: #6aaa8e;
-    --interest: #c4715a;
+    --accent2: #e2c07a;
+    --text: #ede9e0;
+    --text2: #b8b2a8;
+    --muted: #6e6a62;
+    --danger: #c06858;
+    --safe: #5ea082;
+    --interest: #c06858;
     --principal: #c8a96e;
-    --info: #5a8bc4;
+    --info: #5282b8;
+    --radius: 10px;
+    --radius-sm: 6px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -33,245 +38,320 @@
     color: var(--text);
     font-family: 'Noto Serif JP', serif;
     min-height: 100vh;
-    padding: 24px 16px;
-  }
-  .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-  .header h1 { font-size: 1.6rem; font-weight: 300; color: var(--accent2); letter-spacing: 0.1em; }
-  .header p { color: var(--muted); font-size: 0.8rem; margin-top: 6px; }
-
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-  .card-title { 
-    font-size: 0.75rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; 
-    margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); 
-    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    padding: 20px 14px 48px;
+    max-width: 680px;
+    margin: 0 auto;
   }
 
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+  /* ── Header ── */
+  .header {
+    text-align: center; margin-bottom: 28px; padding: 28px 0 22px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header h1 {
+    font-size: 1.45rem; font-weight: 300; color: var(--accent2);
+    letter-spacing: 0.18em;
+  }
+  .header p { color: var(--muted); font-size: 0.75rem; margin-top: 6px; letter-spacing: 0.05em; }
 
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-group label { font-size: 0.75rem; color: var(--muted); }
+  /* ── Cards ── */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px; margin-bottom: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  .card-title {
+    font-size: 0.68rem; color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  }
+
+  /* ── Forms ── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .form-group { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+  .form-group label { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; }
   .form-group input, .form-group select {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
-    color: var(--text); padding: 10px 12px; font-family: 'DM Mono', monospace;
-    font-size: 0.9rem; outline: none; transition: border-color 0.2s;
+    background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius-sm);
+    color: var(--text); padding: 9px 11px; font-family: 'DM Mono', monospace;
+    font-size: 0.88rem; outline: none; transition: border-color 0.2s, background 0.2s;
+    width: 100%; box-sizing: border-box; -webkit-appearance: none;
   }
-  .form-group input:focus, .form-group select:focus { border-color: var(--accent); }
+  .form-group input:focus, .form-group select:focus {
+    border-color: var(--accent); background: var(--surface3);
+  }
+  .form-group select { cursor: pointer; }
 
   .checkbox-group {
-    display: flex; align-items: center; gap: 10px; margin-top: 8px;
-    padding: 10px; background: rgba(200,169,110,0.05); border-radius: 8px; border: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 10px; margin-top: 6px;
+    padding: 10px 12px; background: rgba(200,169,110,0.04);
+    border-radius: var(--radius-sm); border: 1px solid var(--border);
   }
-  .checkbox-group input[type="checkbox"] { width: auto; margin: 0; }
-  .checkbox-group label { font-size: 0.8rem; color: var(--text); cursor: pointer; }
-  .rule-desc { font-size: 0.7rem; color: var(--muted); margin-left: 24px; margin-top: 4px; line-height: 1.4; }
+  .checkbox-group input[type="checkbox"] { width: auto; margin: 2px 0 0; flex-shrink: 0; cursor: pointer; }
+  .checkbox-group label { font-size: 0.78rem; color: var(--text2); cursor: pointer; line-height: 1.4; }
+  .rule-desc { font-size: 0.67rem; color: var(--muted); margin: 4px 0 0 22px; line-height: 1.5; }
 
-  .btn { background: var(--accent); color: #0f0e0c; border: none; border-radius: 8px; padding: 12px 28px; font-family: 'Noto Serif JP', serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; width: 100%; margin-top: 12px; }
+  /* ── Buttons ── */
+  .btn {
+    background: var(--accent); color: #0d0c0a; border: none; border-radius: var(--radius-sm);
+    padding: 11px 24px; font-family: 'Noto Serif JP', serif; font-size: 0.88rem;
+    font-weight: 600; cursor: pointer; transition: background 0.18s, transform 0.1s;
+    width: 100%; margin-top: 12px; letter-spacing: 0.05em;
+  }
   .btn:hover { background: var(--accent2); }
   .btn:active { transform: scale(0.98); }
-  .btn-outline { background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 6px; padding: 4px 12px; font-family: 'Noto Serif JP', serif; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; }
-  .btn-outline:hover { background: var(--accent); color: #0f0e0c; }
-
-  .total-cost-banner {
-    background: rgba(200, 169, 110, 0.1);
-    border: 1px solid var(--accent);
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 20px;
-    text-align: center;
+  .btn-outline {
+    background: transparent; border: 1px solid var(--border2); color: var(--text2);
+    border-radius: var(--radius-sm); padding: 7px 14px; font-family: 'Noto Serif JP', serif;
+    font-size: 0.75rem; cursor: pointer; transition: all 0.18s; width: 100%;
+    text-align: left;
   }
-  .total-cost-label { font-size: 0.8rem; color: var(--accent); margin-bottom: 4px; letter-spacing: 0.05em; }
-  .total-cost-value { font-family: 'DM Mono', monospace; font-size: 1.8rem; color: var(--accent2); font-weight: 500; }
-  .total-cost-detail { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
-  .total-cost-detail span { color: var(--text); font-weight: 500; margin: 0 4px; }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: rgba(200,169,110,0.05); }
 
-  .stats-section-label { font-size: 0.7rem; color: var(--muted); margin: 16px 0 8px 4px; border-left: 2px solid var(--accent); padding-left: 8px; }
-  
-  .stats-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; align-items: stretch; }
-  @media (max-width: 600px) { .stats-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
-  
-  .stats-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; align-items: stretch; }
-  @media (max-width: 600px) { .stats-grid-3 { gap: 4px; } }
+  /* ── Banner ── */
+  .total-cost-banner {
+    background: linear-gradient(135deg, rgba(200,169,110,0.12), rgba(200,169,110,0.06));
+    border: 1px solid rgba(200,169,110,0.35);
+    border-radius: var(--radius); padding: 18px 16px; margin-bottom: 14px; text-align: center;
+  }
+  .total-cost-label { font-size: 0.7rem; color: var(--accent); margin-bottom: 6px; letter-spacing: 0.1em; }
+  .total-cost-value { font-family: 'DM Mono', monospace; font-size: 2rem; color: var(--accent2); font-weight: 500; line-height: 1; }
+  .total-cost-detail { font-size: 0.72rem; color: var(--muted); margin-top: 8px; }
+  .total-cost-detail span { color: var(--text2); font-weight: 500; }
 
-  .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 4px; text-align: center; display: flex; flex-direction: column; height: 100%; }
-  .stat-label { font-size: 0.65rem; color: var(--muted); margin-bottom: 8px; line-height: 1.3; height: 2.6em; display: flex; align-items: center; justify-content: center; }
-  .stat-value { font-family: 'DM Mono', monospace; font-size: 0.95rem; color: var(--text); font-weight: 500; margin-bottom: 4px; height: 1.2em; display: flex; align-items: center; justify-content: center; }
+  /* ── Stats ── */
+  .stats-section-label {
+    font-size: 0.65rem; color: var(--muted); margin: 14px 0 8px 2px;
+    padding-left: 8px; border-left: 2px solid var(--accent); letter-spacing: 0.06em;
+  }
+  .stats-grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 10px; }
+  @media (max-width: 580px) { .stats-grid-4 { grid-template-columns: repeat(2,1fr); } }
+  .stats-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 10px; }
+
+  .stat-box {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 12px 6px 10px; text-align: center; display: flex; flex-direction: column;
+  }
+  .stat-label { font-size: 0.6rem; color: var(--muted); margin-bottom: 8px; line-height: 1.35; min-height: 2.7em; display:flex; align-items:center; justify-content:center; }
+  .stat-value { font-family: 'DM Mono', monospace; font-size: 0.92rem; color: var(--text); font-weight: 500; min-height: 1.3em; display:flex; align-items:center; justify-content:center; }
   .stat-value.accent { color: var(--accent2); }
   .stat-value.danger { color: var(--danger); }
-  .stat-sub { font-size: 0.58rem; color: var(--muted); margin-top: auto; line-height: 1.2; padding-top: 6px; min-height: 2.4em; }
+  .stat-sub { font-size: 0.56rem; color: var(--muted); margin-top: auto; padding-top: 6px; line-height: 1.3; min-height: 2.4em; }
 
-  .progress-bar { background: var(--surface2); border-radius: 4px; height: 6px; overflow: hidden; margin: 12px 0 6px; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 4px; transition: width 0.5s ease; }
-  .progress-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); }
+  /* ── Progress ── */
+  .progress-bar { background: var(--surface3); border-radius: 3px; height: 5px; overflow: hidden; margin: 12px 0 6px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 3px; transition: width 0.6s ease; }
+  .progress-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted); }
 
-  .tabs { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
-  .tab { flex: 1; min-width: 60px; padding: 8px 4px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 0.72rem; text-align: center; transition: all 0.2s; font-family: 'Noto Serif JP', serif; }
-  .tab.active { background: var(--accent); color: #0f0e0c; border-color: var(--accent); font-weight: 600; }
+  /* ── Tabs ── */
+  .tabs { display: flex; gap: 3px; margin-bottom: 14px; background: var(--surface2); border-radius: var(--radius-sm); padding: 3px; }
+  .tab {
+    flex: 1; padding: 7px 4px; background: transparent; border: none; border-radius: 4px;
+    color: var(--muted); cursor: pointer; font-size: 0.68rem; text-align: center;
+    transition: all 0.18s; font-family: 'Noto Serif JP', serif;
+  }
+  .tab.active { background: var(--surface); color: var(--accent2); font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+  .tab:hover:not(.active) { color: var(--text2); }
 
-  .tools-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
-  .tools-tab { flex: 1; padding: 10px; text-align: center; font-size: 0.75rem; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  .tools-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 14px; }
+  .tools-tab { flex: 1; padding: 9px 4px; text-align: center; font-size: 0.72rem; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.18s; }
   .tools-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
 
-  .table-wrap { overflow-y: auto; max-height: 450px; }
+  /* ── Table ── */
+  .table-wrap { overflow-y: auto; max-height: 420px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
   table { width: 100%; table-layout: fixed; border-collapse: collapse; }
-  th { background: var(--surface2); padding: 8px 2px; text-align: right; color: var(--muted); font-weight: 400; font-size: 0.6rem; position: sticky; top: 0; z-index: 1; white-space: nowrap; }
-  th:first-child { text-align: left; padding-left: 4px; }
-  td { padding: 8px 2px; text-align: right; border-bottom: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 0.65rem; white-space: nowrap; letter-spacing: -0.5px; }
-  td:first-child { text-align: left; color: var(--muted); font-family: 'Noto Serif JP', serif; font-size: 0.6rem; padding-left: 4px; }
-  th:nth-child(1) { width: 17%; } th:nth-child(2) { width: 20%; } th:nth-child(3) { width: 18%; } th:nth-child(4) { width: 18%; } th:nth-child(5) { width: 27%; } 
-  tr:hover td { background: var(--surface2); }
-  tr.highlight td { background: rgba(200,169,110,0.08); }
+  th {
+    background: var(--surface3); padding: 9px 4px; text-align: right; color: var(--muted);
+    font-weight: 500; font-size: 0.6rem; position: sticky; top: 0; z-index: 1;
+    white-space: nowrap; width: 20%;
+  }
+  th:first-child { text-align: left; padding-left: 8px; }
+  td {
+    padding: 8px 4px; text-align: right; border-bottom: 1px solid var(--border);
+    font-family: 'DM Mono', monospace; font-size: 0.63rem; width: 20%;
+  }
+  td:first-child { text-align: left; color: var(--text2); font-family: 'Noto Serif JP', serif; font-size: 0.6rem; padding-left: 8px; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  tr.highlight td { background: rgba(200,169,110,0.07); }
   tr.highlight td:first-child { color: var(--accent); }
   tr.rate-change td:first-child { color: var(--safe); }
 
-  .rate-section { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
-  .rate-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  .rate-section-title { font-size: 0.78rem; color: var(--accent); }
-  .rate-change-item { display: flex; align-items: center; gap: 8px; padding: 10px; margin-bottom: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; }
-  .rate-item-main { flex: 1; display: flex; flex-direction: column; gap: 4px; }
-  .rate-item-date { font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--text); }
-  .rate-item-val { font-size: 0.7rem; color: var(--safe); }
-  .rate-add-form { display: none; background: var(--surface2); border: 1px solid var(--accent); border-radius: 8px; padding: 16px; margin: 10px 0; }
+  /* ── Rate changes ── */
+  .rate-section { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .rate-section-header {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 10px; margin-bottom: 10px;
+  }
+  .rate-section-title {
+    font-size: 0.78rem; color: var(--accent); font-weight: 600;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .rate-section-add-btn {
+    background: var(--surface3); border: 1px solid var(--border2); color: var(--accent);
+    border-radius: var(--radius-sm); padding: 6px 14px; font-family: 'Noto Serif JP', serif;
+    font-size: 0.75rem; cursor: pointer; transition: all 0.18s; white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .rate-section-add-btn:hover { background: rgba(200,169,110,0.12); border-color: var(--accent); }
+  .rate-change-item {
+    display: flex; align-items: center; gap: 8px; padding: 10px 12px; margin-bottom: 6px;
+    background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  }
+  .rate-item-main { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+  .rate-item-date { font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--text); }
+  .rate-item-val { font-size: 0.68rem; color: var(--safe); }
+  .rate-add-form {
+    display: none; background: var(--surface2); border: 1px solid var(--accent);
+    border-radius: var(--radius-sm); padding: 14px; margin: 8px 0;
+  }
   .rate-actions { display: flex; gap: 6px; }
 
-  .btn-sm { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--muted); padding: 6px 10px; font-size: 0.72rem; cursor: pointer; transition: all 0.2s; font-family: 'Noto Serif JP', serif; }
+
+  /* ── Misc small components ── */
+  .btn-sm {
+    background: var(--surface3); border: 1px solid var(--border2); border-radius: 4px;
+    color: var(--muted); padding: 5px 10px; font-size: 0.7rem; cursor: pointer;
+    transition: all 0.18s; font-family: 'Noto Serif JP', serif;
+  }
   .btn-sm.edit:hover { border-color: var(--accent); color: var(--accent); }
   .btn-sm.danger:hover { border-color: var(--danger); color: var(--danger); }
 
-  .chart-wrapper { position: relative; height: 260px; width: 100%; }
+  .chart-wrapper { position: relative; height: 240px; width: 100%; }
   canvas { display: block; width: 100%; }
-  .empty-state { text-align: center; color: var(--muted); padding: 20px; font-size: 0.85rem; }
-  .save-notice { font-size: 0.7rem; color: var(--safe); margin-top: 8px; text-align: center; display: none; }
+  .empty-state { text-align: center; color: var(--muted); padding: 20px; font-size: 0.82rem; }
+  .save-notice { font-size: 0.68rem; color: var(--safe); margin-top: 8px; text-align: center; display: none; }
   #results { display: none; }
   #results.visible { display: block; }
-  .badge-warn { display: inline-block; background: rgba(196,113,90,0.15); color: var(--danger); padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; border: 1px solid var(--danger); margin-left: 6px; transform: scale(0.9); transform-origin: left center;}
-  .badge-rule { display: inline-block; background: rgba(106,170,142,0.15); color: var(--safe); padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; border: 1px solid var(--safe); margin-left: 4px; transform: scale(0.9); transform-origin: left center; }
-  .deferred-interest { color: var(--danger); font-size: 0.75rem; margin-top: 8px; padding: 8px; border: 1px solid var(--danger); border-radius: 6px; background: rgba(196,113,90,0.05); display: none; }
-  
-  .tool-content { display: none; animation: fadeIn 0.3s ease; }
+
+  .badge-warn {
+    display: inline-block; background: rgba(192,104,88,0.12); color: var(--danger);
+    padding: 2px 5px; border-radius: 3px; font-size: 0.6rem; border: 1px solid rgba(192,104,88,0.4);
+  }
+  .badge-rule {
+    display: inline-block; background: rgba(94,160,130,0.12); color: var(--safe);
+    padding: 2px 5px; border-radius: 3px; font-size: 0.6rem; border: 1px solid rgba(94,160,130,0.4);
+  }
+  .deferred-interest {
+    color: var(--danger); font-size: 0.73rem; margin-top: 8px; padding: 8px 12px;
+    border: 1px solid rgba(192,104,88,0.4); border-radius: var(--radius-sm);
+    background: rgba(192,104,88,0.06); display: none;
+  }
+
+  .tool-content { display: none; animation: fadeIn 0.25s ease; }
   .tool-content.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-  .tool-summary { background: rgba(106,170,142,0.1); border: 1px solid var(--safe); border-radius: 8px; padding: 12px; margin-top: 16px; text-align: center; }
-  .tool-summary-label { font-size: 0.7rem; color: var(--safe); margin-bottom: 4px; }
-  .tool-summary-val { font-size: 1.2rem; font-family: 'DM Mono', monospace; color: var(--text); }
-  
-  .refi-row { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 8px 0; font-size: 0.8rem; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .tool-summary {
+    background: rgba(94,160,130,0.08); border: 1px solid rgba(94,160,130,0.3);
+    border-radius: var(--radius-sm); padding: 14px; margin-top: 14px; text-align: center;
+  }
+  .tool-summary-label { font-size: 0.68rem; color: var(--safe); margin-bottom: 5px; letter-spacing: 0.04em; }
+  .tool-summary-val { font-size: 1.18rem; font-family: 'DM Mono', monospace; color: var(--text); }
+
+  .refi-row { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 7px 0; font-size: 0.78rem; }
   .refi-row span:last-child { font-family: 'DM Mono', monospace; }
-  .refi-row.has-sub { border-bottom: none; padding-bottom: 4px; }
-  .refi-row.sub { border-bottom: none; padding: 2px 0 2px 14px; font-size: 0.72rem; color: var(--muted); }
-  .refi-row.sub span:last-child { font-size: 0.75rem; }
-  .refi-row.sub-last { border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .refi-row.has-sub { border-bottom: none; padding-bottom: 3px; }
+  .refi-row.sub { border-bottom: none; padding: 2px 0 2px 12px; font-size: 0.7rem; color: var(--muted); }
+  .refi-row.sub-last { border-bottom: 1px solid var(--border); padding-bottom: 7px; }
   .refi-diff { font-weight: bold; }
-  .refi-diff.plus { color: var(--danger); }
-  .refi-diff.minus { color: var(--safe); }
+  .refi-diff.plus { color: var(--safe); }
+  .refi-diff.minus { color: var(--danger); }
 
   .tax-badge {
-    display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: bold;
-    letter-spacing: 0; text-transform: none;
+    display: inline-block; padding: 3px 9px; border-radius: var(--radius-sm);
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.02em;
   }
-  .tax-short { background: rgba(196,113,90,0.15); color: var(--danger); border: 1px solid var(--danger); }
-  .tax-long { background: rgba(106,170,142,0.15); color: var(--safe); border: 1px solid var(--safe); }
-  .tax-reduced { background: rgba(90,139,196,0.15); color: var(--info); border: 1px solid var(--info); }
+  .tax-short { background: rgba(192,104,88,0.12); color: var(--danger); border: 1px solid rgba(192,104,88,0.4); }
+  .tax-long  { background: rgba(94,160,130,0.12); color: var(--safe);   border: 1px solid rgba(94,160,130,0.4); }
+  .tax-reduced { background: rgba(82,130,184,0.12); color: var(--info);  border: 1px solid rgba(82,130,184,0.4); }
 
-  .calc-breakdown { margin-top: 16px; }
+  .calc-breakdown { margin-top: 14px; }
   .step-box {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 12px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 10px;
   }
-  .step-title {
-    font-size: 0.75rem; color: var(--accent); font-weight: 600;
-    margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
-  }
+  .step-title { font-size: 0.72rem; color: var(--accent); font-weight: 600; margin-bottom: 9px; display: flex; align-items: center; gap: 7px; }
   .step-num {
-    background: var(--accent); color: var(--bg); border-radius: 50%; width: 18px; height: 18px;
-    display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: bold;
+    background: var(--accent); color: var(--bg); border-radius: 50%; width: 17px; height: 17px;
+    display: flex; align-items: center; justify-content: center; font-size: 0.62rem; font-weight: bold; flex-shrink: 0;
   }
-  .step-row {
-    display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.75rem; color: var(--text);
-  }
-  .step-row.sub {
-    padding-left: 12px; color: var(--muted); font-size: 0.7rem;
-  }
-  .step-row.result {
-    border-top: 1px dashed var(--border); margin-top: 6px; padding-top: 6px; font-weight: bold; color: var(--accent2);
-  }
-  .step-row span:last-child {
-    font-family: 'DM Mono', monospace; text-align: right; min-width: 80px;
-  }
+  .step-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.73rem; color: var(--text); }
+  .step-row.sub { padding-left: 11px; color: var(--muted); font-size: 0.68rem; }
+  .step-row.result { border-top: 1px dashed var(--border2); margin-top: 6px; padding-top: 6px; font-weight: bold; color: var(--accent2); }
+  .step-row span:last-child { font-family: 'DM Mono', monospace; text-align: right; min-width: 80px; }
 
-  /* 外部リンクフッター */
-  .footer-links {
-    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
-    text-align: center; padding-bottom: 40px;
-  }
+  /* ── Footer ── */
+  .footer-links { margin-top: 32px; padding: 18px 0 40px; border-top: 1px solid var(--border); text-align: center; }
   .external-link {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 0.75rem; color: var(--muted); text-decoration: none;
-    transition: color 0.2s;
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.72rem; color: var(--muted); text-decoration: none; transition: color 0.2s;
   }
-  .external-link:hover { color: var(--accent); text-decoration: underline; }
-  .external-link::before { content: '🔗'; font-size: 0.8rem; }
+  .external-link:hover { color: var(--accent); }
+  .external-link::before { content: '🔗'; font-size: 0.75rem; }
 
-  /* インラインバリデーション */
-  .field-error { font-size: 0.7rem; color: var(--danger); margin-top: 2px; display: none; }
+  /* ── Validation ── */
+  .field-error { font-size: 0.67rem; color: var(--danger); margin-top: 2px; display: none; }
   .field-error.show { display: block; }
   .input-error { border-color: var(--danger) !important; }
 
-  /* 繰り上げ返済 */
-  .prepay-type-row { display: flex; gap: 8px; margin-bottom: 16px; }
-  .prepay-type-btn { flex: 1; padding: 10px 6px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--muted); cursor: pointer; font-size: 0.78rem; text-align: center; transition: all 0.2s; font-family: 'Noto Serif JP', serif; }
-  .prepay-type-btn.active { background: rgba(200,169,110,0.15); border-color: var(--accent); color: var(--accent2); font-weight: 600; }
-  .prepay-result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
-  .prepay-result-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; }
-  .prepay-result-box.highlight { border-color: var(--safe); background: rgba(106,170,142,0.07); }
-  .prepay-result-label { font-size: 0.68rem; color: var(--muted); margin-bottom: 6px; }
-  .prepay-result-val { font-family: 'DM Mono', monospace; font-size: 1.05rem; color: var(--text); }
+  /* ── Prepayment ── */
+  .prepay-type-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .prepay-type-btn {
+    flex: 1; padding: 10px 6px; background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: var(--radius-sm); color: var(--muted); cursor: pointer; font-size: 0.75rem;
+    text-align: center; transition: all 0.18s; font-family: 'Noto Serif JP', serif; line-height: 1.4;
+  }
+  .prepay-type-btn.active {
+    background: rgba(200,169,110,0.1); border-color: var(--accent); color: var(--accent2); font-weight: 600;
+  }
+  .prepay-result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+  .prepay-result-box {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 12px; text-align: center;
+  }
+  .prepay-result-box.highlight { border-color: rgba(94,160,130,0.5); background: rgba(94,160,130,0.06); }
+  .prepay-result-label { font-size: 0.65rem; color: var(--muted); margin-bottom: 6px; }
+  .prepay-result-val { font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--text); }
   .prepay-result-val.green { color: var(--safe); }
   .prepay-result-val.gold { color: var(--accent2); }
 
-  /* 金利シナリオ */
-  .scenario-toggles { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-  .scenario-btn { padding: 5px 10px; border-radius: 6px; border: 1px solid; font-size: 0.7rem; cursor: pointer; transition: all 0.2s; font-family: 'Noto Serif JP', serif; background: transparent; }
-  .scenario-btn.s0 { border-color: #5a8bc4; color: #5a8bc4; }
-  .scenario-btn.s0.active { background: #5a8bc4; color: #fff; }
-  .scenario-btn.s1 { border-color: #c8a96e; color: #c8a96e; }
-  .scenario-btn.s1.active { background: #c8a96e; color: #0f0e0c; }
-  .scenario-btn.s2 { border-color: #c4715a; color: #c4715a; }
-  .scenario-btn.s2.active { background: #c4715a; color: #fff; }
+  /* ── Breakeven box ── */
+  .breakeven-box {
+    background: rgba(82,130,184,0.07); border: 1px solid rgba(82,130,184,0.35);
+    border-radius: var(--radius-sm); padding: 14px 16px; margin-top: 12px; display: none;
+  }
+  .breakeven-label { font-size: 0.68rem; color: var(--info); margin-bottom: 5px; }
+  .breakeven-val { font-family: 'DM Mono', monospace; font-size: 1.05rem; color: var(--text); }
 
-  /* 売却損益分岐点 */
-  .breakeven-box { background: rgba(90,139,196,0.08); border: 1px solid var(--info); border-radius: 8px; padding: 12px 16px; margin-top: 12px; display: none; }
-  .breakeven-label { font-size: 0.7rem; color: var(--info); margin-bottom: 4px; }
-  .breakeven-val { font-family: 'DM Mono', monospace; font-size: 1.1rem; color: var(--text); }
-
-  /* 折りたたみカード */
+  /* ── Collapsible ── */
   .collapsible-header {
     display: flex; justify-content: space-between; align-items: center;
     cursor: pointer; user-select: none; -webkit-user-select: none;
   }
   .collapsible-header:hover .collapse-icon { color: var(--accent2); }
-  .collapse-icon {
-    font-size: 0.85rem; color: var(--muted); transition: transform 0.25s ease;
-    flex-shrink: 0; margin-left: 8px;
-  }
+  .collapse-icon { font-size: 0.8rem; color: var(--muted); transition: transform 0.25s ease; flex-shrink: 0; margin-left: 8px; }
   .collapse-icon.open { transform: rotate(180deg); }
-  .collapsible-body {
-    overflow: hidden;
-    transition: max-height 0.35s ease, opacity 0.25s ease;
-    max-height: 0; opacity: 0; pointer-events: none;
-  }
+  .collapsible-body { overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease; max-height: 0; opacity: 0; pointer-events: none; }
   .collapsible-body.open { max-height: 9999px; opacity: 1; pointer-events: auto; }
 
-  /* 共有リンクボタン */
-  .share-notice { font-size: 0.72rem; color: var(--safe); margin-top: 6px; text-align: center; display: none; }
+  /* ── Share notice ── */
+  .share-notice { font-size: 0.7rem; color: var(--safe); margin-top: 6px; text-align: center; display: none; }
 
-  /* PWAインストールバナー */
-  #pwaInstallBanner { display: none; position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--accent); border-radius: 12px; padding: 12px 16px; z-index: 999; box-shadow: 0 4px 20px rgba(0,0,0,0.5); text-align: center; width: calc(100% - 32px); max-width: 420px; }
-  #pwaInstallBanner p { font-size: 0.78rem; color: var(--text); margin-bottom: 10px; }
+  /* ── PWA Banner ── */
+  #pwaInstallBanner {
+    display: none; position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+    background: var(--surface); border: 1px solid var(--accent); border-radius: var(--radius);
+    padding: 12px 16px; z-index: 999; box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+    text-align: center; width: calc(100% - 32px); max-width: 420px;
+  }
+  #pwaInstallBanner p { font-size: 0.76rem; color: var(--text2); margin-bottom: 10px; }
   #pwaInstallBanner .pwa-btns { display: flex; gap: 8px; }
+
+  /* ── Scenario (legacy, kept for unused CSS) ── */
+  .scenario-toggles { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .scenario-btn { padding: 5px 10px; border-radius: var(--radius-sm); border: 1px solid; font-size: 0.7rem; cursor: pointer; transition: all 0.2s; font-family: 'Noto Serif JP', serif; background: transparent; }
+
 </style>
 </head>
 <body>
@@ -360,7 +440,7 @@
   <div class="rate-section">
     <div class="rate-section-header">
       <span class="rate-section-title">📈 金利変動の追加</span>
-      <button class="btn-outline" onclick="showRateForm()">＋ 予定を追加</button>
+      <button class="rate-section-add-btn" onclick="showRateForm()">＋ 予定を追加</button>
     </div>
     <div id="rateChangeList">
       <div class="empty-state" style="padding:10px; font-size:0.78rem;">金利変更なし</div>
@@ -459,14 +539,13 @@
 
   <div class="card">
     <div class="tabs">
-      <div class="tab active" onclick="switchTab('graph')">内訳グラフ</div>
+      <div class="tab active" onclick="switchTab('schedule')">返済一覧</div>
+      <div class="tab" onclick="switchTab('graph')">内訳グラフ</div>
       <div class="tab" onclick="switchTab('balance')">残高推移</div>
-      <div class="tab" onclick="switchTab('scenario')">金利シナリオ</div>
       <div class="tab" onclick="switchTab('cumulative')">累計コスト</div>
-      <div class="tab" onclick="switchTab('schedule')">返済一覧</div>
     </div>
 
-    <div id="tab-graph">
+    <div id="tab-graph" style="display:none">
       <p style="text-align:center; font-size:0.75rem; color:var(--muted); margin-bottom:10px;">
         <span style="display:inline-block; width:10px; height:10px; background:var(--principal); margin-right:4px;"></span>元金
         <span style="display:inline-block; width:10px; height:10px; background:var(--interest); margin-right:4px; margin-left:10px;"></span>利息
@@ -486,25 +565,6 @@
       </div>
     </div>
 
-    <div id="tab-scenario" style="display:none">
-      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-        <p style="font-size:0.72rem; color:var(--muted); margin:0;">
-          <span style="display:inline-block; width:8px; height:8px; background:var(--info); border-radius:50%; margin-right:3px;"></span>現状維持
-          <span style="display:inline-block; width:8px; height:8px; background:#c8a96e; border-radius:50%; margin-right:3px; margin-left:8px;"></span>+0.5%
-          <span style="display:inline-block; width:8px; height:8px; background:#c4715a; border-radius:50%; margin-right:3px; margin-left:8px;"></span>+1.0%
-        </p>
-        <div class="scenario-toggles" style="margin:0;">
-          <button class="scenario-btn s0 active" onclick="toggleScenario(0,this)">現状</button>
-          <button class="scenario-btn s1 active" onclick="toggleScenario(1,this)">+0.5%</button>
-          <button class="scenario-btn s2 active" onclick="toggleScenario(2,this)">+1.0%</button>
-        </div>
-      </div>
-      <div class="chart-wrapper">
-        <canvas id="scenarioChart"></canvas>
-      </div>
-      <p style="font-size:0.65rem; color:var(--muted); margin-top:8px; text-align:right;">※今月以降の金利が一律で上昇した場合の月返済額推移</p>
-    </div>
-
     <div id="tab-cumulative" style="display:none">
       <p style="font-size:0.72rem; color:var(--muted); margin-bottom:10px; text-align:center;">
         <span style="display:inline-block; width:8px; height:8px; background:#c4715a; border-radius:50%; margin-right:3px;"></span>ローン累計
@@ -516,7 +576,7 @@
       <p style="font-size:0.65rem; color:var(--muted); margin-top:8px; text-align:right;">※管理費等は現在の入力値が全期間続くと仮定</p>
     </div>
 
-    <div id="tab-schedule" style="display:none">
+    <div id="tab-schedule">
       <div class="table-wrap">
         <table>
           <thead>
@@ -586,119 +646,58 @@
     </div><!-- /collapsible-body -->
   </div>
 
-  <div class="card" style="border-top:3px solid var(--accent)">
-    <div class="card-title collapsible-header" onclick="toggleCard('bodyTools')">
-      <span>便利ツール・設定</span>
-      <span class="collapse-icon" id="iconTools">▼</span>
+  <div class="card" style="border-top:3px solid var(--info)">
+    <div class="card-title collapsible-header" onclick="toggleCard('bodyRefi')">
+      <span>借り換えシミュレーション</span>
+      <span class="collapse-icon" id="iconRefi">▼</span>
     </div>
-    <div class="collapsible-body" id="bodyTools">
-    <div class="tools-tabs" style="margin-top:4px;">
-      <div class="tools-tab active" onclick="switchTool('tax')">住宅ローン控除</div>
-      <div class="tools-tab" onclick="switchTool('refi')">借り換え試算</div>
-      <div class="tools-tab" onclick="switchTool('data')">データ管理</div>
-    </div>
-
-    <div id="tool-tax" class="tool-content active">
-      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:12px;">年末残高をもとに控除額を試算します。</p>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>控除期間</label>
-          <select id="taxPeriod">
-            <option value="13">13年間</option>
-            <option value="10">10年間</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>控除率 (%)</label>
-          <input type="number" id="taxRate" value="0.7" step="0.1">
-        </div>
-        <div class="form-group">
-          <label>借入限度額 (万円)</label>
-          <select id="taxLimit">
-            <option value="2000">2000万円</option>
-            <option value="3000" selected>3000万円</option>
-            <option value="4000">4000万円</option>
-            <option value="4500">4500万円</option>
-            <option value="5000">5000万円</option>
-          </select>
-        </div>
+    <div class="collapsible-body" id="bodyRefi">
+    <p style="font-size:0.75rem; color:var(--muted); margin-bottom:12px; margin-top:4px;">現在の残高で借り換えた場合の損得を計算します。</p>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>借り換え金利 (%)</label>
+        <input type="number" id="refiRate" value="0.4" step="0.001">
       </div>
-      <button class="btn" style="margin-top:12px" onclick="calcTaxDeduction()">控除額を計算</button>
-      <div id="taxResult" style="display:none;">
-        <div class="tool-summary">
-          <div class="tool-summary-label">総控除額（目安）</div>
-          <div class="tool-summary-val" id="taxTotalVal">0円</div>
-          <div style="font-size:0.65rem; color:var(--muted); margin-top:4px;">※所得税・住民税の上限等は考慮していません</div>
-        </div>
+      <div class="form-group">
+        <label>事務手数料 (%)</label>
+        <input type="number" id="refiFeeRate" value="2.2" step="0.1">
+      </div>
+      <div class="form-group">
+        <label>その他諸費用 (万円)</label>
+        <input type="number" id="refiFixCost" value="20" placeholder="登記費用など">
       </div>
     </div>
-
-    <div id="tool-refi" class="tool-content">
-      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:12px;">現在の残高で借り換えた場合の損得を計算します。</p>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>借り換え金利 (%)</label>
-          <input type="number" id="refiRate" value="0.4" step="0.001">
-        </div>
-        <div class="form-group">
-          <label>事務手数料 (%)</label>
-          <input type="number" id="refiFeeRate" value="2.2" step="0.1">
-        </div>
-        <div class="form-group">
-          <label>その他諸費用 (万円)</label>
-          <input type="number" id="refiFixCost" value="20" placeholder="登記費用など">
-        </div>
+    <button class="btn" style="margin-top:12px" onclick="calcRefinance()">シミュレーション実行</button>
+    
+    <div id="refiResult" style="display:none; margin-top:16px;">
+      <div class="refi-row has-sub">
+        <span>現在の残り総支払</span>
+        <span id="refiOldTotal">—</span>
       </div>
-      <button class="btn" style="margin-top:12px" onclick="calcRefinance()">シミュレーション実行</button>
-      
-      <div id="refiResult" style="display:none; margin-top:16px;">
-        <div class="refi-row has-sub">
-          <span>現在の残り総支払</span>
-          <span id="refiOldTotal">—</span>
-        </div>
-        <div class="refi-row sub">
-          <span>┗ 残り元金 (現在残高)</span>
-          <span id="refiOldPrincipal">—</span>
-        </div>
-        <div class="refi-row sub sub-last">
-          <span>┗ 残り利息</span>
-          <span id="refiOldInterest">—</span>
-        </div>
-
-        <div class="refi-row has-sub" style="margin-top:8px;">
-          <span>借り換え後総支払(諸費用込)</span>
-          <span id="refiNewTotal">—</span>
-        </div>
-        <div class="refi-row sub">
-          <span>┗ ローン返済分</span>
-          <span id="refiNewLoan">—</span>
-        </div>
-        <div class="refi-row sub sub-last">
-          <span>┗ 諸費用 (手数料等)</span>
-          <span id="refiCost">—</span>
-        </div>
-        
-        <div class="tool-summary">
-          <div class="tool-summary-label">借り換え効果</div>
-          <div class="tool-summary-val refi-diff" id="refiDiffVal">0円</div>
-          <div style="font-size:0.65rem; color:var(--muted); margin-top:4px;">※プラスなら借り換えた方がお得です</div>
-        </div>
+      <div class="refi-row sub">
+        <span>┗ 残り元金 (現在残高)</span>
+        <span id="refiOldPrincipal">—</span>
       </div>
-    </div>
-
-    <div id="tool-data" class="tool-content">
-      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:12px;">設定の保存や、シミュレーション結果の書き出しを行えます。</p>
-      <div style="display:flex; gap:10px; flex-direction:column;">
-        <button class="btn-outline" onclick="copyShareLink()">🔗 この設定の共有リンクをコピー</button>
-        <div class="share-notice" id="shareNotice">✓ リンクをコピーしました！</div>
-        <button class="btn-outline" onclick="exportData()">💾 設定をファイルに保存</button>
-        <button class="btn-outline" onclick="exportCSV()">📊 返済予定をCSVで保存</button>
-        <div style="position:relative; margin-top:8px;">
-           <label class="btn" style="display:block; text-align:center; margin:0;">
-             📂 設定をファイルから復元
-             <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(this)">
-           </label>
-        </div>
+      <div class="refi-row sub sub-last">
+        <span>┗ 残り利息</span>
+        <span id="refiOldInterest">—</span>
+      </div>
+      <div class="refi-row has-sub" style="margin-top:8px;">
+        <span>借り換え後総支払(諸費用込)</span>
+        <span id="refiNewTotal">—</span>
+      </div>
+      <div class="refi-row sub">
+        <span>┗ ローン返済分</span>
+        <span id="refiNewLoan">—</span>
+      </div>
+      <div class="refi-row sub sub-last">
+        <span>┗ 諸費用 (手数料等)</span>
+        <span id="refiCost">—</span>
+      </div>
+      <div class="tool-summary">
+        <div class="tool-summary-label">借り換え効果</div>
+        <div class="tool-summary-val refi-diff" id="refiDiffVal">0円</div>
+        <div style="font-size:0.65rem; color:var(--muted); margin-top:4px;">※プラスなら借り換えた方がお得です</div>
       </div>
     </div>
     </div><!-- /collapsible-body -->
@@ -707,13 +706,13 @@
   <div class="card" style="border-top:3px solid var(--safe)">
     <div class="card-title collapsible-header" onclick="toggleCard('bodySale')">
       <span>売却シミュレーション (手取り額計算)</span>
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span id="taxBadge" class="tax-badge" style="display:none;"></span>
-        <span class="collapse-icon" id="iconSale">▼</span>
-      </div>
+      <span class="collapse-icon" id="iconSale">▼</span>
     </div>
     <div class="collapsible-body" id="bodySale">
-    <p style="font-size:0.75rem; color:var(--muted); margin-bottom:12px; margin-top:4px;">指定した時期のローン残高や税金を差し引き、最終的な手取り額を試算します。</p>
+    <p style="font-size:0.75rem; color:var(--muted); margin-bottom:8px; margin-top:4px;">指定した時期のローン残高や税金を差し引き、最終的な手取り額を試算します。</p>
+    <div style="margin-bottom:12px; min-height:20px;">
+      <span id="taxBadge" class="tax-badge" style="display:none;"></span>
+    </div>
     <div class="form-grid">
       <div class="form-group">
         <label>売却予定時期</label>
@@ -756,9 +755,77 @@
       <div class="breakeven-box" id="breakevenBox">
         <div class="breakeven-label">📍 売却手取りがプラスになる最短時期</div>
         <div class="breakeven-val" id="breakevenVal">—</div>
+        <div style="font-size:0.62rem; color:var(--muted); margin-top:6px;">※上記の売却価格・税率の入力値で試算した目安です</div>
+        <div class="chart-wrapper" style="height:180px; margin-top:12px;">
+          <canvas id="breakevenChart"></canvas>
+        </div>
       </div>
 
       <div class="calc-breakdown" id="calcBreakdown"></div>
+    </div>
+    </div><!-- /collapsible-body -->
+  </div>
+
+  <div class="card" style="border-top:3px solid var(--accent)">
+    <div class="card-title collapsible-header" onclick="toggleCard('bodyTools')">
+      <span>住宅ローン控除・設定</span>
+      <span class="collapse-icon" id="iconTools">▼</span>
+    </div>
+    <div class="collapsible-body" id="bodyTools">
+    <div class="tools-tabs" style="margin-top:4px;">
+      <div class="tools-tab active" onclick="switchTool('tax')">住宅ローン控除</div>
+      <div class="tools-tab" onclick="switchTool('data')">データ管理</div>
+    </div>
+
+    <div id="tool-tax" class="tool-content active">
+      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:12px;">年末残高をもとに控除額を試算します。</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>控除期間</label>
+          <select id="taxPeriod">
+            <option value="13">13年間</option>
+            <option value="10">10年間</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>控除率 (%)</label>
+          <input type="number" id="taxRate" value="0.7" step="0.1">
+        </div>
+        <div class="form-group">
+          <label>借入限度額 (万円)</label>
+          <select id="taxLimit">
+            <option value="2000">2000万円</option>
+            <option value="3000" selected>3000万円</option>
+            <option value="4000">4000万円</option>
+            <option value="4500">4500万円</option>
+            <option value="5000">5000万円</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn" style="margin-top:12px" onclick="calcTaxDeduction()">控除額を計算</button>
+      <div id="taxResult" style="display:none;">
+        <div class="tool-summary">
+          <div class="tool-summary-label">総控除額（目安）</div>
+          <div class="tool-summary-val" id="taxTotalVal">0円</div>
+          <div style="font-size:0.65rem; color:var(--muted); margin-top:4px;">※所得税・住民税の上限等は考慮していません</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tool-data" class="tool-content">
+      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:12px;">設定の保存や、シミュレーション結果の書き出しを行えます。</p>
+      <div style="display:flex; gap:10px; flex-direction:column;">
+        <button class="btn-outline" onclick="copyShareLink()">🔗 この設定の共有リンクをコピー</button>
+        <div class="share-notice" id="shareNotice">✓ リンクをコピーしました！</div>
+        <button class="btn-outline" onclick="exportData()">💾 設定をファイルに保存</button>
+        <button class="btn-outline" onclick="exportCSV()">📊 返済予定をCSVで保存</button>
+        <div style="position:relative; margin-top:8px;">
+           <label class="btn" style="display:block; text-align:center; margin:0;">
+             📂 設定をファイルから復元
+             <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(this)">
+           </label>
+        </div>
+      </div>
     </div>
     </div><!-- /collapsible-body -->
   </div>
@@ -1042,9 +1109,9 @@ function updateStats(initialP, method, warning) {
   
   const diff = noRuleRow.payment - currentRow.payment;
   const diffEl = document.getElementById('statTheoreticalDiff');
-  if (diff > 0) diffEl.innerHTML = `現在の月返済額より<br><span style="color:var(--safe)">${diff.toLocaleString()}円</span> 低減`;
-  else if (diff < 0) diffEl.innerHTML = `現在の月返済額より<br><span style="color:var(--danger)">${Math.abs(diff).toLocaleString()}円</span> 増額`;
-  else diffEl.textContent = '現在の月返済額と同額です';
+  if (diff > 0) diffEl.innerHTML = `<span style="color:var(--safe)">▼ ${diff.toLocaleString()}円 低減</span><br><span style="font-size:0.6rem;">5年ルールにより抑制中</span>`;
+  else if (diff < 0) diffEl.innerHTML = `<span style="color:var(--danger)">▲ ${Math.abs(diff).toLocaleString()}円 増加</span><br><span style="font-size:0.6rem;">5年ルールで据え置き中</span>`;
+  else diffEl.textContent = '現在と同額';
 
   const useJibunRules = document.getElementById('useJibunRules').checked && method === 'equal_payment';
   const nextChangeEl = document.getElementById('statNextChange');
@@ -1106,10 +1173,12 @@ function renderSchedule(startDateStr) {
     const tr = document.createElement('tr');
     if (idx === currentMonthIdx) tr.classList.add('highlight');
     if (row.isRateChange) tr.classList.add('rate-change');
-    let labelExtra = idx === currentMonthIdx ? ' ◀' : '';
-    if (row.isRateChange) labelExtra += ' <span class="badge-warn">金利変更</span>';
-    if (row.isPaymentChange) labelExtra += ' <span class="badge-rule">5年ルール</span>';
-    tr.innerHTML = `<td>${row.label}${labelExtra}</td><td>${fmtShort(row.payment)}</td><td>${fmtShort(row.principal)}</td><td>${fmtShort(row.interest)}</td><td>${fmtShort(row.balance)}</td>`;
+    let badges = '';
+    if (idx === currentMonthIdx) badges += '<span style="color:var(--accent)">◀ 今月</span>';
+    if (row.isRateChange) badges += (badges ? ' ' : '') + '<span class="badge-warn">金利変更</span>';
+    if (row.isPaymentChange) badges += (badges ? ' ' : '') + '<span class="badge-rule">5年ルール</span>';
+    const labelCell = badges ? `${row.label}<br><span style="display:block; margin-top:2px; white-space:normal;">${badges}</span>` : row.label;
+    tr.innerHTML = `<td style="white-space:normal;">${labelCell}</td><td>${fmtShort(row.payment)}</td><td>${fmtShort(row.principal)}</td><td>${fmtShort(row.interest)}</td><td>${fmtShort(row.balance)}</td>`;
     tbody.appendChild(tr);
   });
 }
@@ -1386,16 +1455,15 @@ function drawCumulativeChart() {
 }
 
 function switchTab(name) {
-  ['graph','balance','scenario','cumulative','schedule'].forEach(t => document.getElementById('tab-'+t).style.display = t === name ? '' : 'none');
-  document.querySelectorAll('.tab').forEach((el, i) => el.classList.toggle('active', ['graph','balance','scenario','cumulative','schedule'][i] === name));
+  ['schedule','graph','balance','cumulative'].forEach(t => document.getElementById('tab-'+t).style.display = t === name ? '' : 'none');
+  document.querySelectorAll('.tab').forEach((el, i) => el.classList.toggle('active', ['schedule','graph','balance','cumulative'][i] === name));
   if (name === 'balance' && scheduleData.length > 0) drawBalanceChart();
-  if (name === 'scenario' && scheduleData.length > 0) drawScenarioChart();
   if (name === 'cumulative' && scheduleData.length > 0) drawCumulativeChart();
 }
 function switchTool(name) {
-  ['tax','refi','data'].forEach(t => document.getElementById('tool-'+t).classList.remove('active'));
+  ['tax','data'].forEach(t => document.getElementById('tool-'+t).classList.remove('active'));
   document.getElementById('tool-'+name).classList.add('active');
-  document.querySelectorAll('.tools-tab').forEach((el, i) => el.classList.toggle('active', ['tax','refi','data'][i] === name));
+  document.querySelectorAll('.tools-tab').forEach((el, i) => el.classList.toggle('active', ['tax','data'][i] === name));
 }
 
 /* ── 繰り上げ返済シミュレーション ── */
@@ -1425,7 +1493,7 @@ function calcPrepayment() {
   const balBefore = applyIdx === 0 ? (parseFloat(document.getElementById('principal').value) * 10000) : scheduleData[applyIdx - 1].balance;
   const balAfter = Math.max(0, balBefore - amount);
   const remainMonths = scheduleData.length - applyIdx;
-  const monthlyRate = parseFloat(document.getElementById('rate').value) / 100 / 12;
+  const monthlyRate = getRateForMonth(applyIdx + 1); // 実行時点の実際の適用金利を使用
 
   // 元の残り利息
   let oldInterest = 0;
@@ -1507,14 +1575,17 @@ function calcTaxDeduction() {
   const period = parseInt(document.getElementById('taxPeriod').value);
   const rate = parseFloat(document.getElementById('taxRate').value) / 100;
   const limit = parseInt(document.getElementById('taxLimit').value) * 10000;
+  // 借入開始年を取得
+  const startYear = parseInt(scheduleData[0].label.split('年')[0]);
   let totalDeduction = 0;
   for (let i = 1; i <= period; i++) {
-     const targetRow = scheduleData.find(row => row.label.includes((parseInt(scheduleData[0].label) + i - 1) + '年12月'));
-     if (targetRow) {
-       const balance = targetRow.balance;
-       const deduct = Math.min(balance, limit) * rate;
-       totalDeduction += Math.floor(deduct);
-     }
+    const targetYear = startYear + i - 1;
+    // その年の12月末の行を検索
+    const targetRow = scheduleData.find(row => row.label === `${targetYear}年12月`);
+    if (targetRow) {
+      const deduct = Math.min(targetRow.balance, limit) * rate;
+      totalDeduction += Math.floor(deduct);
+    }
   }
   document.getElementById('taxTotalVal').textContent = Math.round(totalDeduction).toLocaleString() + '円';
   document.getElementById('taxResult').style.display = 'block';
@@ -1529,10 +1600,11 @@ function calcRefinance() {
   if (elapsedMonths > scheduleData.length) elapsedMonths = scheduleData.length;
   const currentRow = scheduleData[elapsedMonths - 1];
   const currentBalance = currentRow.balance;
-  const remainMonths = scheduleData.length - elapsedMonths + 1;
+  const remainMonths = scheduleData.length - elapsedMonths + 1; // 現在月を含む残り返済回数
   let oldTotalRemaining = 0;
   let oldTotalInterest = 0;
-  for (let i = elapsedMonths; i < scheduleData.length; i++) {
+  // 現在月（elapsedMonths-1）を含めた残り全額を集計
+  for (let i = elapsedMonths - 1; i < scheduleData.length; i++) {
     oldTotalRemaining += scheduleData[i].payment;
     oldTotalInterest += scheduleData[i].interest;
   }
@@ -1606,6 +1678,98 @@ function importData(input) {
 }
 
 /* --- 売却シミュレーション --- */
+let breakevenChartInstance = null;
+
+// 年ごとの税額を正確に計算するヘルパー
+function calcTaxForYear(sPrice, pPrice, pCost, sCost, holdingYears, use30m, use10y) {
+  const capitalGain = sPrice - (pPrice + pCost) - sCost;
+  if (capitalGain <= 0) return 0;
+  let taxableGain = capitalGain;
+  if (use30m) taxableGain = Math.max(0, taxableGain - 30000000);
+  if (taxableGain <= 0) return 0;
+  let tax = 0;
+  if (holdingYears > 10 && use10y) {
+    if (taxableGain <= 60000000) tax = taxableGain * 0.1421;
+    else tax = (60000000 * 0.1421) + ((taxableGain - 60000000) * 0.20315);
+  } else if (holdingYears > 5) {
+    tax = taxableGain * 0.20315;
+  } else {
+    tax = taxableGain * 0.3963;
+  }
+  return Math.floor(tax);
+}
+
+function drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startMoment) {
+  const ctx = document.getElementById('breakevenChart').getContext('2d');
+  if (breakevenChartInstance) breakevenChartInstance.destroy();
+
+  const startYear = parseInt(scheduleData[0].label.split('年')[0]);
+  const labels = [];
+  const netData = [];
+  const taxLabels = [];
+  let lastYear = startYear - 1;
+
+  scheduleData.forEach((row, idx) => {
+    const year = parseInt(row.label.split('年')[0]);
+    const isLast = idx === scheduleData.length - 1;
+    if ((row.label.includes('12月') || isLast) && year !== lastYear) {
+      const bal = idx === 0
+        ? parseFloat(document.getElementById('principal').value) * 10000
+        : scheduleData[idx - 1].balance;
+      const holdingYears = year - startMoment.getFullYear();
+      const taxY = calcTaxForYear(sPrice, pPrice, pCost, sCost, holdingYears, use30m, use10y);
+      const net = sPrice - bal - sCost - taxY;
+      labels.push(year + '年');
+      netData.push(Math.round(net / 10000));
+      // ツールチップ用の税区分ラベル
+      if (holdingYears > 10 && use10y) taxLabels.push('軽減税率');
+      else if (holdingYears > 5) taxLabels.push('長期譲渡');
+      else taxLabels.push('短期譲渡');
+      lastYear = year;
+    }
+  });
+
+  const colors = netData.map(v => v >= 0 ? 'rgba(106,170,142,0.75)' : 'rgba(196,113,90,0.75)');
+  const borderColors = netData.map(v => v >= 0 ? '#6aaa8e' : '#c4715a');
+
+  breakevenChartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: '売却手取り額',
+        data: netData,
+        backgroundColor: colors,
+        borderColor: borderColors,
+        borderWidth: 1,
+        borderRadius: 3
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: c => (c.parsed.y >= 0 ? '+' : '') + c.parsed.y.toLocaleString() + '万円',
+            afterLabel: c => '税区分: ' + taxLabels[c.dataIndex]
+          }
+        },
+        annotation: {
+          annotations: {
+            zeroLine: { type: 'line', yMin: 0, yMax: 0, borderColor: 'rgba(232,201,138,0.8)', borderWidth: 1.5 }
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#7a7568', font: { size: 9 }, maxRotation: 45 }, grid: { color: '#2e2c28' } },
+        y: { ticks: { color: '#7a7568', font: { size: 9 }, callback: v => v + '万円' }, grid: { color: '#2e2c28' } }
+      }
+    }
+  });
+}
+
+
 function calcSale() {
   if (scheduleData.length === 0) { alert('先に上部の「計算する」を押してください'); return; }
   saveSettings();
@@ -1647,18 +1811,22 @@ function calcSale() {
   badge.textContent = taxLabel; badge.className = `tax-badge ${taxBadgeClass}`; badge.style.display = 'inline-block';
   document.getElementById('saleResNet').textContent = fmtShort(netProceeds) + '円';
 
-  // 損益分岐点：手取りがプラスになる最短月を検索
+  // 損益分岐点：手取りがプラスになる最短月を検索（年ごとに税額を再計算）
   const beBox = document.getElementById('breakevenBox');
   const beVal = document.getElementById('breakevenVal');
   let breakevenLabel = null;
   for (let m = 0; m < scheduleData.length; m++) {
     const bal = m === 0 ? parseFloat(document.getElementById('principal').value)*10000 : scheduleData[m-1].balance;
-    const netChk = sPrice - bal - sCost - tax;
+    const yearForM = parseInt(scheduleData[m].label.split('年')[0]);
+    const holdYrs = yearForM - startMoment.getFullYear();
+    const taxM = calcTaxForYear(sPrice, pPrice, pCost, sCost, holdYrs, use30m, use10y);
+    const netChk = sPrice - bal - sCost - taxM;
     if (netChk >= 0) { breakevenLabel = scheduleData[m].label; break; }
   }
   if (breakevenLabel) {
-    beVal.textContent = breakevenLabel + '以降（売却価格・税率は現在の入力値で試算）';
+    beVal.textContent = breakevenLabel + '以降';
     beBox.style.display = 'block';
+    drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startMoment);
   } else {
     beBox.style.display = 'none';
   }

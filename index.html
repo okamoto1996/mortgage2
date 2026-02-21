@@ -161,11 +161,11 @@
   .table-wrap { overflow-y: auto; max-height: 420px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
   table { width: 100%; table-layout: fixed; border-collapse: collapse; }
   th {
-    background: var(--surface3); padding: 9px 6px; text-align: right; color: #9a9590;
+    background: var(--surface3); padding: 9px 6px; text-align: center; color: #9a9590;
     font-weight: 600; font-size: 0.58rem; position: sticky; top: 0; z-index: 1;
     white-space: nowrap; overflow: hidden; letter-spacing: 0.03em;
   }
-  th:first-child { text-align: left; padding-left: 10px; }
+  th:first-child { text-align: center; padding-left: 6px; }
   th:last-child { padding-right: 10px; }
   td {
     padding: 7px 6px; text-align: right; border-bottom: 1px solid var(--border);
@@ -343,12 +343,15 @@
   .collapsible-header {
     display: flex; justify-content: space-between; align-items: center;
     cursor: pointer; user-select: none; -webkit-user-select: none;
+    margin: -18px; padding: 18px; /* expand tap area to full card edge */
+    border-radius: var(--radius) var(--radius) 0 0;
   }
+  .collapsible-header:hover { background: rgba(255,255,255,0.02); }
   .collapsible-header:hover .collapse-icon { color: var(--accent2); }
-  .collapse-icon { font-size: 0.8rem; color: var(--muted); transition: transform 0.25s ease; flex-shrink: 0; margin-left: 8px; }
+  .collapse-icon { font-size: 1rem; color: var(--muted); transition: transform 0.25s ease; flex-shrink: 0; margin-left: 8px; }
   .collapse-icon.open { transform: rotate(180deg); }
   .collapsible-body { overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease; max-height: 0; opacity: 0; pointer-events: none; }
-  .collapsible-body.open { max-height: 9999px; opacity: 1; pointer-events: auto; }
+  .collapsible-body.open { max-height: 9999px; opacity: 1; pointer-events: auto; padding-top: 18px; }
 
   /* ── Share notice ── */
   .share-notice { font-size: 0.7rem; color: var(--safe); margin-top: 6px; text-align: center; display: none; }
@@ -373,18 +376,20 @@
     background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius);
     padding: 20px; width: 100%; max-width: 420px; box-shadow: 0 8px 40px rgba(0,0,0,0.6);
     animation: fadeIn 0.2s ease;
+    max-height: 90vh; display: flex; flex-direction: column;
   }
-  .share-modal-title { font-size: 0.8rem; color: var(--accent2); font-weight: 700; margin-bottom: 14px; letter-spacing: 0.06em; }
+  .share-modal-title { font-size: 0.8rem; color: var(--accent2); font-weight: 700; margin-bottom: 14px; letter-spacing: 0.06em; flex-shrink: 0; }
   .share-preview {
-    width: 100%; border-radius: var(--radius-sm); overflow: hidden;
-    margin-bottom: 16px; border: 1px solid var(--border);
+    width: 100%; border-radius: var(--radius-sm); overflow-y: auto; overflow-x: hidden;
+    margin-bottom: 12px; border: 1px solid var(--border);
+    flex: 1; min-height: 80px; max-height: 50vh;
   }
   .share-preview img { width: 100%; display: block; }
   .share-preview-loading {
     height: 120px; display: flex; align-items: center; justify-content: center;
     color: var(--muted); font-size: 0.78rem;
   }
-  .share-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .share-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; flex-shrink: 0; }
   .share-btn {
     display: flex; align-items: center; justify-content: center; gap: 7px;
     padding: 11px 8px; border-radius: var(--radius-sm); font-family: 'Noto Serif JP', serif;
@@ -438,8 +443,9 @@
   .sc-row:last-child { border-bottom: none; }
   .sc-row span:last-child { font-family: 'DM Mono', monospace; color: #f5f2ea; }
   .sc-footer {
-    margin-top: 16px; padding-top: 12px; border-top: 1px solid #2a2825;
-    text-align: right; font-size: 10px; color: #6e6a62; letter-spacing: 0.06em;
+    margin-top: 16px; padding-top: 10px; border-top: 1px solid #2a2825;
+    text-align: center; font-size: 10px; color: #9a9488; letter-spacing: 0.04em;
+    line-height: 1.5;
   }
 
   /* ── Capture Button ── */
@@ -478,15 +484,15 @@
   <div class="form-grid">
     <div class="form-group">
       <label>借入金額（万円）</label>
-      <input type="number" id="principal" value="4700" min="1">
+      <input type="number" id="principal" value="4700" min="1" inputmode="decimal">
     </div>
     <div class="form-group">
       <label>当初年利（%）</label>
-      <input type="number" id="rate" value="0.25" step="0.001" min="0.01">
+      <input type="number" id="rate" value="0.25" step="0.001" min="0.01" inputmode="decimal">
     </div>
     <div class="form-group">
       <label>返済期間（年）</label>
-      <input type="number" id="years" value="35" min="1" max="50">
+      <input type="number" id="years" value="35" min="1" max="50" inputmode="numeric">
     </div>
     <div class="form-group">
       <label>返済方式</label>
@@ -524,15 +530,15 @@
     <div class="form-grid">
       <div class="form-group">
         <label>管理費 (円)</label>
-        <input type="number" id="costAdmin" placeholder="0">
+        <input type="number" id="costAdmin" placeholder="0" inputmode="numeric">
       </div>
       <div class="form-group">
         <label>修繕積立金 (円)</label>
-        <input type="number" id="costRepair" placeholder="0">
+        <input type="number" id="costRepair" placeholder="0" inputmode="numeric">
       </div>
       <div class="form-group">
         <label>駐車場・その他 (円)</label>
-        <input type="number" id="costOther" placeholder="0">
+        <input type="number" id="costOther" placeholder="0" inputmode="numeric">
       </div>
     </div>
   </div>
@@ -564,6 +570,7 @@
   </div>
 
   <button class="btn" onclick="calculate()">計算する</button>
+  <div style="font-size:0.65rem; color:var(--muted); margin-top:6px; text-align:center;">※入力値を変更すると自動で再計算されます</div>
   <div class="save-notice" id="saveNotice">✓ 設定を保存しました</div>
   </div><!-- /collapsible-body -->
 </div>
@@ -625,7 +632,7 @@
     ⚠️ <strong>注意:</strong> 未払利息が発生しています。
   </div>
 
-  <div style="text-align:right;">
+  <div style="text-align:right; margin-top:8px; margin-bottom:6px;">
     <button class="capture-btn" onclick="openShareModal('summary')">📤 この結果を共有</button>
   </div>
 
@@ -935,12 +942,22 @@
         <div class="share-notice" id="shareNotice">✓ リンクをコピーしました！</div>
         <button class="btn-outline" onclick="exportData()">💾 設定をファイルに保存</button>
         <button class="btn-outline" onclick="exportCSV()">📊 返済予定をCSVで保存</button>
-        <div style="position:relative; margin-top:8px;">
+        <div style="position:relative; margin-top:4px;">
            <label class="btn" style="display:block; text-align:center; margin:0;">
              📂 設定をファイルから復元
              <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(this)">
            </label>
         </div>
+      </div>
+
+      <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+        <div class="card-title" style="margin-bottom:10px; padding-bottom:8px;">📌 シナリオ保存・比較</div>
+        <p style="font-size:0.7rem; color:var(--muted); margin-bottom:10px;">現在の入力値をシナリオとして保存し、複数プランを比較できます。</p>
+        <div style="display:flex; gap:8px; margin-bottom:10px;">
+          <input type="text" id="scenarioName" placeholder="シナリオ名（例: 35年固定）" style="flex:1; background:var(--surface2); border:1px solid var(--border2); border-radius:var(--radius-sm); padding:8px 10px; color:var(--text); font-family:'Noto Serif JP',serif; font-size:0.75rem;">
+          <button class="btn" style="margin:0; padding:8px 14px; font-size:0.75rem; white-space:nowrap;" onclick="saveScenario()">保存</button>
+        </div>
+        <div id="scenarioList"></div>
       </div>
     </div>
     </div><!-- /collapsible-body -->
@@ -1097,6 +1114,11 @@ function confirmRateChange() {
   renderRateChanges();
   hideRateForm();
   document.getElementById('rcRate').value = '';
+  // 追加後に一覧にスクロール
+  setTimeout(() => {
+    const list = document.getElementById('rateChangeList');
+    list.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 100);
 }
 
 function editRateChange(month) {
@@ -1788,7 +1810,9 @@ function exportData() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'mortgage_data_' + new Date().toISOString().slice(0,10) + '.json';
+  const today = new Date();
+  const dateStr = `${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日`;
+  a.download = `住宅ローン設定_${dateStr}.json`;
   a.click();
 }
 
@@ -1801,8 +1825,10 @@ function exportCSV() {
   const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csvContent], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement("a");
   const url = URL.createObjectURL(blob);
+  const today = new Date();
+  const dateStr = `${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日`;
   link.setAttribute("href", url);
-  link.setAttribute("download", "mortgage_schedule.csv");
+  link.setAttribute("download", `住宅ローン返済一覧_${dateStr}.csv`);
   link.style.visibility = 'hidden';
   document.body.appendChild(link);
   link.click();
@@ -1823,6 +1849,104 @@ function importData(input) {
   };
   reader.readAsText(file);
 }
+
+/* ── シナリオ保存・比較 ── */
+let scenarios = JSON.parse(localStorage.getItem('mortgage_scenarios') || '[]');
+
+function saveScenario() {
+  const name = document.getElementById('scenarioName').value.trim();
+  if (!name) { alert('シナリオ名を入力してください'); return; }
+  if (scheduleData.length === 0) { alert('先に計算してください'); return; }
+  const totalInterest = scheduleData.reduce((s, d) => s + d.interest, 0);
+  const totalPayment = scheduleData.reduce((s, d) => s + d.payment, 0);
+  const scenario = {
+    id: Date.now(),
+    name,
+    principal: document.getElementById('principal').value,
+    rate: document.getElementById('rate').value,
+    years: document.getElementById('years').value,
+    method: document.getElementById('method').value,
+    totalInterest,
+    totalPayment,
+    initialPayment: scheduleData[0].payment,
+    savedAt: new Date().toLocaleDateString('ja-JP')
+  };
+  scenarios = scenarios.filter(s => s.name !== name); // 同名は上書き
+  scenarios.push(scenario);
+  if (scenarios.length > 6) scenarios.shift(); // 最大6件
+  localStorage.setItem('mortgage_scenarios', JSON.stringify(scenarios));
+  document.getElementById('scenarioName').value = '';
+  renderScenarios();
+}
+
+function deleteScenario(id) {
+  scenarios = scenarios.filter(s => s.id !== id);
+  localStorage.setItem('mortgage_scenarios', JSON.stringify(scenarios));
+  renderScenarios();
+}
+
+function loadScenario(id) {
+  const s = scenarios.find(sc => sc.id === id);
+  if (!s) return;
+  document.getElementById('principal').value = s.principal;
+  document.getElementById('rate').value = s.rate;
+  document.getElementById('years').value = s.years;
+  document.getElementById('method').value = s.method;
+  toggleRulesVisibility();
+  calculate();
+  // ローン情報カードを開く
+  const body = document.getElementById('bodyLoan');
+  if (!body.classList.contains('open')) toggleCard('bodyLoan');
+}
+
+function renderScenarios() {
+  const list = document.getElementById('scenarioList');
+  if (!list) return;
+  if (scenarios.length === 0) {
+    list.innerHTML = '<div style="font-size:0.72rem;color:var(--muted);text-align:center;padding:12px;">保存されたシナリオはありません</div>';
+    return;
+  }
+  const methodLabel = m => m === 'equal_payment' ? '元利均等' : '元金均等';
+  list.innerHTML = scenarios.map(s => `
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:8px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <span style="font-size:0.75rem;font-weight:700;color:var(--accent2);">${s.name}</span>
+        <div style="display:flex;gap:6px;">
+          <button onclick="loadScenario(${s.id})" style="background:var(--surface3);border:1px solid var(--border2);border-radius:4px;padding:3px 8px;color:var(--text2);font-size:0.65rem;cursor:pointer;">適用</button>
+          <button onclick="deleteScenario(${s.id})" style="background:transparent;border:1px solid rgba(224,120,104,0.4);border-radius:4px;padding:3px 8px;color:var(--danger);font-size:0.65rem;cursor:pointer;">削除</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 10px;font-size:0.65rem;color:var(--muted);">
+        <span>借入: ${Number(s.principal).toLocaleString()}万円 / ${s.rate}% / ${s.years}年</span>
+        <span>${methodLabel(s.method)}</span>
+        <span>総利息: <span style="color:var(--danger);font-family:'DM Mono',monospace;">${fmtShort(s.totalInterest)}円</span></span>
+        <span>総支払: <span style="color:var(--text);font-family:'DM Mono',monospace;">${fmtShort(s.totalPayment)}円</span></span>
+      </div>
+      <div style="font-size:0.6rem;color:var(--muted);margin-top:5px;text-align:right;">${s.savedAt}</div>
+    </div>
+  `).join('');
+}
+
+/* ── 自動計算 ── */
+let _autoCalcTimer = null;
+function scheduleAutoCalc() {
+  clearTimeout(_autoCalcTimer);
+  _autoCalcTimer = setTimeout(() => {
+    if (document.getElementById('principal').value && document.getElementById('years').value) {
+      calculate();
+    }
+  }, 600);
+}
+
+// 入力変更時に自動計算
+document.addEventListener('DOMContentLoaded', () => {
+  ['principal','rate','years','method','startDate','roundingMode',
+   'useJibunRules','costAdmin','costRepair','costOther'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', scheduleAutoCalc);
+  });
+  renderScenarios();
+});
 
 /* --- 売却シミュレーション --- */
 let breakevenChartInstance = null;
@@ -2088,7 +2212,13 @@ function buildShareCard(type) {
         ${scRow('残り期間', months)}
         ${scRow('返済済み元金', paidAmt.replace('元金返済済: ', ''))}
       </div>
-      <div class="sc-footer">住宅ローン管理アプリ</div>`;
+      <div class="sc-footer" style="display:flex;align-items:center;gap:12px;justify-content:space-between;">
+        <div style="font-size:10px;color:#9a9488;text-align:left;line-height:1.6;">
+          🏠 住宅ローン管理アプリ<br>
+          <span style="font-size:9px;">繰り上げ返済・借り換え・売却を無料でシミュレーション</span>
+        </div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=56x56&color=9a9488&bgcolor=1a1816&data=" style="width:56px;height:56px;border-radius:4px;flex-shrink:0;" crossorigin="anonymous">
+      </div>`;
 
   } else if (type === 'prepay') {
     _shareTitle = '繰り上げ返済シミュレーション';
@@ -2124,7 +2254,13 @@ function buildShareCard(type) {
         <div class="sc-box green"><div class="sc-label">💰 利息削減額</div><div class="sc-value green" style="font-size:15px;">${saved}<span style="font-size:10px;">円</span></div></div>
         <div class="sc-box accent"><div class="sc-label">${label}</div><div class="sc-value gold" style="font-size:14px;">${main}</div></div>
       </div>
-      <div class="sc-footer">住宅ローン管理アプリ</div>`;
+      <div class="sc-footer" style="display:flex;align-items:center;gap:12px;justify-content:space-between;">
+        <div style="font-size:10px;color:#9a9488;text-align:left;line-height:1.6;">
+          🏠 住宅ローン管理アプリ<br>
+          <span style="font-size:9px;">繰り上げ返済・借り換え・売却を無料でシミュレーション</span>
+        </div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=56x56&color=9a9488&bgcolor=1a1816&data=" style="width:56px;height:56px;border-radius:4px;flex-shrink:0;" crossorigin="anonymous">
+      </div>`;
 
   } else if (type === 'refi') {
     _shareTitle = '借り換えシミュレーション';
@@ -2168,7 +2304,13 @@ function buildShareCard(type) {
         <div class="sc-label">借り換え効果（節約額）</div>
         <div class="sc-value" style="font-size:22px;color:${isProfit ? '#6ec496' : '#e07868'};" id="_refiDiffRender">${diff}</div>
       </div>
-      <div class="sc-footer">住宅ローン管理アプリ</div>`;
+      <div class="sc-footer" style="display:flex;align-items:center;gap:12px;justify-content:space-between;">
+        <div style="font-size:10px;color:#9a9488;text-align:left;line-height:1.6;">
+          🏠 住宅ローン管理アプリ<br>
+          <span style="font-size:9px;">繰り上げ返済・借り換え・売却を無料でシミュレーション</span>
+        </div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=56x56&color=9a9488&bgcolor=1a1816&data=" style="width:56px;height:56px;border-radius:4px;flex-shrink:0;" crossorigin="anonymous">
+      </div>`;
 
   } else if (type === 'sale') {
     _shareTitle = '売却シミュレーション';
@@ -2181,28 +2323,32 @@ function buildShareCard(type) {
     const saleDate = document.getElementById('saleDate').value;
     const use30m   = document.getElementById('use30mDeduction').checked;
     const use10y   = document.getElementById('use10yRate').checked;
-    // 計算過程の各行を取得（step-rowから）
+
+    // グラフのcanvasをBase64画像として取得
+    const chartCanvas = document.getElementById('breakevenChart');
+    const chartImgSrc = chartCanvas ? chartCanvas.toDataURL('image/png') : null;
+
+    // 計算過程：step-boxから各ステップの結果行だけ抽出（コンパクト化）
     const breakdown = document.getElementById('calcBreakdown');
-    let stepRows = '';
+    let calcRows = '';
     if (breakdown) {
       breakdown.querySelectorAll('.step-box').forEach(box => {
-        const title = box.querySelector('.step-title')?.textContent?.trim() || '';
-        let rows = '';
-        box.querySelectorAll('.step-row').forEach(r => {
-          const spans = r.querySelectorAll('span');
+        const resultRow = box.querySelector('.step-row.result');
+        if (resultRow) {
+          const spans = resultRow.querySelectorAll('span');
           if (spans.length >= 2) {
-            const isResult = r.classList.contains('result');
-            rows += `<div style="display:flex;justify-content:space-between;padding:${isResult?'6px 0 2px':'3px 0'};${isResult?'border-top:1px dashed #2c2a28;margin-top:4px;':''}font-size:${isResult?'11px':'10px'};color:${isResult?'#f0d080':'#d0cbbf'};">
-              <span>${spans[0].textContent}</span><span style="font-family:'DM Mono',monospace;">${spans[1].textContent}</span>
+            const label = spans[0].textContent.trim();
+            const value = spans[1].textContent.trim();
+            const isLast = box.style.borderColor || box.querySelector('[style*="safe"]');
+            calcRows += `<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #2c2a28;font-size:11px;">
+              <span style="color:#d0cbbf;">${label}</span>
+              <span style="font-family:'DM Mono',monospace;color:#f0d080;font-weight:600;">${value}</span>
             </div>`;
           }
-        });
-        stepRows += `<div style="margin-bottom:8px;">
-          <div style="font-size:10px;color:#d4b478;font-weight:700;margin-bottom:5px;">${title}</div>
-          ${rows}
-        </div>`;
+        }
       });
     }
+
     _shareText = `売却シミュレーション (${dateStr})\n最終手取り額: ${net}\nプラス転換: ${be}`;
 
     card.innerHTML = `
@@ -2211,28 +2357,55 @@ function buildShareCard(type) {
         <div class="sc-date">${dateStr}</div>
       </div>
 
-      ${scSection('📋 入力データ', baseInputRows
-        + scRow('売却予定時期', saleDate.replace('-', '年') + '月')
-        + scRow('売却予定額', Number(sPrice).toLocaleString() + '万円')
-        + scRow('購入価格', Number(pPrice).toLocaleString() + '万円')
-        + scRow('購入時諸費用', Number(pCost).toLocaleString() + '万円')
-        + scRow('3,000万控除', use30m ? '適用あり' : '適用なし')
-        + scRow('10年超軽減税率', use10y ? '適用あり' : '適用なし')
-      )}
+      <!-- 入力データ（2列コンパクト） -->
+      <div class="sc-box" style="padding:10px 14px;margin-bottom:8px;">
+        <div style="font-size:10px;color:#d4b478;font-weight:700;margin-bottom:8px;letter-spacing:0.06em;">📋 入力データ</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 16px;">
+          ${[
+            ['借入金額', principal + '万円'],
+            ['当初年利', rate + '%'],
+            ['返済期間', years + '年'],
+            ['借入開始', startDate.replace('-','年')+'月〜'],
+            ['売却予定', saleDate.replace('-','年')+'月'],
+            ['売却予定額', Number(sPrice).toLocaleString()+'万円'],
+            ['購入価格', Number(pPrice).toLocaleString()+'万円'],
+            ['購入時諸費用', Number(pCost).toLocaleString()+'万円'],
+            ['3,000万控除', use30m ? '適用あり' : '適用なし'],
+            ['10年超軽減税率', use10y ? '適用あり' : '適用なし'],
+          ].map(([l,v]) => `<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:10px;border-bottom:1px solid #2a2825;">
+            <span style="color:#9a9488;">${l}</span><span style="font-family:'DM Mono',monospace;color:#d0cbbf;">${v}</span>
+          </div>`).join('')}
+        </div>
+      </div>
 
-      ${stepRows ? `<div class="sc-box" style="padding:12px 14px;margin-bottom:8px;">
-        <div style="font-size:10px;color:#d4b478;font-weight:700;margin-bottom:10px;letter-spacing:0.06em;">📊 計算過程</div>
-        ${stepRows}
+      <!-- 計算過程サマリー -->
+      ${calcRows ? `<div class="sc-box" style="padding:10px 14px;margin-bottom:8px;">
+        <div style="font-size:10px;color:#d4b478;font-weight:700;margin-bottom:8px;letter-spacing:0.06em;">📊 計算ステップ（各ステップの結果）</div>
+        ${calcRows}
       </div>` : ''}
 
-      <div class="sc-box green" style="padding:14px 16px;text-align:center;">
+      <!-- 手取り額（メイン結果） -->
+      <div class="sc-box green" style="padding:14px 16px;text-align:center;margin-bottom:8px;">
         <div class="sc-label">最終手取り額（見込み）</div>
-        <div class="sc-value green" style="font-size:22px;">${net}</div>
-        ${badge ? `<div style="margin-top:6px;font-size:10px;color:#9a9488;">${badge}</div>` : ''}
-        ${be && be !== '—' ? `<div style="margin-top:8px;font-size:10px;color:#6a9ed8;">📍 プラス転換: ${be}</div>` : ''}
+        <div class="sc-value green" style="font-size:24px;">${net}</div>
+        ${badge ? `<div style="margin-top:5px;font-size:10px;color:#9a9488;">${badge}</div>` : ''}
+        ${be && be !== '—' ? `<div style="margin-top:6px;font-size:10px;color:#6a9ed8;">📍 プラス転換: ${be}</div>` : ''}
       </div>
-      <div class="sc-note" style="margin-top:8px;">※建物の減価償却費は考慮せず、購入価格を取得費とした簡易計算です</div>
-      <div class="sc-footer">住宅ローン管理アプリ</div>`;
+
+      <!-- 損益分岐点グラフ -->
+      ${chartImgSrc ? `<div class="sc-box" style="padding:10px 12px;margin-bottom:8px;">
+        <div style="font-size:10px;color:#d4b478;font-weight:700;margin-bottom:8px;letter-spacing:0.06em;">📈 年別 売却手取り額の推移</div>
+        <img src="${chartImgSrc}" style="width:100%;display:block;border-radius:4px;">
+      </div>` : ''}
+
+      <div class="sc-note" style="margin-top:4px;">※建物の減価償却費は考慮せず、購入価格を取得費とした簡易計算です</div>
+      <div class="sc-footer" style="display:flex;align-items:center;gap:12px;justify-content:space-between;">
+        <div style="font-size:10px;color:#9a9488;text-align:left;line-height:1.6;">
+          🏠 住宅ローン管理アプリ<br>
+          <span style="font-size:9px;">繰り上げ返済・借り換え・売却を無料でシミュレーション</span>
+        </div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=56x56&color=9a9488&bgcolor=1a1816&data=" style="width:56px;height:56px;border-radius:4px;flex-shrink:0;" crossorigin="anonymous">
+      </div>`;
   }
 }
 
@@ -2259,6 +2432,15 @@ async function openShareModal(type) {
   try {
     await document.fonts.ready;
     const card = document.getElementById('shareCard');
+    // QRコードのURLをセット
+    card.querySelectorAll('img[src*="qrserver.com"]').forEach(img => {
+      const pageUrl = encodeURIComponent(location.href.split('?')[0]);
+      img.src = `https://api.qrserver.com/v1/create-qr-code/?size=56x56&color=9a9488&bgcolor=1a1816&data=${pageUrl}`;
+    });
+    // 画像ロードを待ってからキャプチャ
+    await Promise.all([...card.querySelectorAll('img')].map(img =>
+      img.complete ? Promise.resolve() : new Promise(r => { img.onload = r; img.onerror = r; })
+    ));
     const canvas = await html2canvas(card, {
       backgroundColor: '#0d0c0a', scale: 2,
       useCORS: true, logging: false
@@ -2280,14 +2462,16 @@ function closeShareModal() {
   document.getElementById('shareModalOverlay').classList.remove('open');
 }
 
+const PROMO = `\n\n🏠 住宅ローン管理アプリで無料シミュレーション！\n繰り上げ返済・借り換え・売却の損得をかんたん試算 📊`;
+
 async function doWebShare() {
   if (!_shareBlob || !navigator.share) return;
   const file = new File([_shareBlob], 'mortgage_result.png', { type: 'image/png' });
   try {
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({ files: [file], title: _shareTitle, text: _shareText });
+      await navigator.share({ files: [file], title: _shareTitle, text: _shareText + PROMO });
     } else {
-      await navigator.share({ title: _shareTitle, text: _shareText });
+      await navigator.share({ title: _shareTitle, text: _shareText + PROMO });
     }
   } catch(e) { /* cancelled */ }
 }
@@ -2296,18 +2480,24 @@ function doDownload() {
   if (!_shareBlob) return;
   const a = document.createElement('a');
   a.href = URL.createObjectURL(_shareBlob);
-  a.download = `mortgage_${Date.now()}.png`;
+  const today = new Date();
+  const dateStr = `${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日`;
+  a.download = `住宅ローン${_shareTitle}_${dateStr}.png`;
   a.click();
 }
 
 function doXShare() {
-  const text = encodeURIComponent(_shareText + '\n#住宅ローン');
-  window.open(`https://x.com/intent/tweet?text=${text}`, '_blank');
+  // X専用の投稿画面へ直接遷移（画像は保存→手動添付）
+  const msg = _shareText + PROMO + '\n#住宅ローン #マイホーム #不動産';
+  const url = `https://x.com/intent/post?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
 }
 
 function doLineShare() {
-  const text = encodeURIComponent(_shareTitle + '\n' + _shareText);
-  window.open(`https://social-plugins.line.me/lineit/share?text=${text}`, '_blank');
+  // LINE専用の共有画面へ直接遷移
+  const msg = _shareText + PROMO;
+  const url = `https://line.me/R/msg/text/?${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
 }
 
 

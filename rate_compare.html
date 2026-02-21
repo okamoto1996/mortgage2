@@ -99,7 +99,7 @@ body {
 /* ── FORMS ── */
 .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
 .form-group { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
-.form-group label { font-size: 0.63rem; color: var(--muted); letter-spacing: 0.04em; }
+.form-group label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.04em; }
 .form-group input, .form-group select {
   background: var(--surface2); border: 1px solid var(--border2);
   border-radius: 5px; color: var(--text); padding: 9px 10px;
@@ -110,11 +110,11 @@ body {
 
 /* ── RATESET ── */
 .rateset-label {
-  font-size: 0.6rem; letter-spacing: 0.16em; color: var(--gold);
+  font-size: 0.75rem; letter-spacing: 0.1em; color: var(--gold);
   text-transform: uppercase; margin-bottom: 8px;
 }
 .rateset-desc {
-  font-size: 0.63rem; color: var(--muted); margin-bottom: 10px; line-height: 1.6;
+  font-size: 0.78rem; color: var(--muted); margin-bottom: 10px; line-height: 1.6;
 }
 .rateset-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .rateset-item {
@@ -129,26 +129,63 @@ body {
   font-family: 'DM Mono', monospace; font-size: 0.88rem; text-align: right; outline: none;
 }
 .rateset-input:focus { border-color: var(--gold); }
-.rateset-pct { font-size: 0.7rem; color: var(--muted); }
+.rateset-pct { font-size: 0.78rem; color: var(--muted); }
 .rateset-del {
   background: transparent; border: none; cursor: pointer; padding: 1px 4px;
-  font-size: 0.75rem; color: var(--muted); line-height: 1; transition: color 0.15s;
+  font-size: 0.78rem; color: var(--muted); line-height: 1; transition: color 0.15s;
 }
 .rateset-del:hover { color: #e07080; }
 .rateset-add {
   display: flex; align-items: center; gap: 5px;
   background: transparent; border: 1px dashed var(--border2);
   border-radius: 6px; padding: 7px 12px; cursor: pointer;
-  color: var(--muted); font-size: 0.7rem; font-family: 'Noto Serif JP', serif;
+  color: var(--muted); font-size: 0.78rem; font-family: 'Noto Serif JP', serif;
   transition: all 0.2s;
 }
 .rateset-add:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── RATE GUIDE ── */
+.rate-guide {
+  margin-top: 14px;
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: 6px; padding: 12px 14px;
+}
+.rate-guide-title {
+  font-size: 0.75rem; letter-spacing: 0.1em; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 10px;
+}
+.rate-guide-items { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+.rate-guide-item {
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.rate-guide-badge {
+  flex-shrink: 0; width: 38px;
+  font-family: 'DM Mono', monospace; font-size: 0.82rem; font-weight: 600;
+  color: var(--text); text-align: right; padding-top: 1px;
+}
+.rate-guide-text {}
+.rate-guide-label {
+  font-size: 0.78rem; color: var(--text2); font-weight: 600; margin-bottom: 1px;
+}
+.rate-guide-desc {
+  font-size: 0.7rem; color: var(--muted); line-height: 1.4;
+}
+/* 目安レベルを区切り記号で表現 */
+.rg-level {
+  display: inline-flex; gap: 2px; margin-right: 4px; vertical-align: middle;
+}
+.rg-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border2);
+  display: inline-block;
+}
+.rg-dot.on { background: var(--text2); }
 
 /* ── BUTTON ── */
 .btn-calc {
   background: var(--gold); color: #090807; border: none;
   border-radius: 5px; padding: 12px; font-family: 'Noto Serif JP', serif;
-  font-size: 0.88rem; font-weight: 600; cursor: pointer; width: 100%;
+  font-size: 0.92rem; font-weight: 600; cursor: pointer; width: 100%;
   margin-top: 16px; letter-spacing: 0.05em; transition: background 0.18s;
 }
 .btn-calc:hover { background: var(--gold2); }
@@ -157,12 +194,12 @@ body {
 #tablePanel { display: none; }
 #tablePanel.visible { display: block; }
 .section-label {
-  font-size: 0.58rem; letter-spacing: 0.22em; color: var(--gold);
+  font-size: 0.7rem; letter-spacing: 0.16em; color: var(--gold);
   text-transform: uppercase; padding-left: 9px; border-left: 2px solid var(--gold);
   margin: 20px 0 10px;
 }
 .table-desc {
-  font-size: 0.63rem; color: var(--muted); padding: 0 12px 12px; line-height: 1.6;
+  font-size: 0.78rem; color: var(--muted); padding: 0 12px 12px; line-height: 1.6;
 }
 
 /* ── SENSITIVITY TABLE ── */
@@ -172,53 +209,42 @@ body {
 }
 .sens-table {
   width: 100%; border-collapse: collapse;
-  /* min-widthはJS側でヘッダー列数に応じて動的設定 */
 }
-/* sticky header */
 .sens-table thead th {
   background: var(--surface2);
-  padding: 8px 8px; text-align: right;
+  padding: 9px 8px; text-align: center;
   color: var(--muted); font-weight: 600;
-  font-size: 0.56rem; letter-spacing: 0.03em;
+  font-size: 0.58rem; letter-spacing: 0.03em;
   border-bottom: 2px solid var(--border2);
   white-space: nowrap;
 }
-.sens-table thead th:first-child {
-  text-align: left;
-}
+.sens-table thead th:first-child { text-align: center; }
 /* 返済率列ヘッダーの色帯 */
 .th-r0 { border-top: 3px solid #4a9eff; }
 .th-r1 { border-top: 3px solid #6ec496; }
 .th-r2 { border-top: 3px solid #f0c060; }
-/* 返済率列区切り */
+/* 列区切り */
 .th-sep { border-left: 1px solid var(--border2); }
 .td-sep { border-left: 1px solid var(--border); }
 
 .sens-table tbody td {
   padding: 5px 8px; border-bottom: 1px solid var(--border);
-  text-align: right; font-family: 'DM Mono', monospace; font-size: 0.65rem;
+  text-align: center; font-family: 'DM Mono', monospace; font-size: 0.65rem;
   white-space: nowrap;
 }
-.sens-table tbody td:first-child {
-  text-align: left;
-}
+.sens-table tbody td:first-child { text-align: center; }
 .sens-table tbody tr:last-child td { border-bottom: none; }
 
-/* 1%・2%・3%・4%・5% の行を区切り線で強調 */
-.sens-table tbody tr.int-border td { border-top: 1px solid var(--border2); }
+/* 1%単位の行は太い区切り線 */
+.sens-table tbody tr.int-border td { border-top: 2px solid var(--border2); }
 
-/* ヒートカラーは廃止 — 年利・返済額列は色なし */
-
-/* 必要年収カラー */
-.yr-lo { color: #6ec496; }
-.yr-md { color: #f0a840; }
-.yr-hi { color: #e07080; }
+/* 必要年収列はJS側でインラインカラーを付与 */
 
 /* ── INFO ── */
 .info-box {
   background: rgba(74,158,255,0.05); border: 1px solid rgba(74,158,255,0.2);
   border-radius: 5px; padding: 11px 13px; margin: 0 0 14px;
-  font-size: 0.66rem; color: var(--text2); line-height: 1.7;
+  font-size: 0.78rem; color: var(--text2); line-height: 1.7;
 }
 
 /* ── FOOTER ── */
@@ -228,13 +254,14 @@ body {
 }
 .external-link {
   display: inline-flex; align-items: center; gap: 5px;
-  font-size: 0.72rem; color: var(--muted); text-decoration: none; transition: color 0.2s;
+  font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s;
 }
 .external-link:hover { color: var(--gold); }
-.external-link::before { content: '🔗'; font-size: 0.75rem; }
+.external-link::before { content: '🔗'; font-size: 0.78rem; }
 
 @media (max-width: 500px) {
   .hero h1 { font-size: 2.4rem; }
+  .rate-guide-items { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -278,6 +305,48 @@ body {
     <button class="rateset-add" id="ratesetAddBtn" onclick="addRateset()" style="margin-top:8px;">
       ＋ 返済率を追加
     </button>
+
+    <div class="rate-guide">
+      <div class="rate-guide-title">返済率の目安</div>
+      <div class="rate-guide-items">
+        <div class="rate-guide-item">
+          <div class="rate-guide-badge">〜20%</div>
+          <div class="rate-guide-text">
+            <div class="rate-guide-label">
+              <span class="rg-level"><span class="rg-dot on"></span><span class="rg-dot"></span><span class="rg-dot"></span><span class="rg-dot"></span></span>余裕あり
+            </div>
+            <div class="rate-guide-desc">生活費・貯蓄に十分な余裕が生まれる安全圏</div>
+          </div>
+        </div>
+        <div class="rate-guide-item">
+          <div class="rate-guide-badge">25%</div>
+          <div class="rate-guide-text">
+            <div class="rate-guide-label">
+              <span class="rg-level"><span class="rg-dot on"></span><span class="rg-dot on"></span><span class="rg-dot"></span><span class="rg-dot"></span></span>一般的な目安
+            </div>
+            <div class="rate-guide-desc">金融機関の審査基準として広く使われる水準</div>
+          </div>
+        </div>
+        <div class="rate-guide-item">
+          <div class="rate-guide-badge">30%</div>
+          <div class="rate-guide-text">
+            <div class="rate-guide-label">
+              <span class="rg-level"><span class="rg-dot on"></span><span class="rg-dot on"></span><span class="rg-dot on"></span><span class="rg-dot"></span></span>上限の目安
+            </div>
+            <div class="rate-guide-desc">多くの金融機関が審査上限とする水準。金利上昇時に注意</div>
+          </div>
+        </div>
+        <div class="rate-guide-item">
+          <div class="rate-guide-badge">35%</div>
+          <div class="rate-guide-text">
+            <div class="rate-guide-label">
+              <span class="rg-level"><span class="rg-dot on"></span><span class="rg-dot on"></span><span class="rg-dot on"></span><span class="rg-dot on"></span></span>審査限界
+            </div>
+            <div class="rate-guide-desc">フラット35など一部ローンの審査上限。生活が圧迫されやすい</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <button class="btn-calc" onclick="calculate()">テーブルを生成する</button>
   </div>
@@ -396,15 +465,6 @@ function reqIncome(monthly, pct) {
 }
 
 /* ══════════════════════════════════
-   INCOME COLOR by value
-══════════════════════════════════ */
-function incomeClass(val) {
-  if (val <= 600) return 'yr-lo';
-  if (val <= 800) return 'yr-md';
-  return 'yr-hi';
-}
-
-/* ══════════════════════════════════
    GENERATE TABLE
 ══════════════════════════════════ */
 function calculate() {
@@ -436,7 +496,8 @@ function calculate() {
 
     const incomeCells = ratesets.map((rs, j) => {
       const inc = reqIncome(first, rs.pct);
-      return `<td class="td-sep ${incomeClass(inc)}">${inc.toLocaleString('ja-JP')}<span style="font-size:0.58rem;color:var(--muted)">万円〜</span></td>`;
+      const col = RS_COLORS[j];
+      return `<td class="td-sep" style="color:${col}">${inc.toLocaleString('ja-JP')}<span style="font-size:0.58rem;color:var(--muted)">万円〜</span></td>`;
     }).join('');
 
     return `<tr${isInt ? ' class="int-border"' : ''}>
@@ -450,7 +511,7 @@ function calculate() {
   document.getElementById('sensTable').innerHTML = `
     <thead>
       <tr>
-        <th style="text-align:left;">年利</th>
+        <th style="text-align:center;">金利</th>
         <th>月返済額</th>
         <th>総支払額</th>
         ${rsHeaders}

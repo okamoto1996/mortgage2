@@ -45,14 +45,75 @@
 
   /* ── Header ── */
   .header {
-    text-align: center; margin-bottom: 28px; padding: 28px 0 22px;
+    position: relative; margin-bottom: 28px;
+    padding: 36px 8px 30px;
     border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  /* Blueprint grid background */
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(212,180,120,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212,180,120,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(ellipse 80% 100% at 50% 50%, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 100% at 50% 50%, black 40%, transparent 100%);
+  }
+  /* Corner brackets */
+  .header::after {
+    content: '';
+    position: absolute; inset: 12px;
+    border: 1px solid rgba(212,180,120,0.15);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  .header-inner {
+    position: relative; text-align: center;
+  }
+  .header-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.6rem; color: var(--accent); letter-spacing: 0.22em;
+    text-transform: uppercase; margin-bottom: 14px;
+    padding: 4px 14px; border: 1px solid rgba(212,180,120,0.25);
+    border-radius: 2px; background: rgba(212,180,120,0.05);
+  }
+  .header-eyebrow::before, .header-eyebrow::after {
+    content: '◆'; font-size: 0.4rem; opacity: 0.6;
   }
   .header h1 {
-    font-size: 1.45rem; font-weight: 300; color: var(--accent2);
-    letter-spacing: 0.18em;
+    font-size: 1.9rem; font-weight: 300; letter-spacing: 0.2em;
+    line-height: 1;
+    background: linear-gradient(135deg, #e8c98a 0%, #f5f0d8 45%, #c8a060 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
   }
-  .header p { color: var(--muted); font-size: 0.75rem; margin-top: 6px; letter-spacing: 0.05em; }
+  .header-rule {
+    display: flex; align-items: center; gap: 10px;
+    margin: 12px auto; max-width: 280px;
+  }
+  .header-rule::before, .header-rule::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,180,120,0.4), transparent);
+  }
+  .header-rule-dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--accent); opacity: 0.7;
+  }
+  .header p {
+    color: var(--muted); font-size: 0.7rem; letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  /* Corner decorations */
+  .header-corner {
+    position: absolute; width: 14px; height: 14px;
+  }
+  .header-corner.tl { top: 12px; left: 12px; border-top: 1.5px solid rgba(212,180,120,0.5); border-left: 1.5px solid rgba(212,180,120,0.5); }
+  .header-corner.tr { top: 12px; right: 12px; border-top: 1.5px solid rgba(212,180,120,0.5); border-right: 1.5px solid rgba(212,180,120,0.5); }
+  .header-corner.bl { bottom: 0px; left: 12px; border-bottom: 1.5px solid rgba(212,180,120,0.5); border-left: 1.5px solid rgba(212,180,120,0.5); }
+  .header-corner.br { bottom: 0px; right: 12px; border-bottom: 1.5px solid rgba(212,180,120,0.5); border-right: 1.5px solid rgba(212,180,120,0.5); }
 
   /* ── Cards ── */
   .card {
@@ -471,8 +532,16 @@
 </div>
 
 <div class="header">
-  <h1>住宅ローン管理</h1>
-  <p>返済状況・変動金利シミュレーター</p>
+  <div class="header-corner tl"></div>
+  <div class="header-corner tr"></div>
+  <div class="header-corner bl"></div>
+  <div class="header-corner br"></div>
+  <div class="header-inner">
+    <div class="header-eyebrow">MORTGAGE SIMULATOR</div>
+    <h1>住宅ローン管理</h1>
+    <div class="header-rule"><div class="header-rule-dot"></div></div>
+    <p>返済状況・変動金利シミュレーター</p>
+  </div>
 </div>
 
 <div class="card">
@@ -962,6 +1031,21 @@
     </div>
     </div><!-- /collapsible-body -->
   </div>
+
+  <a href="rate_compare.html" style="
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    background:linear-gradient(135deg,rgba(74,158,255,0.08),rgba(74,158,255,0.04));
+    border:1px solid rgba(74,158,255,0.3); border-radius:var(--radius);
+    padding:16px 18px; text-decoration:none; margin-bottom:14px;
+    transition:border-color 0.2s;
+  " onmouseover="this.style.borderColor='rgba(74,158,255,0.6)'" onmouseout="this.style.borderColor='rgba(74,158,255,0.3)'">
+    <div>
+      <div style="font-size:0.62rem;letter-spacing:0.18em;color:#4a9eff;text-transform:uppercase;margin-bottom:5px;">SIMULATOR</div>
+      <div style="font-size:0.9rem;color:var(--text);font-weight:400;letter-spacing:0.04em;">📊 返済額シミュレーター</div>
+      <div style="font-size:0.68rem;color:var(--muted);margin-top:4px;">金利0.1%刻みで月返済額・必要年収を一覧表示</div>
+    </div>
+    <div style="font-size:1.2rem;color:#4a9eff;flex-shrink:0;">→</div>
+  </a>
 
   <footer class="footer-links">
     <a href="https://www.jibunbank.co.jp/interest_and_commission/interest/#flg-interestHistory" target="_blank" class="external-link">
@@ -2446,6 +2530,11 @@ document.getElementById('pwaInstallBtn').addEventListener('click', async () => {
 });
 
 if ('serviceWorker' in navigator) {
+  // legacy inline SW removed — see sw.js
+}
+</script>
+<script>
+if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js")
     .then(() => console.log("SW registered"));
 }

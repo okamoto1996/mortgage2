@@ -342,20 +342,138 @@
   .tax-long  { background: rgba(94,160,130,0.12); color: var(--safe);   border: 1px solid rgba(94,160,130,0.4); }
   .tax-reduced { background: rgba(82,130,184,0.12); color: var(--info);  border: 1px solid rgba(82,130,184,0.4); }
 
-  .calc-breakdown { margin-top: 14px; }
+  .calc-breakdown { margin-top: 18px; position: relative; }
+  .calc-breakdown::before {
+    content:''; position:absolute; left:10px; top:30px; bottom:80px; width:2px;
+    background: linear-gradient(180deg, var(--accent) 0%, var(--info) 35%, var(--danger) 65%, var(--safe) 100%);
+    opacity: 0.30; border-radius:1px;
+  }
+
   .step-box {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 10px;
+    position:relative; margin-left:36px; margin-bottom:0; padding:14px 16px 16px;
+    background: var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm);
   }
-  .step-title { font-size: 0.72rem; color: var(--accent); font-weight: 600; margin-bottom: 9px; display: flex; align-items: center; gap: 7px; }
+  .step-box + .step-box { margin-top:6px; }
+  .step-connector {
+    display:flex; align-items:center; justify-content:center;
+    height:18px; width:22px; color:var(--border2); font-size:0.55rem;
+  }
+
   .step-num {
-    background: var(--accent); color: var(--bg); border-radius: 50%; width: 17px; height: 17px;
-    display: flex; align-items: center; justify-content: center; font-size: 0.62rem; font-weight: bold; flex-shrink: 0;
+    position:absolute; left:-36px; top:14px;
+    width:22px; height:22px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.6rem; font-weight:700; flex-shrink:0;
+    border:2px solid; z-index:1;
   }
-  .step-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.73rem; color: var(--text); }
-  .step-row.sub { padding-left: 11px; color: var(--muted); font-size: 0.68rem; }
-  .step-row.result { border-top: 1px dashed var(--border2); margin-top: 6px; padding-top: 6px; font-weight: bold; color: var(--accent2); }
-  .step-row span:last-child { font-family: 'DM Mono', monospace; text-align: right; min-width: 80px; }
+  .step-num.s1 { background:var(--surface); border-color:var(--accent); color:var(--accent); }
+  .step-num.s2 { background:var(--surface); border-color:var(--info); color:var(--info); }
+  .step-num.s3 { background:var(--surface); border-color:var(--danger); color:var(--danger); }
+  .step-num.s4 { background:var(--safe); border-color:var(--safe); color:#fff; }
+
+  .step-title {
+    font-size:0.68rem; font-weight:600; margin-bottom:10px;
+    display:flex; align-items:center; gap:6px; letter-spacing:0.03em;
+  }
+  .step-title.c1 { color:var(--accent); }
+  .step-title.c2 { color:var(--info); }
+  .step-title.c3 { color:var(--danger); }
+  .step-title.c4 { color:var(--safe); }
+
+  .step-row {
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:4px 0; font-size:0.72rem; color:var(--text2);
+  }
+  .step-row.sub { padding-left:10px; font-size:0.66rem; color:var(--muted); }
+  .step-row.sub .step-sign { display:inline-block; width:14px; text-align:center; color:var(--muted); font-weight:600; }
+  .step-row span:last-child { font-family:'DM Mono',monospace; text-align:right; min-width:80px; white-space:nowrap; }
+  .step-row.result {
+    border-top:1px solid var(--border2); margin-top:8px; padding-top:8px;
+    font-weight:700; font-size:0.78rem;
+  }
+  .step-row.result.positive { color:var(--safe); }
+  .step-row.result.negative { color:var(--danger); }
+  .step-row.result.gold { color:var(--accent2); }
+
+  .step-detail {
+    margin:4px 0 2px 10px; padding:8px 10px;
+    background:rgba(212,180,120,0.04); border-left:2px solid rgba(212,180,120,0.2);
+    border-radius:0 4px 4px 0; font-size:0.58rem; color:var(--muted); line-height:1.6;
+  }
+  .step-badge {
+    display:inline-flex; align-items:center; gap:4px; padding:3px 10px;
+    border-radius:20px; font-size:0.65rem; font-weight:600;
+  }
+  .step-badge.safe { background:rgba(110,196,150,0.12); color:var(--safe); border:1px solid rgba(110,196,150,0.25); }
+  .step-badge.danger { background:rgba(224,120,104,0.12); color:var(--danger); border:1px solid rgba(224,120,104,0.25); }
+  .step-badge.info { background:rgba(106,158,216,0.12); color:var(--info); border:1px solid rgba(106,158,216,0.25); }
+
+  .step-final {
+    position:relative; margin-left:36px; margin-top:6px; padding:16px 18px;
+    background: linear-gradient(135deg, rgba(110,196,150,0.08), rgba(110,196,150,0.03));
+    border:1px solid rgba(110,196,150,0.35); border-radius:var(--radius);
+  }
+  .step-final .step-row.result { border-top:none; margin-top:4px; padding-top:0; font-size:1.05rem; }
+  .step-final-items { display:grid; grid-template-columns:1fr 1fr; gap:2px 12px; margin-bottom:4px; }
+  .step-final-item { display:flex; justify-content:space-between; font-size:0.64rem; color:var(--muted); padding:3px 0; }
+  .step-final-item span:last-child { font-family:'DM Mono',monospace; color:var(--text2); }
+
+  /* ── Depreciation comparison card ── */
+  .dep-card {
+    margin:14px 0 4px; border-radius:var(--radius-sm); overflow:hidden;
+    border:1px solid var(--border2);
+  }
+  .dep-card-header {
+    padding:9px 14px; font-size:0.66rem; font-weight:600; color:var(--accent);
+    background:var(--surface3); display:flex; align-items:center; gap:6px;
+    border-bottom:1px solid var(--border);
+  }
+  .dep-cols { display:grid; grid-template-columns:1fr 1fr; }
+  .dep-col { padding:10px 12px; }
+  .dep-col.before { background:var(--surface2); }
+  .dep-col.after { background:rgba(224,120,104,0.04); }
+  .dep-col-title {
+    font-size:0.58rem; font-weight:600; text-align:center;
+    padding-bottom:8px; margin-bottom:8px; border-bottom:1px solid var(--border);
+    letter-spacing:0.03em;
+  }
+  .dep-col.before .dep-col-title { color:var(--muted); }
+  .dep-col.after .dep-col-title { color:var(--danger); }
+  .dep-col-row {
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:3px 0; font-size:0.6rem; color:var(--muted);
+  }
+  .dep-col-row span:last-child {
+    font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--text2);
+    text-align:right; min-width:55px;
+  }
+  .dep-col-row.changed span:last-child { color:var(--danger); font-weight:600; }
+  .dep-col-row.result-row {
+    margin-top:6px; padding-top:6px; border-top:1px dashed var(--border2);
+    font-weight:600; font-size:0.64rem;
+  }
+  .dep-col-row.result-row span:last-child { font-size:0.7rem; }
+  .dep-col.before .dep-col-row.result-row span:last-child { color:var(--text); }
+  .dep-col.after .dep-col-row.result-row span:last-child { color:var(--danger); }
+  .dep-col-divider {
+    position:absolute; left:50%; top:0; bottom:0; width:1px;
+    background:var(--border2);
+  }
+  .dep-bottom {
+    padding:10px 14px; background:var(--surface3);
+    border-top:1px solid var(--border); display:flex; flex-direction:column; gap:4px;
+  }
+  .dep-bottom-row {
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:0.64rem;
+  }
+  .dep-bottom-row .dep-label { color:var(--text2); }
+  .dep-bottom-row .dep-val {
+    font-family:'DM Mono',monospace; font-weight:700; font-size:0.78rem;
+  }
+  .dep-bottom-note {
+    font-size:0.56rem; color:var(--muted); line-height:1.5; margin-top:2px;
+  }
 
   /* ── Footer ── */
   .footer-links { margin-top: 32px; padding: 18px 0 40px; border-top: 1px solid var(--border); text-align: center; }
@@ -411,8 +529,8 @@
   .collapsible-header:hover .collapse-icon { color: var(--accent2); }
   .collapse-icon { font-size: 1rem; color: var(--muted); transition: transform 0.25s ease; flex-shrink: 0; margin-left: 8px; }
   .collapse-icon.open { transform: rotate(180deg); }
-  .collapsible-body { overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease; max-height: 0; opacity: 0; pointer-events: none; }
-  .collapsible-body.open { max-height: 9999px; opacity: 1; pointer-events: auto; padding-top: 18px; }
+  .collapsible-body { overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25,0,0.3,1), opacity 0.25s ease; max-height: 0; opacity: 0; pointer-events: none; }
+  .collapsible-body.open { max-height: 3000px; opacity: 1; pointer-events: auto; padding-top: 18px; }
 
   /* ── Share notice ── */
   .share-notice { font-size: 0.7rem; color: var(--safe); margin-top: 6px; text-align: center; display: none; }
@@ -518,6 +636,64 @@
   }
   .capture-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(212,180,120,0.06); }
 
+  /* ── B: Today Summary Card ── */
+  .today-card {
+    background: linear-gradient(135deg, rgba(212,180,120,0.10), rgba(212,180,120,0.04));
+    border: 1px solid rgba(212,180,120,0.30);
+    border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px;
+  }
+  .today-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .today-card-title { font-size:0.65rem; color:var(--accent); letter-spacing:0.15em; text-transform:uppercase; }
+  .today-card-date { font-size:0.62rem; color:var(--muted); font-family:'DM Mono',monospace; }
+  .today-card-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+  .today-card-item { text-align:center; }
+  .today-card-label { font-size:0.6rem; color:var(--muted); margin-bottom:4px; }
+  .today-card-val { font-family:'DM Mono',monospace; font-size:1rem; font-weight:500; }
+  .today-card-bar { height:4px; border-radius:2px; background:var(--surface3); margin-top:10px; overflow:hidden; }
+  .today-card-bar-fill { height:100%; border-radius:2px; transition:width 0.6s ease; }
+
+
+
+  /* ── F: Sliders ── */
+  .slider-wrap { padding:0 2px; margin-top:4px; }
+  .slider-wrap input[type="range"] { -webkit-appearance:none; width:100%; height:4px; border-radius:2px; background:var(--surface3); outline:none; cursor:pointer; }
+  .slider-wrap input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--accent); border:2px solid var(--bg); cursor:pointer; }
+  .slider-wrap input[type="range"]::-moz-range-thumb { width:14px; height:14px; border-radius:50%; background:var(--accent); border:2px solid var(--bg); cursor:pointer; }
+
+  /* ── A: Yearly Schedule ── */
+  .schedule-mode-btns { display:flex; gap:4px; margin-bottom:10px; }
+  .schedule-mode-btn { padding:5px 12px; font-size:0.68rem; border:1px solid var(--border2); border-radius:4px; background:transparent; color:var(--muted); cursor:pointer; font-family:'Noto Serif JP',serif; transition:all 0.15s; }
+  .schedule-mode-btn.active { background:var(--accent); color:var(--bg); border-color:var(--accent); font-weight:600; }
+  .yearly-header { display:grid; grid-template-columns:1.2fr 1fr 1fr 1fr 1.2fr; gap:0; background:var(--surface3); border-radius:4px 4px 0 0; position:sticky; top:0; z-index:1; }
+  .yearly-header > div { padding:8px 6px; font-size:0.58rem; color:var(--muted); letter-spacing:0.03em; }
+  .yearly-header > div:not(:first-child) { text-align:right; }
+  .yearly-row { display:grid; grid-template-columns:1.2fr 1fr 1fr 1fr 1.2fr; gap:0; border-bottom:1px solid var(--border); font-family:'DM Mono',monospace; font-size:0.68rem; cursor:pointer; transition:background 0.15s; }
+  .yearly-row:hover { background:rgba(255,255,255,0.025); }
+  .yearly-row.hl { background:rgba(200,169,110,0.09); }
+  .yearly-row > div { padding:8px 6px; text-align:right; color:var(--text); overflow:hidden; }
+  .yearly-row > div:first-child { text-align:left; color:var(--muted); font-family:'Noto Serif JP',serif; font-size:0.7rem; }
+  .yearly-months { max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
+  .yearly-months.open { max-height:2000px; }
+  .yearly-months .monthly-sub { display:grid; grid-template-columns:1.2fr 1fr 1fr 1fr 1.2fr; gap:0; font-family:'DM Mono',monospace; font-size:0.62rem; border-bottom:1px solid rgba(56,53,50,0.5); border-left:3px solid var(--accent); margin-left:6px; }
+  .yearly-months .monthly-sub > div { padding:5px 6px; text-align:right; color:var(--text2); }
+  .yearly-months .monthly-sub > div:first-child { text-align:left; color:var(--muted); font-family:'Noto Serif JP',serif; }
+
+  /* ── C: Prepay Compare Chart ── */
+  .prepay-chart-wrap { margin-top:14px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; }
+
+  /* ── E: Refi Advice ── */
+  .refi-advice { display:flex; align-items:flex-start; gap:10px; padding:12px 14px; border-radius:var(--radius-sm); margin-top:12px; font-size:0.75rem; line-height:1.5; }
+  .refi-advice.positive { background:rgba(110,196,150,0.08); border:1px solid rgba(110,196,150,0.3); color:var(--safe); }
+  .refi-advice.negative { background:rgba(224,120,104,0.08); border:1px solid rgba(224,120,104,0.3); color:var(--danger); }
+  .refi-advice.neutral { background:rgba(106,158,216,0.08); border:1px solid rgba(106,158,216,0.3); color:var(--info); }
+
+  /* ── G: Equity Donut ── */
+  .equity-wrap { display:flex; align-items:center; gap:16px; padding:14px; margin-top:12px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); flex-wrap:wrap; }
+  .equity-wrap canvas { width:90px; height:90px; flex-shrink:0; }
+  .equity-info { flex:1; min-width:140px; }
+  .equity-row { display:flex; justify-content:space-between; font-size:0.72rem; padding:4px 0; border-bottom:1px solid var(--border); }
+  .equity-row:last-child { border-bottom:none; }
+  .equity-row span:last-child { font-family:'DM Mono',monospace; }
 
 </style>
 </head>
@@ -545,7 +721,7 @@
 </div>
 
 <div class="card">
-  <div class="card-title collapsible-header" onclick="toggleCard('bodyLoan')">
+  <div class="card-title collapsible-header" onclick="toggleCard('bodyLoan')" role="button" tabindex="0" aria-expanded="true" aria-controls="bodyLoan" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodyLoan')}">
     <span>ローン情報の入力</span>
     <span class="collapse-icon open" id="iconLoan">▼</span>
   </div>
@@ -554,14 +730,17 @@
     <div class="form-group">
       <label>借入金額（万円）</label>
       <input type="number" id="principal" value="4700" min="1" inputmode="decimal">
+      <div class="slider-wrap"><input type="range" id="principalSlider" min="500" max="15000" step="100" value="4700"></div>
     </div>
     <div class="form-group">
       <label>当初年利（%）</label>
       <input type="number" id="rate" value="0.25" step="0.001" min="0.01" inputmode="decimal">
+      <div class="slider-wrap"><input type="range" id="rateSlider" min="0.1" max="5.0" step="0.01" value="0.25"></div>
     </div>
     <div class="form-group">
       <label>返済期間（年）</label>
       <input type="number" id="years" value="35" min="1" max="50" inputmode="numeric">
+      <div class="slider-wrap"><input type="range" id="yearsSlider" min="5" max="50" step="1" value="35"></div>
     </div>
     <div class="form-group">
       <label>返済方式</label>
@@ -654,6 +833,21 @@
     </div>
   </div>
 
+  <!-- B: 今月の返済内訳サマリー -->
+  <div class="today-card" id="todayCard" style="display:none;">
+    <div class="today-card-header">
+      <div class="today-card-title">📅 今月の返済内訳</div>
+      <div class="today-card-date" id="todayCardDate"></div>
+    </div>
+    <div class="today-card-grid">
+      <div class="today-card-item"><div class="today-card-label">元金</div><div class="today-card-val" style="color:var(--accent2)" id="todayPrincipal">—</div></div>
+      <div class="today-card-item"><div class="today-card-label">利息</div><div class="today-card-val" style="color:var(--danger)" id="todayInterest">—</div></div>
+      <div class="today-card-item"><div class="today-card-label">元金比率</div><div class="today-card-val" style="color:var(--safe)" id="todayRatio">—</div></div>
+    </div>
+    <div class="today-card-bar"><div class="today-card-bar-fill" id="todayBarFill" style="width:0%;background:linear-gradient(90deg,var(--accent),var(--safe));"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:0.55rem;color:var(--muted);margin-top:2px;"><span>← 利息</span><span>元金 →</span></div>
+  </div>
+
   <div class="stats-section-label">返済額の比較 (ローンのみ)</div>
   <div class="stats-grid-4">
     <div class="stat-box">
@@ -699,6 +893,14 @@
 
   <div id="deferredWarning" class="deferred-interest">
     ⚠️ <strong>注意:</strong> 未払利息が発生しています。
+  </div>
+
+  <!-- ⑦ セクションナビ -->
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 6px;justify-content:center;">
+    <a href="#" onclick="event.preventDefault();jumpTo('bodyPrepay')" style="font-size:0.68rem;color:var(--accent);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);">📅 繰り上げ返済</a>
+    <a href="#" onclick="event.preventDefault();jumpTo('bodyRefi')" style="font-size:0.68rem;color:var(--info);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);">🏦 借り換え</a>
+    <a href="#" onclick="event.preventDefault();jumpTo('bodySale')" style="font-size:0.68rem;color:var(--safe);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);">🏠 売却</a>
+    <a href="#" onclick="event.preventDefault();jumpTo('bodyTools')" style="font-size:0.68rem;color:var(--muted);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);">⚙ 控除・設定</a>
   </div>
 
   <div style="text-align:right; margin-top:8px; margin-bottom:6px;">
@@ -757,22 +959,26 @@
     </div>
 
     <div id="tab-schedule">
-      <div class="table-wrap">
-        <table>
-          <colgroup>
-            <col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:15%"><col style="width:25%">
-          </colgroup>
-          <thead>
-            <tr><th>年月</th><th>返済額(円)</th><th>元金(円)</th><th>利息(円)</th><th>残高(円)</th></tr>
-          </thead>
-          <tbody id="scheduleBody"></tbody>
-        </table>
+      <div class="schedule-mode-btns">
+        <button class="schedule-mode-btn active" id="modeYearly" onclick="setScheduleMode('yearly')">📊 年単位</button>
+        <button class="schedule-mode-btn" id="modeMonthly" onclick="setScheduleMode('monthly')">📋 月単位</button>
+      </div>
+      <div id="scheduleYearly" class="table-wrap" style="max-height:480px;"></div>
+      <div id="scheduleMonthly" style="display:none;">
+        <div class="table-wrap">
+          <table>
+            <caption class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">月別返済予定表</caption>
+            <colgroup><col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:15%"><col style="width:25%"></colgroup>
+            <thead><tr><th>年月</th><th>返済額(円)</th><th>元金(円)</th><th>利息(円)</th><th>残高(円)</th></tr></thead>
+            <tbody id="scheduleBody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="card" style="border-top:3px solid var(--accent2)">
-    <div class="card-title collapsible-header" onclick="toggleCard('bodyPrepay')">
+    <div class="card-title collapsible-header" onclick="toggleCard('bodyPrepay')" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyPrepay" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodyPrepay')}">
       <span>繰り上げ返済シミュレーション</span>
       <span class="collapse-icon" id="iconPrepay">▼</span>
     </div>
@@ -793,7 +999,7 @@
       <div class="form-group">
         <label>実行時期</label>
         <select id="prepayTiming">
-          <option value="now">今すぐ（今月）</option>
+          <option value="0">今すぐ（今月）</option>
           <option value="6">6ヶ月後</option>
           <option value="12">1年後</option>
           <option value="24">2年後</option>
@@ -806,6 +1012,7 @@
     <button class="btn" style="background:var(--accent2); color:#0f0e0c; margin-top:12px;" onclick="calcPrepayment()">効果を計算</button>
 
     <div id="prepayResult" style="display:none; margin-top:4px;">
+      <div id="prepayFullPayoffNote" style="display:none;font-size:0.7rem;color:var(--info);margin-bottom:8px;padding:8px 12px;background:rgba(106,157,216,0.08);border:1px solid rgba(106,157,216,0.3);border-radius:var(--radius-sm);"></div>
       <div class="prepay-result-grid">
         <div class="prepay-result-box highlight">
           <div class="prepay-result-label">💰 利息削減額</div>
@@ -825,6 +1032,14 @@
         </div>
       </div>
       <p style="font-size:0.65rem; color:var(--muted); margin-top:10px; text-align:right;">※5年ルール・125%ルールは考慮せず計算しています</p>
+      <!-- C: ビフォーアフターチャート -->
+      <div class="prepay-chart-wrap" id="prepayChartWrap" style="display:none;">
+        <div style="display:flex;gap:14px;justify-content:center;font-size:0.68rem;color:var(--muted);margin-bottom:8px;">
+          <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#c4715a;margin-right:4px;vertical-align:middle;"></span>繰り上げ前</span>
+          <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--safe);margin-right:4px;vertical-align:middle;"></span>繰り上げ後</span>
+        </div>
+        <div class="chart-wrapper" style="height:180px;"><canvas id="prepayCompareChart"></canvas></div>
+      </div>
       <div style="text-align:right; margin-top:8px;">
         <button class="capture-btn" onclick="openShareModal('prepay')">📤 この結果を共有</button>
       </div>
@@ -833,7 +1048,7 @@
   </div>
 
   <div class="card" style="border-top:3px solid var(--info)">
-    <div class="card-title collapsible-header" onclick="toggleCard('bodyRefi')">
+    <div class="card-title collapsible-header" onclick="toggleCard('bodyRefi')" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyRefi" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodyRefi')}">
       <span>借り換えシミュレーション</span>
       <span class="collapse-icon" id="iconRefi">▼</span>
     </div>
@@ -885,6 +1100,8 @@
         <div class="tool-summary-val refi-diff" id="refiDiffVal">0円</div>
         <div style="font-size:0.65rem; color:var(--muted); margin-top:4px;">※プラスなら借り換えた方がお得です</div>
       </div>
+      <!-- E: 借り換え自動判定 -->
+      <div id="refiAdvice" style="display:none;"></div>
       <div style="text-align:right; margin-top:10px;">
         <button class="capture-btn" onclick="openShareModal('refi')">📤 この結果を共有</button>
       </div>
@@ -893,7 +1110,7 @@
   </div>
 
   <div class="card" style="border-top:3px solid var(--safe)">
-    <div class="card-title collapsible-header" onclick="toggleCard('bodySale')">
+    <div class="card-title collapsible-header" onclick="toggleCard('bodySale')" role="button" tabindex="0" aria-expanded="false" aria-controls="bodySale" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodySale')}">
       <span>売却シミュレーション (手取り額計算)</span>
       <span class="collapse-icon" id="iconSale">▼</span>
     </div>
@@ -920,6 +1137,30 @@
         <input type="number" id="purchaseCost" value="300" placeholder="仲介手数料等" inputmode="decimal">
       </div>
     </div>
+    <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border);">
+      <div style="font-size:0.72rem; color:var(--accent); font-weight:600; margin-bottom:8px;">📐 減価償却（任意）</div>
+      <div style="font-size:0.62rem; color:var(--muted); margin-bottom:12px; line-height:1.6; padding:9px 12px; background:var(--surface3); border-radius:var(--radius-sm);">
+        💡 建物は年数で価値が下がり、税法上の取得費が減ります。計算結果に「償却なし / あり」の比較表が出るので、税金への影響が一目で分かります。
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>建物割合 (%)</label>
+          <input type="number" id="buildingRatio" value="50" min="0" max="100" step="1" inputmode="numeric" placeholder="例:50">
+        </div>
+        <div class="form-group">
+          <label>建物構造</label>
+          <select id="buildingType">
+            <option value="rc" selected>RC造（マンション）</option>
+            <option value="steel">重量鉄骨造</option>
+            <option value="light_steel">軽量鉄骨造</option>
+            <option value="wood">木造</option>
+          </select>
+        </div>
+      </div>
+      <div style="font-size:0.58rem; color:var(--muted); margin-top:4px;">
+        耐用年数: <span id="depreciationInfo" style="color:var(--text2);">RC造 47年 → 非事業用70年 → 償却率 0.015</span>
+      </div>
+    </div>
     
     <div style="display:flex; flex-direction:column; gap:8px; margin-top:16px;">
       <div class="checkbox-group" style="margin-top:0;">
@@ -937,11 +1178,21 @@
 
     <div id="saleResult" style="display:none; margin-top:20px;">
       <div class="tool-summary" style="background:rgba(106,170,142,0.1); border-color:var(--safe); margin-bottom:16px;">
-        <div class="tool-summary-label">最終手取り額 (見込み)</div>
+        <div class="tool-summary-label">最終手取り額 (含み益)</div>
         <div class="tool-summary-val" id="saleResNet" style="color:var(--text); font-size:1.6rem;">0円</div>
       </div>
 
-      <div class="breakeven-box" id="breakevenBox">
+      <!-- G: 残債vs物件価値 ドーナツ -->
+  <div class="equity-wrap" id="equityWrap" style="display:none;">
+    <canvas id="equityDonut" width="100" height="100"></canvas>
+    <div class="equity-info">
+      <div class="equity-row"><span style="color:var(--muted);">🔴 ローン残高</span><span style="color:var(--danger);" id="eqDebt">—</span></div>
+      <div class="equity-row"><span style="color:var(--muted);">🟠 売却費用</span><span style="color:#e0a868;" id="eqCost">—</span></div>
+      <div class="equity-row"><span style="color:var(--muted);">🟢 売却予定額</span><span style="color:var(--safe);" id="eqValue">—</span></div>
+      <div class="equity-row" style="border-top:1px solid var(--border);padding-top:6px;margin-top:2px;"><span style="font-weight:600;" id="eqResultLabel">含み益/損</span><span id="eqResult">—</span></div>
+    </div>
+  </div>
+  <div class="breakeven-box" id="breakevenBox">
         <div class="breakeven-label">📍 売却手取りがプラスになる最短時期</div>
         <div class="breakeven-val" id="breakevenVal">—</div>
         <div style="font-size:0.62rem; color:var(--muted); margin-top:6px;">※上記の売却価格・税率の入力値で試算した目安です</div>
@@ -959,7 +1210,7 @@
   </div>
 
   <div class="card" style="border-top:3px solid var(--accent)">
-    <div class="card-title collapsible-header" onclick="toggleCard('bodyTools')">
+    <div class="card-title collapsible-header" onclick="toggleCard('bodyTools')" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyTools" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodyTools')}">
       <span>住宅ローン控除・設定</span>
       <span class="collapse-icon" id="iconTools">▼</span>
     </div>
@@ -1087,14 +1338,47 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+// Crosshair vertical line plugin for Chart.js
+const verticalLinePlugin = {
+  id: 'verticalLine',
+  afterDraw(chart) {
+    if (chart.tooltip._active && chart.tooltip._active.length) {
+      const ctx = chart.ctx;
+      const x = chart.tooltip._active[0].element.x;
+      const topY = chart.chartArea.top;
+      const bottomY = chart.chartArea.bottom;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x, topY);
+      ctx.lineTo(x, bottomY);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(212,180,120,0.4)';
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+};
+Chart.register(verticalLinePlugin);
+</script>
 <script>
 let scheduleData = [];
 let noRuleData = [];
 let chartInstance = null;
 let rateChanges = [];
+let prepayCompareChart = null;
 
 /* --- Core Functions --- */
 
+// ⑦ セクションナビ用ジャンプ
+function jumpTo(bodyId) {
+  const el = document.getElementById(bodyId);
+  if (el && !el.classList.contains('open')) toggleCard(bodyId);
+  setTimeout(() => el.parentElement.scrollIntoView({behavior:'smooth',block:'start'}), 50);
+}
+
+// ⑰ aria-expanded対応
 function toggleCard(bodyId) {
   const body = document.getElementById(bodyId);
   const iconId = 'icon' + bodyId.replace('body', '');
@@ -1102,9 +1386,12 @@ function toggleCard(bodyId) {
   const isOpen = body.classList.contains('open');
   body.classList.toggle('open', !isOpen);
   if (icon) icon.classList.toggle('open', !isOpen);
+  const header = body.parentElement.querySelector(`[aria-controls="${bodyId}"]`);
+  if (header) header.setAttribute('aria-expanded', !isOpen);
 }
 
-function saveSettingsSilent() {
+// ⑫ saveSettings統合
+function saveSettings(showToast = true) {
   const data = {
     principal: document.getElementById('principal').value,
     rate: document.getElementById('rate').value,
@@ -1122,35 +1409,16 @@ function saveSettingsSilent() {
     purchasePrice: document.getElementById('purchasePrice').value,
     purchaseCost: document.getElementById('purchaseCost').value,
     use30mDeduction: document.getElementById('use30mDeduction').checked,
-    use10yRate: document.getElementById('use10yRate').checked
+    use10yRate: document.getElementById('use10yRate').checked,
+    buildingRatio: document.getElementById('buildingRatio').value,
+    buildingType: document.getElementById('buildingType').value
   };
   localStorage.setItem('mortgage_settings_v13', JSON.stringify(data));
-}
-
-function saveSettings() {
-  const data = {
-    principal: document.getElementById('principal').value,
-    rate: document.getElementById('rate').value,
-    years: document.getElementById('years').value,
-    method: document.getElementById('method').value,
-    startDate: document.getElementById('startDate').value,
-    useJibunRules: document.getElementById('useJibunRules').checked,
-    roundingMode: document.getElementById('roundingMode').value,
-    rateChanges,
-    costAdmin: document.getElementById('costAdmin').value,
-    costRepair: document.getElementById('costRepair').value,
-    costOther: document.getElementById('costOther').value,
-    saleDate: document.getElementById('saleDate').value,
-    salePrice: document.getElementById('salePrice').value,
-    purchasePrice: document.getElementById('purchasePrice').value,
-    purchaseCost: document.getElementById('purchaseCost').value,
-    use30mDeduction: document.getElementById('use30mDeduction').checked,
-    use10yRate: document.getElementById('use10yRate').checked
-  };
-  localStorage.setItem('mortgage_settings_v13', JSON.stringify(data));
-  const n = document.getElementById('saveNotice');
-  n.style.display = 'block';
-  setTimeout(() => n.style.display = 'none', 2000);
+  if (showToast) {
+    const n = document.getElementById('saveNotice');
+    n.style.display = 'block';
+    setTimeout(() => n.style.display = 'none', 2000);
+  }
   return data;
 }
 
@@ -1176,6 +1444,8 @@ function loadSettings() {
     if (d.purchaseCost) document.getElementById('purchaseCost').value = d.purchaseCost;
     if (d.use30mDeduction !== undefined) document.getElementById('use30mDeduction').checked = d.use30mDeduction;
     if (d.use10yRate !== undefined) document.getElementById('use10yRate').checked = d.use10yRate;
+    if (d.buildingRatio) document.getElementById('buildingRatio').value = d.buildingRatio;
+    if (d.buildingType) document.getElementById('buildingType').value = d.buildingType;
 
     if (d.rateChanges) { rateChanges = d.rateChanges; renderRateChanges(); }
     toggleRulesVisibility();
@@ -1299,15 +1569,18 @@ function runSimulation(P, initialYearlyRate, n, method, startDate, applyRules) {
   if (method === 'equal_payment') currentPayment = applyRounding(calculatePMT(P, r0, n));
   else currentPayment = (P / n) + (P * r0);
   let hasDeferredInterestWarning = false;
+  let accruedUnpaidInterest = 0; // ② 未払利息累積
+  const rateChangeMap = new Map(); // ⑭ Map化
+  rateChanges.forEach(rc => rateChangeMap.set(rc.month, true));
+  const equalPrincipalBase = method === 'equal_principal' ? Math.floor(P / n) : 0; // ⑥
 
   for (let i = 1; i <= n; i++) {
     const r = getRateForMonth(i);
     let principalPart, interestPart, totalPayment;
     if (method === 'equal_principal') {
-      principalPart = P / n; interestPart = balance * r;
-      totalPayment = applyRounding(principalPart + interestPart);
-      interestPart = totalPayment - Math.floor(principalPart); 
-      principalPart = Math.floor(principalPart);
+      principalPart = (i === n) ? balance : equalPrincipalBase; // ⑥ 最終月調整
+      interestPart = applyRounding(balance * r);
+      totalPayment = principalPart + interestPart;
     } else {
       if (applyRules) {
         if (i > 1 && (i - 1) % 60 === 0) {
@@ -1319,16 +1592,19 @@ function runSimulation(P, initialYearlyRate, n, method, startDate, applyRules) {
         }
         totalPayment = currentPayment;
       } else {
-        const isRateChanged = rateChanges.some(rc => rc.month === i);
-        if (i === 1 || isRateChanged) {
+        if (i === 1 || rateChangeMap.has(i)) { // ⑭
            const remainingMonths = n - i + 1;
            currentPayment = applyRounding(calculatePMT(balance, r, remainingMonths));
         }
         totalPayment = currentPayment;
       }
-      interestPart = Math.floor(balance * r);
+      interestPart = Math.floor(balance * r) + accruedUnpaidInterest; // ② 未払利息加算
       principalPart = totalPayment - interestPart;
-      if (principalPart < 0) { principalPart = 0; interestPart = totalPayment; hasDeferredInterestWarning = true; }
+      if (principalPart < 0) { // ② 未払利息を累積
+        accruedUnpaidInterest = Math.abs(principalPart);
+        principalPart = 0; interestPart = totalPayment;
+        hasDeferredInterestWarning = true;
+      } else { accruedUnpaidInterest = 0; }
       if (i === n) { totalPayment = balance + interestPart; principalPart = balance; }
     }
     balance = balance - principalPart;
@@ -1337,7 +1613,7 @@ function runSimulation(P, initialYearlyRate, n, method, startDate, applyRules) {
     resultData.push({
       month: i, label: `${d.getFullYear()}年${d.getMonth()+1}月`,
       payment: totalPayment, principal: principalPart, interest: interestPart, balance: balance,
-      isRateChange: rateChanges.some(rc => rc.month === i),
+      isRateChange: rateChangeMap.has(i),
       isPaymentChange: applyRules && i > 1 && (i - 1) % 60 === 0
     });
   }
@@ -1345,7 +1621,7 @@ function runSimulation(P, initialYearlyRate, n, method, startDate, applyRules) {
 }
 
 function calculate(silent = false) {
-  if (!silent) saveSettings(); else saveSettingsSilent();
+  if (!silent) saveSettings(); else saveSettings(false);
   const P = parseFloat(document.getElementById('principal').value) * 10000;
   const initialYearlyRate = parseFloat(document.getElementById('rate').value);
   const n = parseInt(document.getElementById('years').value) * 12;
@@ -1361,6 +1637,9 @@ function calculate(silent = false) {
   updateStats(P, method, simResult.hasWarning);
   drawChart();
   document.getElementById('results').classList.add('visible');
+  renderYearlySchedule();
+  updateTodayCard();
+  syncSliders();
   document.getElementById('deferredWarning').style.display = simResult.hasWarning ? 'block' : 'none';
   renderSchedule(startDate);
 }
@@ -1657,9 +1936,7 @@ function calcPrepayment() {
   const amountEl = document.getElementById('prepayAmount');
   const errEl = document.getElementById('prepayAmountErr');
   const amount = parseFloat(amountEl.value) * 10000;
-  if (!amount || amount <= 0) {
-    amountEl.classList.add('input-error'); errEl.classList.add('show'); return;
-  }
+  if (!amount || amount <= 0) { amountEl.classList.add('input-error'); errEl.classList.add('show'); return; }
   amountEl.classList.remove('input-error'); errEl.classList.remove('show');
   if (scheduleData.length === 0) return;
 
@@ -1670,39 +1947,49 @@ function calcPrepayment() {
   applyIdx = Math.max(0, Math.min(applyIdx, scheduleData.length - 1));
 
   const balBefore = applyIdx === 0 ? (parseFloat(document.getElementById('principal').value) * 10000) : scheduleData[applyIdx - 1].balance;
-  const balAfter = Math.max(0, balBefore - amount);
+  // ⑨ 残高超過チェック
+  let actualAmount = amount, fullPayoffNote = '';
+  if (amount >= balBefore) { actualAmount = balBefore; fullPayoffNote = '※残高を超える金額のため、全額繰り上げ返済として計算しました。'; }
+  const balAfter = Math.max(0, balBefore - actualAmount);
   const remainMonths = scheduleData.length - applyIdx;
-  const monthlyRate = getRateForMonth(applyIdx + 1); // 実行時点の実際の適用金利を使用
 
-  // 元の残り利息
   let oldInterest = 0;
   for (let i = applyIdx; i < scheduleData.length; i++) oldInterest += scheduleData[i].interest;
 
+  // ③ 金利変動対応の繰り上げ後残高推移を記録(C: チャート用)
+  let newBalSchedule = [];
+
   if (prepayType === 'shorten') {
-    // 期間短縮型: 月返済額そのままで残高を減らす
     const origPayment = scheduleData[applyIdx].payment;
-    let bal = balAfter, newMonths = 0;
-    let newInterest = 0;
+    let bal = balAfter, newMonths = 0, newInterest = 0;
     while (bal > 0 && newMonths < 9999) {
-      const interest = Math.floor(bal * monthlyRate);
+      const mIdx = applyIdx + newMonths + 1;
+      const rr = getRateForMonth(mIdx); // ③ 金利変動対応
+      const interest = Math.floor(bal * rr);
       const principal = Math.min(origPayment - interest, bal);
       if (principal <= 0) break;
       newInterest += interest; bal -= principal; newMonths++;
+      if (newMonths % 12 === 0 || bal <= 0) newBalSchedule.push({month: mIdx, balance: bal});
     }
     const shortened = remainMonths - newMonths;
     const savedInterest = oldInterest - newInterest;
     document.getElementById('prepayMainLabel').textContent = '⏱ 期間短縮';
-    document.getElementById('prepayMainVal').textContent = shortened > 0
-      ? `${Math.floor(shortened/12)}年${shortened%12}ヶ月短縮` : '変化なし';
+    document.getElementById('prepayMainVal').textContent = shortened > 0 ? `${Math.floor(shortened/12)}年${shortened%12}ヶ月短縮` : '変化なし';
     document.getElementById('prepayInterestSaved').textContent = fmtShort(savedInterest) + '円';
     document.getElementById('prepayOldInterest').textContent = fmtShort(oldInterest) + '円';
     document.getElementById('prepayNewInterest').textContent = fmtShort(newInterest) + '円';
   } else {
-    // 返済額軽減型: 期間そのまま・月返済額を下げる
-    const newPayment = monthlyRate > 0
-      ? Math.floor(balAfter * monthlyRate * Math.pow(1+monthlyRate, remainMonths) / (Math.pow(1+monthlyRate, remainMonths) - 1))
-      : Math.floor(balAfter / remainMonths);
-    const newInterest = newPayment * remainMonths - balAfter;
+    // ④ 月次ループで正確に計算
+    const r0 = getRateForMonth(applyIdx + 1);
+    const newPayment = r0 > 0 ? Math.floor(balAfter * r0 * Math.pow(1+r0, remainMonths) / (Math.pow(1+r0, remainMonths) - 1)) : Math.floor(balAfter / remainMonths);
+    let bal = balAfter, newInterest = 0;
+    for (let mm = 0; mm < remainMonths && bal > 0; mm++) {
+      const rr = getRateForMonth(applyIdx + mm + 1);
+      const interest = Math.floor(bal * rr);
+      const principal = (mm === remainMonths - 1) ? bal : Math.min(newPayment - interest, bal);
+      newInterest += interest; bal -= principal;
+      if ((mm + 1) % 12 === 0 || bal <= 0) newBalSchedule.push({month: applyIdx + mm + 1, balance: bal});
+    }
     const savedInterest = oldInterest - newInterest;
     const origPayment = scheduleData[applyIdx].payment;
     document.getElementById('prepayMainLabel').textContent = '💴 月返済額軽減';
@@ -1712,6 +1999,44 @@ function calcPrepayment() {
     document.getElementById('prepayNewInterest').textContent = fmtShort(Math.max(0, newInterest)) + '円';
   }
   document.getElementById('prepayResult').style.display = 'block';
+  const noteEl = document.getElementById('prepayFullPayoffNote');
+  if (noteEl) { noteEl.textContent = fullPayoffNote; noteEl.style.display = fullPayoffNote ? 'block' : 'none'; }
+
+  // C: ビフォーアフターチャート描画
+  drawPrepayCompareChart(applyIdx, newBalSchedule);
+}
+
+function drawPrepayCompareChart(applyIdx, newBalSchedule) {
+  const wrap = document.getElementById('prepayChartWrap');
+  const ctx = document.getElementById('prepayCompareChart').getContext('2d');
+  if (prepayCompareChart) prepayCompareChart.destroy();
+  if (!newBalSchedule.length) { wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  // 年次の元データ
+  const labels = [], oldBal = [], newBal = [];
+  const startMoment = new Date(document.getElementById('startDate').value + '-01');
+  let ni = 0;
+  for (let i = 11; i < scheduleData.length; i += 12) {
+    const d = new Date(startMoment); d.setMonth(d.getMonth() + i);
+    labels.push(d.getFullYear() + '年');
+    oldBal.push(Math.round(scheduleData[i].balance / 10000));
+    // 対応する繰り上げ後データ
+    while (ni < newBalSchedule.length - 1 && newBalSchedule[ni + 1].month <= i + 1) ni++;
+    if (ni < newBalSchedule.length && newBalSchedule[ni].month <= i + 1) newBal.push(Math.round(newBalSchedule[ni].balance / 10000));
+    else if (i + 1 <= applyIdx) newBal.push(Math.round(scheduleData[i].balance / 10000));
+    else newBal.push(0);
+  }
+  prepayCompareChart = new Chart(ctx, {
+    type:'line', data: {
+      labels,
+      datasets: [
+        { label:'繰り上げ前', data:oldBal, borderColor:'#c4715a', backgroundColor:'rgba(196,113,90,0.1)', fill:true, tension:0.3, pointRadius:0, borderWidth:2 },
+        { label:'繰り上げ後', data:newBal, borderColor:'#6ec496', backgroundColor:'rgba(110,196,150,0.1)', fill:true, tension:0.3, pointRadius:0, borderWidth:2 }
+      ]
+    },
+    options: { responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false}, plugins:{ legend:{display:false}, tooltip:{mode:'index',intersect:false} },
+      scales:{ x:{ticks:{color:'#9a9488',font:{size:8},maxRotation:45},grid:{color:'#2e2c28'}}, y:{ticks:{color:'#9a9488',font:{size:8},callback:v=>v+'万'},grid:{color:'#2e2c28'}} } }
+  });
 }
 
 /* ── 共有リンク ── */
@@ -1726,7 +2051,13 @@ function copyShareLink() {
     roundingMode: document.getElementById('roundingMode').value,
     costAdmin: document.getElementById('costAdmin').value,
     costRepair: document.getElementById('costRepair').value,
-    costOther: document.getElementById('costOther').value
+    costOther: document.getElementById('costOther').value,
+    saleDate: document.getElementById('saleDate').value,
+    salePrice: document.getElementById('salePrice').value,
+    purchasePrice: document.getElementById('purchasePrice').value,
+    purchaseCost: document.getElementById('purchaseCost').value,
+    use30m: document.getElementById('use30mDeduction').checked ? '1' : '0',
+    use10y: document.getElementById('use10yRate').checked ? '1' : '0'
   };
   const params = new URLSearchParams(d).toString();
   const url = location.href.split('?')[0] + '?' + params;
@@ -1742,9 +2073,13 @@ function copyShareLink() {
 function loadFromURL() {
   const params = new URLSearchParams(location.search);
   if (!params.has('principal')) return;
-  const ids = ['principal','rate','years','method','startDate','roundingMode','costAdmin','costRepair','costOther'];
+  const ids = ['principal','rate','years','method','startDate','roundingMode','costAdmin','costRepair','costOther','saleDate','salePrice','purchasePrice','purchaseCost'];
   ids.forEach(id => { if (params.has(id)) document.getElementById(id).value = params.get(id); });
   if (params.has('useJibunRules')) document.getElementById('useJibunRules').checked = params.get('useJibunRules') === '1';
+  if (params.has('use30m')) document.getElementById('use30mDeduction').checked = params.get('use30m') === '1';
+  if (params.has('use10y')) document.getElementById('use10yRate').checked = params.get('use10y') === '1';
+  if (params.has('buildingRatio')) document.getElementById('buildingRatio').value = params.get('buildingRatio');
+  if (params.has('buildingType')) document.getElementById('buildingType').value = params.get('buildingType');
   toggleRulesVisibility();
 }
 
@@ -1811,6 +2146,7 @@ function calcRefinance() {
     diffEl.className = 'tool-summary-val refi-diff minus';
   }
   document.getElementById('refiResult').style.display = 'block';
+  updateRefiAdvice();
 }
 
 function exportData() {
@@ -1955,24 +2291,70 @@ document.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById(id);
     if (el) el.addEventListener('change', scheduleAutoCalc);
   });
+  // F: スライダー同期
+  ['principalSlider','rateSlider','yearsSlider'].forEach(sid => {
+    const sl = document.getElementById(sid);
+    if (sl) sl.addEventListener('input', () => {
+      const target = sid.replace('Slider','');
+      document.getElementById(target).value = sl.value;
+      scheduleAutoCalc();
+    });
+  });
+  ['principal','rate','years'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      const sl = document.getElementById(id + 'Slider');
+      if (sl) sl.value = document.getElementById(id).value;
+    });
+  });
+  // ⑩ サブセクション自動計算
+  ['prepayAmount','prepayTiming'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', () => { if (scheduleData.length > 0 && document.getElementById('prepayAmount').value) calcPrepayment(); });
+  });
+  ['refiRate','refiFeeRate','refiFixCost'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', () => { if (scheduleData.length > 0) { calcRefinance(); updateRefiAdvice(); } });
+  });
+  ['saleDate','salePrice','purchasePrice','purchaseCost','use30mDeduction','use10yRate','buildingRatio','buildingType'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', () => { if (scheduleData.length > 0 && document.getElementById('saleResult')?.style.display !== 'none') calcSale(); });
+  });
+  // 建物構造変更時に耐用年数表示を更新
+  const btEl = document.getElementById('buildingType');
+  if (btEl) btEl.addEventListener('change', updateDepreciationInfo);
+  const brEl = document.getElementById('buildingRatio');
+  if (brEl) brEl.addEventListener('change', updateDepreciationInfo);
   renderScenarios();
 });
+
+function getDepreciationRate(type) {
+  // 非事業用（居住用）の耐用年数×1.5 → 償却率
+  const map = { rc: {years:70, rate:0.015}, steel: {years:51, rate:0.020}, light_steel: {years:40, rate:0.025}, wood: {years:33, rate:0.031} };
+  return map[type] || map.rc;
+}
+function updateDepreciationInfo() {
+  const type = document.getElementById('buildingType').value;
+  const info = getDepreciationRate(type);
+  const labels = {rc:'RC造',steel:'重量鉄骨造',light_steel:'軽量鉄骨造',wood:'木造'};
+  const usefulYears = {rc:47, steel:34, light_steel:27, wood:22};
+  document.getElementById('depreciationInfo').textContent = `${labels[type]} ${usefulYears[type]}年 → 非事業用${Math.round(usefulYears[type]*1.5)}年 → 償却率 ${info.rate.toFixed(3)}`;
+}
 
 /* --- 売却シミュレーション --- */
 let breakevenChartInstance = null;
 
 // 年ごとの税額を正確に計算するヘルパー
-function calcTaxForYear(sPrice, pPrice, pCost, sCost, holdingYears, use30m, use10y) {
+function calcTaxForYear(sPrice, pPrice, pCost, sCost, taxHoldYrs, use30m, use10y) {
   const capitalGain = sPrice - (pPrice + pCost) - sCost;
   if (capitalGain <= 0) return 0;
   let taxableGain = capitalGain;
   if (use30m) taxableGain = Math.max(0, taxableGain - 30000000);
   if (taxableGain <= 0) return 0;
   let tax = 0;
-  if (holdingYears > 10 && use10y) {
+  if (taxHoldYrs > 10 && use10y) {
     if (taxableGain <= 60000000) tax = taxableGain * 0.1421;
     else tax = (60000000 * 0.1421) + ((taxableGain - 60000000) * 0.20315);
-  } else if (holdingYears > 5) {
+  } else if (taxHoldYrs > 5) {
     tax = taxableGain * 0.20315;
   } else {
     tax = taxableGain * 0.3963;
@@ -1980,7 +2362,7 @@ function calcTaxForYear(sPrice, pPrice, pCost, sCost, holdingYears, use30m, use1
   return Math.floor(tax);
 }
 
-function drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startMoment) {
+function drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startMoment, buildingRatio, depInfo, landCost) {
   const ctx = document.getElementById('breakevenChart').getContext('2d');
   if (breakevenChartInstance) breakevenChartInstance.destroy();
 
@@ -1997,8 +2379,13 @@ function drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startM
       const bal = idx === 0
         ? parseFloat(document.getElementById('principal').value) * 10000
         : scheduleData[idx - 1].balance;
-      const holdingYears = year - startMoment.getFullYear();
-      const taxY = calcTaxForYear(sPrice, pPrice, pCost, sCost, holdingYears, use30m, use10y);
+      const holdingYears = year - 1 - startMoment.getFullYear();
+      const yrsHeld = year - startMoment.getFullYear();
+      const buildCost = pPrice * (buildingRatio || 0);
+      const depAmt = Math.floor(buildCost * (depInfo ? depInfo.rate : 0) * yrsHeld);
+      const adjBuild = Math.max(buildCost * 0.05, buildCost - depAmt);
+      const acqCost = Math.floor((landCost || pPrice) + (buildingRatio > 0 ? adjBuild - (pPrice - buildCost) : 0) + pCost);
+      const taxY = calcTaxForYear(sPrice, acqCost, 0, sCost, holdingYears, use30m, use10y);
       const net = sPrice - bal - sCost - taxY;
       labels.push(year + '年');
       netData.push(Math.round(net / 10000));
@@ -2028,9 +2415,11 @@ function drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startM
     },
     options: {
       responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
         tooltip: {
+          mode: 'index', intersect: false,
           callbacks: {
             label: c => (c.parsed.y >= 0 ? '+' : '') + c.parsed.y.toLocaleString() + '万円',
             afterLabel: c => '税区分: ' + taxLabels[c.dataIndex]
@@ -2072,21 +2461,36 @@ function calcSale() {
   else if (sPrice > 2000000) brokerFee = (sPrice * 0.04 + 20000) * 1.1;
   else brokerFee = (sPrice * 0.05) * 1.1;
   const sCost = Math.floor(brokerFee + 10000);
-  let capitalGain = sPrice - (pPrice + pCost) - sCost;
-  let tax = 0; let taxLabel = "非課税"; let appliedRateText = ""; let taxBadgeClass = "tax-long";
+  // 減価償却計算
+  const buildingRatio = (parseFloat(document.getElementById('buildingRatio').value) || 0) / 100;
+  const buildingType = document.getElementById('buildingType').value;
+  const depInfo = getDepreciationRate(buildingType);
   const holdingYears = saleMoment.getFullYear() - startMoment.getFullYear();
+  const taxHoldingYears = saleMoment.getFullYear() - 1 - startMoment.getFullYear();
+  const buildingCost = pPrice * buildingRatio;
+  const landCost = pPrice * (1 - buildingRatio);
+  const depreciationAmount = Math.floor(buildingCost * depInfo.rate * holdingYears);
+  const adjustedBuildingCost = Math.max(buildingCost * 0.05, buildingCost - depreciationAmount);
+  const acquisitionCost = Math.floor(landCost + adjustedBuildingCost + pCost);
+  const acquisitionCostNoDep = Math.floor(pPrice + pCost); // 減価償却なしの取得費
+  const capitalGainNoDep = sPrice - acquisitionCostNoDep - sCost; // 減価償却なしの譲渡益
+  let capitalGain = sPrice - acquisitionCost - sCost;
+  let tax = 0; let taxLabel = "非課税"; let appliedRateText = ""; let taxBadgeClass = "tax-long";
   let taxableGain = capitalGain;
   if (capitalGain > 0) {
     if (use30m) { taxableGain = Math.max(0, taxableGain - 30000000); }
     if (taxableGain > 0) {
-      if (holdingYears > 10 && use10y) {
+      if (taxHoldingYears > 10 && use10y) {
         if (taxableGain <= 60000000) { appliedRateText = "14.21%"; tax = taxableGain * 0.1421; taxLabel = "軽減税率適用"; taxBadgeClass = "tax-reduced"; }
         else { tax = (60000000 * 0.1421) + ((taxableGain - 60000000) * 0.20315); appliedRateText = "一部超過"; taxLabel = "軽減税率(一部長期)"; taxBadgeClass = "tax-reduced"; }
-      } else if (holdingYears > 5) { appliedRateText = "20.315%"; tax = taxableGain * 0.20315; taxLabel = "長期譲渡所得"; taxBadgeClass = "tax-long"; }
+      } else if (taxHoldingYears > 5) { appliedRateText = "20.315%"; tax = taxableGain * 0.20315; taxLabel = "長期譲渡所得"; taxBadgeClass = "tax-long"; }
       else { appliedRateText = "39.63%"; tax = taxableGain * 0.3963; taxLabel = "短期譲渡所得"; taxBadgeClass = "tax-short"; }
     } else { taxLabel = "税額0円 (3,000万控除枠内)"; appliedRateText = "0%"; taxBadgeClass = "tax-long"; }
   } else { taxLabel = "税額0円 (譲渡益なし)"; appliedRateText = "0%"; taxBadgeClass = "tax-long"; }
   tax = Math.floor(tax);
+  // 減価償却なしの税額を比較用に計算
+  const taxNoDep = (buildingRatio > 0 && depreciationAmount > 0) ? calcTaxForYear(sPrice, acquisitionCostNoDep, 0, sCost, taxHoldingYears, use30m, use10y) : tax;
+  const taxDiffByDep = tax - taxNoDep; // 減価償却による税額差
   const netProceeds = sPrice - remainBalance - sCost - tax;
   const badge = document.getElementById('taxBadge');
   badge.textContent = taxLabel; badge.className = `tax-badge ${taxBadgeClass}`; badge.style.display = 'inline-block';
@@ -2099,51 +2503,117 @@ function calcSale() {
   for (let m = 0; m < scheduleData.length; m++) {
     const bal = m === 0 ? parseFloat(document.getElementById('principal').value)*10000 : scheduleData[m-1].balance;
     const yearForM = parseInt(scheduleData[m].label.split('年')[0]);
-    const holdYrs = yearForM - startMoment.getFullYear();
-    const taxM = calcTaxForYear(sPrice, pPrice, pCost, sCost, holdYrs, use30m, use10y);
+    const holdYrs = yearForM - 1 - startMoment.getFullYear();
+    const yrsM = yearForM - startMoment.getFullYear();
+    const depM = Math.floor(buildingCost * depInfo.rate * yrsM);
+    const adjBM = Math.max(buildingCost * 0.05, buildingCost - depM);
+    const acqM = Math.floor(landCost + adjBM + pCost);
+    const taxM = calcTaxForYear(sPrice, acqM, 0, sCost, holdYrs, use30m, use10y);
     const netChk = sPrice - bal - sCost - taxM;
     if (netChk >= 0) { breakevenLabel = scheduleData[m].label; break; }
   }
   if (breakevenLabel) {
     beVal.textContent = breakevenLabel + '以降';
-    beBox.style.display = 'block';
-    drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startMoment);
   } else {
-    beBox.style.display = 'none';
+    beVal.textContent = '全期間マイナス';
   }
+  beBox.style.display = 'block';
+  drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startMoment, buildingRatio, depInfo, landCost);
   const breakdownHtml = `
     <div class="step-box">
-      <div class="step-title"><span class="step-num">1</span>譲渡益（儲け）の計算</div>
+      <span class="step-num s1">1</span>
+      <div class="step-title c1">譲渡益の計算</div>
       <div class="step-row"><span>売却予定額</span><span>${fmtShort(sPrice)}円</span></div>
-      <div class="step-row sub"><span>- 購入価格</span><span>${fmtShort(pPrice)}円</span></div>
-      <div class="step-row sub"><span>- 購入時諸費用</span><span>${fmtShort(pCost)}円</span></div>
-      <div class="step-row sub"><span>- 売却諸費用(概算)</span><span>${fmtShort(sCost)}円</span></div>
-      <div class="step-row result"><span>= 譲渡益</span><span>${fmtShort(capitalGain)}円</span></div>
-      ${capitalGain > 0 && use30m ? `<div class="step-row sub" style="margin-top:8px; color:var(--safe)"><span>- 特別控除 (マイホーム特例)</span><span>適用あり</span></div><div class="step-row result" style="color:var(--safe)"><span>= 課税譲渡所得</span><span>${fmtShort(taxableGain)}円</span></div>` : ''}
+      <div class="step-row sub"><span><span class="step-sign">−</span>取得費${buildingRatio > 0 && depreciationAmount > 0 ? '（減価償却後）' : ''}</span><span>${fmtShort(acquisitionCost)}円</span></div>
+      <div class="step-row sub"><span><span class="step-sign">−</span>売却諸費用（概算）</span><span>${fmtShort(sCost)}円</span></div>
+      <div class="step-row result ${capitalGain >= 0 ? 'positive' : 'negative'}"><span>＝ 譲渡益</span><span>${capitalGain >= 0 ? '+' : ''}${fmtShort(capitalGain)}円</span></div>
+
+      ${buildingRatio > 0 && depreciationAmount > 0 ? `
+      <div class="dep-card">
+        <div class="dep-card-header">📐 減価償却の影響（取得費と税金がどう変わるか）</div>
+        <div class="dep-cols" style="position:relative;">
+          <div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border2);"></div>
+          <div class="dep-col before">
+            <div class="dep-col-title">もし償却なし</div>
+            <div class="dep-col-row"><span>取得費</span><span>${fmtMan(acquisitionCostNoDep)}</span></div>
+            <div class="dep-col-row result-row"><span>譲渡益</span><span>${fmtMan(capitalGainNoDep)}</span></div>
+            <div class="dep-col-row result-row"><span>税金</span><span>${fmtMan(taxNoDep)}</span></div>
+          </div>
+          <div class="dep-col after">
+            <div class="dep-col-title">償却あり（実際）</div>
+            <div class="dep-col-row changed"><span>取得費</span><span>${fmtMan(acquisitionCost)}</span></div>
+            <div class="dep-col-row result-row changed"><span>譲渡益</span><span>${fmtMan(capitalGain)}</span></div>
+            <div class="dep-col-row result-row changed"><span>税金</span><span>${fmtMan(tax)}</span></div>
+          </div>
+        </div>
+        <div class="dep-bottom">
+          ${taxDiffByDep > 0 ? `<div class="dep-bottom-row">
+            <span class="dep-label">⚠ 減価償却で増えた税金</span>
+            <span class="dep-val" style="color:var(--danger);">+${fmtMan(taxDiffByDep)}</span>
+          </div>
+          <div class="dep-bottom-note">
+            ${holdingYears}年間で建物部分（${fmtMan(buildingCost)}）の帳簿価値が ${fmtMan(depreciationAmount)} 下がり、その分「儲け」が大きく計算されています。
+          </div>` : `<div class="dep-bottom-row">
+            <span class="dep-label">✅ 減価償却による税金への影響</span>
+            <span class="dep-val" style="color:var(--safe);">なし</span>
+          </div>
+          <div class="dep-bottom-note">特別控除の範囲内のため、減価償却による税額の変化はありません。</div>`}
+        </div>
+      </div>
+      ` : `${buildingRatio <= 0 ? `<div class="step-detail" style="font-size:0.56rem;">
+        取得費 ＝ 購入価格 ${fmtShort(pPrice)}円 + 諸費用 ${fmtShort(pCost)}円 ＝ ${fmtShort(acquisitionCostNoDep)}円<br>
+        <span style="color:var(--muted);">※ 建物割合を設定すると減価償却が考慮され、より正確な計算になります。</span>
+      </div>` : ''}`}
+      ${capitalGain > 0 && use30m ? `<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border);">
+        <div class="step-row sub" style="color:var(--safe);"><span><span class="step-sign">−</span>3,000万円特別控除</span><span class="step-badge safe">適用</span></div>
+        <div class="step-row result positive"><span>＝ 課税譲渡所得</span><span>${fmtShort(taxableGain)}円</span></div>
+      </div>` : ''}
     </div>
+
+    <div class="step-connector">▼</div>
+
     <div class="step-box">
-      <div class="step-title"><span class="step-num">2</span>適用税率の判定</div>
-      <div class="step-row"><span>所有期間 (譲渡年の1月1日時点)</span><span>${holdingYears}年</span></div>
-      <div class="step-row result"><span>= 判定結果</span><span style="color:var(--safe)">${taxLabel}</span></div>
+      <span class="step-num s2">2</span>
+      <div class="step-title c2">税率の判定</div>
+      <div class="step-row"><span>所有期間</span><span>${taxHoldingYears}年</span></div>
+      <div class="step-row sub" style="color:var(--muted);font-size:0.6rem;"><span>※ 譲渡年の1月1日時点で判定</span></div>
+      <div class="step-row result" style="color:var(--info);"><span>判定</span>
+        <span class="step-badge ${taxBadgeClass === 'tax-short' ? 'danger' : taxBadgeClass === 'tax-reduced' ? 'safe' : 'info'}">${taxLabel}${appliedRateText ? ' (' + appliedRateText + ')' : ''}</span>
+      </div>
     </div>
-    <div class="step-box">
-      <div class="step-title"><span class="step-num">3</span>譲渡税の計算</div>
+
+    <div class="step-connector">▼</div>
+
+    <div class="step-box"${tax > 0 ? ' style="border-color:rgba(224,120,104,0.25);"' : ''}>
+      <span class="step-num s3">3</span>
+      <div class="step-title c3">譲渡税</div>
       <div class="step-row"><span>課税譲渡所得</span><span>${fmtShort(taxableGain)}円</span></div>
-      <div class="step-row sub"><span>× 税率</span><span>${appliedRateText}</span></div>
-      <div class="step-row result"><span>= 譲渡税</span><span style="color:var(--danger)">${fmtShort(tax)}円</span></div>
+      <div class="step-row sub"><span><span class="step-sign">×</span>税率</span><span>${appliedRateText}</span></div>
+      <div class="step-row result ${tax > 0 ? 'negative' : 'positive'}"><span>＝ 譲渡税</span><span>${tax > 0 ? '' : ''}${fmtShort(tax)}円</span></div>
     </div>
-    <div class="step-box" style="border-color:var(--safe); background:rgba(106,170,142,0.05);">
-      <div class="step-title"><span class="step-num" style="background:var(--safe)">4</span>最終手取り額の計算</div>
-      <div class="step-row"><span>売却予定額</span><span>${fmtShort(sPrice)}円</span></div>
-      <div class="step-row sub"><span>- ローン残債 (一括返済)</span><span>${fmtShort(remainBalance)}円</span></div>
-      <div class="step-row sub"><span>- 売却諸費用(概算)</span><span>${fmtShort(sCost)}円</span></div>
-      <div class="step-row sub"><span>- 譲渡税</span><span>${fmtShort(tax)}円</span></div>
-      <div class="step-row result" style="font-size:0.95rem;"><span>= 最終手取り額</span><span>${fmtShort(netProceeds)}円</span></div>
+
+    <div class="step-connector">▼</div>
+
+    <div class="step-final">
+      <span class="step-num s4">4</span>
+      <div class="step-title c4">最終手取り額</div>
+      <div class="step-final-items">
+        <div class="step-final-item"><span>売却額</span><span>${fmtShort(sPrice)}円</span></div>
+        <div class="step-final-item"><span>残債返済</span><span>−${fmtShort(remainBalance)}円</span></div>
+        <div class="step-final-item"><span>売却費用</span><span>−${fmtShort(sCost)}円</span></div>
+        <div class="step-final-item"><span>譲渡税</span><span>−${fmtShort(tax)}円</span></div>
+      </div>
+      <div class="step-row result ${netProceeds >= 0 ? 'positive' : 'negative'}" style="font-size:1.1rem;">
+        <span>＝ 手取り額</span>
+        <span>${netProceeds >= 0 ? '+' : ''}${fmtShort(netProceeds)}円</span>
+      </div>
     </div>
-    <div style="font-size:0.65rem; color:var(--muted); text-align:right;">※建物の減価償却費は考慮せず、購入価格を取得費とした簡易シミュレーションです。</div>
+    <div style="font-size:0.6rem; color:var(--muted); text-align:right; margin-top:10px; margin-left:36px;">※売却諸費用は仲介手数料＋印紙代の概算です。</div>
   `;
   document.getElementById('calcBreakdown').innerHTML = breakdownHtml;
   document.getElementById('saleResult').style.display = 'block';
+  // G: 残債vs物件価値ドーナツ
+  drawEquityDonut(remainBalance, sPrice, sCost);
 }
 
 /* ── Share / Capture ── */
@@ -2342,7 +2812,7 @@ function buildShareCard(type) {
     const breakdown = document.getElementById('calcBreakdown');
     let calcRows = '';
     if (breakdown) {
-      breakdown.querySelectorAll('.step-box').forEach(box => {
+      breakdown.querySelectorAll('.step-box, .step-final').forEach(box => {
         const resultRow = box.querySelector('.step-row.result');
         if (resultRow) {
           const spans = resultRow.querySelectorAll('span');
@@ -2396,7 +2866,7 @@ function buildShareCard(type) {
 
       <!-- 手取り額（メイン結果） -->
       <div class="sc-box green" style="padding:14px 16px;text-align:center;margin-bottom:8px;">
-        <div class="sc-label">最終手取り額（見込み）</div>
+        <div class="sc-label">最終手取り額（含み益）</div>
         <div class="sc-value green" style="font-size:24px;">${net}</div>
         ${badge ? `<div style="margin-top:5px;font-size:10px;color:#9a9488;">${badge}</div>` : ''}
         ${be && be !== '—' ? `<div style="margin-top:6px;font-size:10px;color:#6a9ed8;">📍 プラス転換: ${be}</div>` : ''}
@@ -2511,6 +2981,144 @@ function doLineShare() {
 }
 
 
+
+// ═══ A: 年単位/月単位表示切替 ═══
+function setScheduleMode(mode) {
+  document.getElementById('modeYearly').classList.toggle('active', mode==='yearly');
+  document.getElementById('modeMonthly').classList.toggle('active', mode==='monthly');
+  document.getElementById('scheduleYearly').style.display = mode==='yearly' ? '' : 'none';
+  document.getElementById('scheduleMonthly').style.display = mode==='monthly' ? '' : 'none';
+}
+
+function renderYearlySchedule() {
+  const wrap = document.getElementById('scheduleYearly');
+  if (!scheduleData.length) { wrap.innerHTML=''; return; }
+  let html = '<div class="yearly-header"><div>年</div><div>返済額</div><div>元金</div><div>利息</div><div>年末残高</div></div>';
+  const years = {};
+  scheduleData.forEach((d,i) => {
+    const y = d.label.split('年')[0];
+    if (!years[y]) years[y] = {payment:0, principal:0, interest:0, balance:0, months:[]};
+    years[y].payment += d.payment; years[y].principal += d.principal; years[y].interest += d.interest;
+    years[y].balance = d.balance; years[y].months.push(d);
+  });
+  const today = new Date();
+  const curYear = today.getFullYear().toString();
+  Object.entries(years).forEach(([y, v], idx) => {
+    const hl = y === curYear ? ' hl' : '';
+    html += `<div class="yearly-row${hl}" onclick="toggleYearlyExpand(${idx})">
+      <div>${y}年</div><div>${v.payment.toLocaleString()}</div><div>${v.principal.toLocaleString()}</div>
+      <div>${v.interest.toLocaleString()}</div><div>${v.balance.toLocaleString()}</div></div>`;
+    html += `<div class="yearly-months" id="yearExpand${idx}">`;
+    v.months.forEach(mo => {
+      html += `<div class="monthly-sub"><div>${mo.label.split('年')[1]}</div><div>${mo.payment.toLocaleString()}</div>
+        <div>${mo.principal.toLocaleString()}</div><div>${mo.interest.toLocaleString()}</div><div>${mo.balance.toLocaleString()}</div></div>`;
+    });
+    html += '</div>';
+  });
+  wrap.innerHTML = html;
+}
+function toggleYearlyExpand(idx) {
+  document.getElementById('yearExpand'+idx).classList.toggle('open');
+}
+
+// ═══ B: 今月サマリー更新 ═══
+function updateTodayCard() {
+  if (!scheduleData.length) return;
+  const today = new Date();
+  const startMoment = new Date(document.getElementById('startDate').value + '-01');
+  let elapsed = (today.getFullYear() - startMoment.getFullYear()) * 12 + (today.getMonth() - startMoment.getMonth());
+  if (elapsed < 0 || elapsed >= scheduleData.length) { document.getElementById('todayCard').style.display='none'; return; }
+  const row = scheduleData[elapsed];
+  const ratio = row.payment > 0 ? (row.principal / row.payment * 100) : 0;
+  document.getElementById('todayCard').style.display = '';
+  document.getElementById('todayCardDate').textContent = row.label;
+  document.getElementById('todayPrincipal').textContent = fmtShort(row.principal);
+  document.getElementById('todayInterest').textContent = fmtShort(row.interest);
+  document.getElementById('todayRatio').textContent = ratio.toFixed(1) + '%';
+  document.getElementById('todayBarFill').style.width = ratio + '%';
+}
+
+
+
+// ═══ E: 借り換え自動判定 ═══
+function updateRefiAdvice() {
+  const el = document.getElementById('refiAdvice');
+  if (!scheduleData.length) { el.style.display='none'; return; }
+  const currentRate = parseFloat(document.getElementById('rate').value);
+  const refiRate = parseFloat(document.getElementById('refiRate').value);
+  const today = new Date();
+  const startMoment = new Date(document.getElementById('startDate').value + '-01');
+  let elapsed = (today.getFullYear()-startMoment.getFullYear())*12 + (today.getMonth()-startMoment.getMonth());
+  if (elapsed < 0) elapsed = 0;
+  const remainBal = elapsed < scheduleData.length && elapsed > 0 ? scheduleData[elapsed-1].balance : parseFloat(document.getElementById('principal').value)*10000;
+  const remainYrs = Math.max(0, scheduleData.length - elapsed) / 12;
+  const rateDiff = currentRate - refiRate;
+  const effectText = document.getElementById('refiEffectVal')?.textContent || '';
+  const isPositive = effectText.includes('-') === false && !effectText.includes('0円');
+
+  let cls = 'neutral', icon = 'ℹ️', msg = '';
+  if (rateDiff >= 0.3 && remainBal >= 10000000 && remainYrs >= 10) {
+    cls = 'positive'; icon = '✅';
+    msg = `金利差${rateDiff.toFixed(2)}%・残高${fmtMan(remainBal)}・残${Math.round(remainYrs)}年 — 借り換えメリットが大きい条件です。`;
+  } else if (rateDiff < 0.1 || remainBal < 5000000 || remainYrs < 5) {
+    cls = 'negative'; icon = '⚠️';
+    msg = `金利差が小さい、残高が少ない、または残期間が短いため、諸費用を考慮すると借り換えの効果は限定的です。`;
+  } else {
+    msg = `条件は中間的です。諸費用込みの総支払額を比較して判断しましょう。`;
+  }
+  el.innerHTML = `<div class="refi-advice ${cls}"><span class="refi-advice-icon">${icon}</span><span>${msg}</span></div>`;
+  el.style.display = '';
+}
+
+// ═══ F: スライダー同期 ═══
+function syncSliders() {
+  const ps = document.getElementById('principalSlider');
+  const rs = document.getElementById('rateSlider');
+  const ys = document.getElementById('yearsSlider');
+  if (ps) ps.value = document.getElementById('principal').value || 4700;
+  if (rs) rs.value = document.getElementById('rate').value || 0.25;
+  if (ys) ys.value = document.getElementById('years').value || 35;
+}
+
+// ═══ G: 残債vs物件価値ドーナツ ═══
+function drawEquityDonut(debt, value, sCost) {
+  const wrap = document.getElementById('equityWrap');
+  const canvas = document.getElementById('equityDonut');
+  if (!canvas || !wrap) return;
+  sCost = sCost || 0;
+  wrap.style.display = 'flex';
+  const ctx = canvas.getContext('2d');
+  const W = 100, H = 100;
+  ctx.clearRect(0, 0, W, H);
+  const cx = W/2, cy = H/2, radius = 38, lw = 12;
+  const total = Math.max(debt + sCost + value, 1);
+  const debtAngle = (debt / total) * 2 * Math.PI;
+  const costAngle = (sCost / total) * 2 * Math.PI;
+  // Background
+  ctx.beginPath(); ctx.arc(cx,cy,radius,0,2*Math.PI); ctx.strokeStyle='#2c2a28'; ctx.lineWidth=lw; ctx.stroke();
+  // Debt (red)
+  let a = -Math.PI/2;
+  if (debt > 0) { ctx.beginPath(); ctx.arc(cx,cy,radius,a,a+debtAngle); ctx.strokeStyle='#e07868'; ctx.lineWidth=lw; ctx.stroke(); a += debtAngle; }
+  // Sale cost (orange)
+  if (sCost > 0) { ctx.beginPath(); ctx.arc(cx,cy,radius,a,a+costAngle); ctx.strokeStyle='#e0a868'; ctx.lineWidth=lw; ctx.stroke(); a += costAngle; }
+  // Value (green) - remaining
+  ctx.beginPath(); ctx.arc(cx,cy,radius,a,-Math.PI/2+2*Math.PI); ctx.strokeStyle='#6ec496'; ctx.lineWidth=lw; ctx.stroke();
+
+  document.getElementById('eqDebt').textContent = fmtMan(debt);
+  document.getElementById('eqCost').textContent = fmtMan(sCost);
+  document.getElementById('eqValue').textContent = fmtMan(value);
+  const diff = value - debt - sCost; // 含み損に売却費用も含む
+  const resultEl = document.getElementById('eqResult');
+  const labelEl = document.getElementById('eqResultLabel');
+  if (diff >= 0) {
+    labelEl.textContent = '含み益'; labelEl.style.color = 'var(--safe)';
+    resultEl.textContent = '+' + fmtMan(diff); resultEl.style.color = 'var(--safe)';
+  } else {
+    labelEl.textContent = '含み損'; labelEl.style.color = 'var(--danger)';
+    resultEl.textContent = fmtMan(diff); resultEl.style.color = 'var(--danger)';
+  }
+}
+
 loadSettings();
 calculate();
 
@@ -2531,12 +3139,6 @@ document.getElementById('pwaInstallBtn').addEventListener('click', async () => {
 
 if ('serviceWorker' in navigator) {
   // legacy inline SW removed — see sw.js
-}
-</script>
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js")
-    .then(() => console.log("SW registered"));
 }
 </script>
 </body>

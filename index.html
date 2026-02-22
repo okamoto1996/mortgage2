@@ -341,6 +341,7 @@
   .tax-short { background: rgba(192,104,88,0.12); color: var(--danger); border: 1px solid rgba(192,104,88,0.4); }
   .tax-long  { background: rgba(94,160,130,0.12); color: var(--safe);   border: 1px solid rgba(94,160,130,0.4); }
   .tax-reduced { background: rgba(82,130,184,0.12); color: var(--info);  border: 1px solid rgba(82,130,184,0.4); }
+  .tax-zero { background: rgba(212,180,120,0.12); color: var(--accent); border: 1px solid rgba(212,180,120,0.35); }
 
   .calc-breakdown { margin-top: 18px; position: relative; }
   .calc-breakdown::before {
@@ -689,7 +690,7 @@
 
   /* ── G: Equity Donut ── */
   .equity-wrap { display:flex; align-items:center; gap:16px; padding:14px; margin-top:12px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); flex-wrap:wrap; }
-  .equity-wrap canvas { width:90px; height:90px; flex-shrink:0; }
+  .equity-wrap canvas { width:100px; height:100px; flex-shrink:0; }
   .equity-info { flex:1; min-width:140px; }
   .equity-row { display:flex; justify-content:space-between; font-size:0.72rem; padding:4px 0; border-bottom:1px solid var(--border); }
   .equity-row:last-child { border-bottom:none; }
@@ -1182,14 +1183,19 @@
         <div class="tool-summary-val" id="saleResNet" style="color:var(--text); font-size:1.6rem;">0円</div>
       </div>
 
-      <!-- G: 残債vs物件価値 ドーナツ -->
+      <!-- G: 売却額の使い道ドーナツ -->
   <div class="equity-wrap" id="equityWrap" style="display:none;">
-    <canvas id="equityDonut" width="100" height="100"></canvas>
+    <canvas id="equityDonut" width="110" height="110"></canvas>
     <div class="equity-info">
-      <div class="equity-row"><span style="color:var(--muted);">🔴 ローン残高</span><span style="color:var(--danger);" id="eqDebt">—</span></div>
+      <div style="font-size:0.62rem;font-weight:600;color:var(--accent);margin-bottom:6px;">売却額の内訳</div>
+      <div class="equity-row"><span style="color:var(--muted);">🔴 ローン返済</span><span style="color:var(--danger);" id="eqDebt">—</span></div>
       <div class="equity-row"><span style="color:var(--muted);">🟠 売却費用</span><span style="color:#e0a868;" id="eqCost">—</span></div>
-      <div class="equity-row"><span style="color:var(--muted);">🟢 売却予定額</span><span style="color:var(--safe);" id="eqValue">—</span></div>
-      <div class="equity-row" style="border-top:1px solid var(--border);padding-top:6px;margin-top:2px;"><span style="font-weight:600;" id="eqResultLabel">含み益/損</span><span id="eqResult">—</span></div>
+      <div class="equity-row" id="eqTaxRow" style="display:none;"><span style="color:var(--muted);">🟣 譲渡税</span><span style="color:#b07cd8;" id="eqTax">—</span></div>
+      <div class="equity-row"><span style="color:var(--muted);">🟢 手取り</span><span style="color:var(--safe);" id="eqNet">—</span></div>
+      <div class="equity-row" id="eqDepRow" style="display:none; border-top:1px solid var(--border); padding-top:4px; margin-top:4px;">
+        <span style="color:var(--muted); font-size:0.56rem;">📐 償却による税増</span>
+        <span style="color:var(--danger); font-size:0.6rem;" id="eqDepImpact">—</span>
+      </div>
     </div>
   </div>
   <div class="breakeven-box" id="breakevenBox">
@@ -2384,13 +2390,14 @@ function drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startM
       const buildCost = pPrice * (buildingRatio || 0);
       const depAmt = Math.floor(buildCost * (depInfo ? depInfo.rate : 0) * yrsHeld);
       const adjBuild = Math.max(buildCost * 0.05, buildCost - depAmt);
-      const acqCost = Math.floor((landCost || pPrice) + (buildingRatio > 0 ? adjBuild - (pPrice - buildCost) : 0) + pCost);
+      const acqCost = buildingRatio > 0 ? Math.floor((landCost || pPrice * (1 - buildingRatio)) + adjBuild + pCost) : Math.floor(pPrice + pCost);
       const taxY = calcTaxForYear(sPrice, acqCost, 0, sCost, holdingYears, use30m, use10y);
       const net = sPrice - bal - sCost - taxY;
       labels.push(year + '年');
       netData.push(Math.round(net / 10000));
       // ツールチップ用の税区分ラベル
-      if (holdingYears > 10 && use10y) taxLabels.push('軽減税率');
+      if (taxY === 0) taxLabels.push('非課税');
+      else if (holdingYears > 10 && use10y) taxLabels.push('軽減税率');
       else if (holdingYears > 5) taxLabels.push('長期譲渡');
       else taxLabels.push('短期譲渡');
       lastYear = year;
@@ -2485,8 +2492,8 @@ function calcSale() {
         else { tax = (60000000 * 0.1421) + ((taxableGain - 60000000) * 0.20315); appliedRateText = "一部超過"; taxLabel = "軽減税率(一部長期)"; taxBadgeClass = "tax-reduced"; }
       } else if (taxHoldingYears > 5) { appliedRateText = "20.315%"; tax = taxableGain * 0.20315; taxLabel = "長期譲渡所得"; taxBadgeClass = "tax-long"; }
       else { appliedRateText = "39.63%"; tax = taxableGain * 0.3963; taxLabel = "短期譲渡所得"; taxBadgeClass = "tax-short"; }
-    } else { taxLabel = "税額0円 (3,000万控除枠内)"; appliedRateText = "0%"; taxBadgeClass = "tax-long"; }
-  } else { taxLabel = "税額0円 (譲渡益なし)"; appliedRateText = "0%"; taxBadgeClass = "tax-long"; }
+    } else { taxLabel = "税額0円 (3,000万控除枠内)"; appliedRateText = ""; taxBadgeClass = "tax-zero"; }
+  } else { taxLabel = "税額0円 (譲渡益なし)"; appliedRateText = ""; taxBadgeClass = "tax-zero"; }
   tax = Math.floor(tax);
   // 減価償却なしの税額を比較用に計算
   const taxNoDep = (buildingRatio > 0 && depreciationAmount > 0) ? calcTaxForYear(sPrice, acquisitionCostNoDep, 0, sCost, taxHoldingYears, use30m, use10y) : tax;
@@ -2578,8 +2585,9 @@ function calcSale() {
       <div class="step-row"><span>所有期間</span><span>${taxHoldingYears}年</span></div>
       <div class="step-row sub" style="color:var(--muted);font-size:0.6rem;"><span>※ 譲渡年の1月1日時点で判定</span></div>
       <div class="step-row result" style="color:var(--info);"><span>判定</span>
-        <span class="step-badge ${taxBadgeClass === 'tax-short' ? 'danger' : taxBadgeClass === 'tax-reduced' ? 'safe' : 'info'}">${taxLabel}${appliedRateText ? ' (' + appliedRateText + ')' : ''}</span>
+        <span class="step-badge ${taxBadgeClass === 'tax-short' ? 'danger' : taxBadgeClass === 'tax-reduced' ? 'safe' : taxBadgeClass === 'tax-zero' ? 'info' : 'info'}">${taxLabel}${appliedRateText ? ' (' + appliedRateText + ')' : ''}</span>
       </div>
+      ${taxBadgeClass === 'tax-zero' ? '<div class="step-row sub" style="font-size:0.58rem;margin-top:4px;"><span style="color:var(--accent);">💡 控除により非課税のため、所有期間（短期/長期）は税額に影響しません。</span></div>' : ''}
     </div>
 
     <div class="step-connector">▼</div>
@@ -2587,9 +2595,11 @@ function calcSale() {
     <div class="step-box"${tax > 0 ? ' style="border-color:rgba(224,120,104,0.25);"' : ''}>
       <span class="step-num s3">3</span>
       <div class="step-title c3">譲渡税</div>
-      <div class="step-row"><span>課税譲渡所得</span><span>${fmtShort(taxableGain)}円</span></div>
+      ${tax > 0 ? `<div class="step-row"><span>課税譲渡所得</span><span>${fmtShort(taxableGain)}円</span></div>
       <div class="step-row sub"><span><span class="step-sign">×</span>税率</span><span>${appliedRateText}</span></div>
-      <div class="step-row result ${tax > 0 ? 'negative' : 'positive'}"><span>＝ 譲渡税</span><span>${tax > 0 ? '' : ''}${fmtShort(tax)}円</span></div>
+      <div class="step-row result negative"><span>＝ 譲渡税</span><span>${fmtShort(tax)}円</span></div>`
+      : `<div class="step-row result positive"><span>＝ 譲渡税</span><span>0円</span></div>
+      <div class="step-row sub" style="font-size:0.58rem;"><span style="color:var(--safe);">${capitalGain <= 0 ? '譲渡益がないため非課税です。' : '3,000万円特別控除の枠内のため非課税です。'}</span></div>`}
     </div>
 
     <div class="step-connector">▼</div>
@@ -2613,7 +2623,7 @@ function calcSale() {
   document.getElementById('calcBreakdown').innerHTML = breakdownHtml;
   document.getElementById('saleResult').style.display = 'block';
   // G: 残債vs物件価値ドーナツ
-  drawEquityDonut(remainBalance, sPrice, sCost);
+  drawEquityDonut(remainBalance, sPrice, sCost, tax, taxDiffByDep);
 }
 
 /* ── Share / Capture ── */
@@ -3081,41 +3091,67 @@ function syncSliders() {
 }
 
 // ═══ G: 残債vs物件価値ドーナツ ═══
-function drawEquityDonut(debt, value, sCost) {
+function drawEquityDonut(debt, sPrice, sCost, tax, taxDiffByDep) {
   const wrap = document.getElementById('equityWrap');
   const canvas = document.getElementById('equityDonut');
   if (!canvas || !wrap) return;
   sCost = sCost || 0;
+  tax = tax || 0;
+  taxDiffByDep = taxDiffByDep || 0;
   wrap.style.display = 'flex';
   const ctx = canvas.getContext('2d');
-  const W = 100, H = 100;
+  const W = 110, H = 110;
   ctx.clearRect(0, 0, W, H);
-  const cx = W/2, cy = H/2, radius = 38, lw = 12;
-  const total = Math.max(debt + sCost + value, 1);
-  const debtAngle = (debt / total) * 2 * Math.PI;
-  const costAngle = (sCost / total) * 2 * Math.PI;
+  const cx = W/2, cy = H/2, radius = 42, lw = 14;
+
+  // Total = selling price, segments = where the money goes
+  const netProceeds = sPrice - debt - sCost - tax;
+  const outgo = debt + sCost + tax;
+  // When outgo > sPrice, use outgo as base (all red/orange/purple, no green)
+  const base = netProceeds >= 0 ? Math.max(sPrice, 1) : Math.max(outgo, 1);
+  const debtAngle = (debt / base) * 2 * Math.PI;
+  const costAngle = (sCost / base) * 2 * Math.PI;
+  const taxAngle = (tax / base) * 2 * Math.PI;
   // Background
   ctx.beginPath(); ctx.arc(cx,cy,radius,0,2*Math.PI); ctx.strokeStyle='#2c2a28'; ctx.lineWidth=lw; ctx.stroke();
-  // Debt (red)
   let a = -Math.PI/2;
+  // Debt (red)
   if (debt > 0) { ctx.beginPath(); ctx.arc(cx,cy,radius,a,a+debtAngle); ctx.strokeStyle='#e07868'; ctx.lineWidth=lw; ctx.stroke(); a += debtAngle; }
   // Sale cost (orange)
   if (sCost > 0) { ctx.beginPath(); ctx.arc(cx,cy,radius,a,a+costAngle); ctx.strokeStyle='#e0a868'; ctx.lineWidth=lw; ctx.stroke(); a += costAngle; }
-  // Value (green) - remaining
-  ctx.beginPath(); ctx.arc(cx,cy,radius,a,-Math.PI/2+2*Math.PI); ctx.strokeStyle='#6ec496'; ctx.lineWidth=lw; ctx.stroke();
+  // Tax (purple)
+  if (tax > 0) { ctx.beginPath(); ctx.arc(cx,cy,radius,a,a+taxAngle); ctx.strokeStyle='#b07cd8'; ctx.lineWidth=lw; ctx.stroke(); a += taxAngle; }
+  // Net proceeds (green)
+  if (netProceeds > 0) { ctx.beginPath(); ctx.arc(cx,cy,radius,a,-Math.PI/2+2*Math.PI); ctx.strokeStyle='#6ec496'; ctx.lineWidth=lw; ctx.stroke(); }
+  // Center percentage
+  const pct = sPrice > 0 ? Math.round((Math.max(0, netProceeds) / sPrice) * 100) : 0;
+  ctx.fillStyle = netProceeds >= 0 ? '#6ec496' : '#e07868';
+  ctx.font = 'bold 16px "DM Mono", monospace';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(pct + '%', cx, cy - 4);
+  ctx.fillStyle = '#9a9488';
+  ctx.font = '9px sans-serif';
+  ctx.fillText('手取り率', cx, cy + 12);
 
   document.getElementById('eqDebt').textContent = fmtMan(debt);
   document.getElementById('eqCost').textContent = fmtMan(sCost);
-  document.getElementById('eqValue').textContent = fmtMan(value);
-  const diff = value - debt - sCost; // 含み損に売却費用も含む
-  const resultEl = document.getElementById('eqResult');
-  const labelEl = document.getElementById('eqResultLabel');
-  if (diff >= 0) {
-    labelEl.textContent = '含み益'; labelEl.style.color = 'var(--safe)';
-    resultEl.textContent = '+' + fmtMan(diff); resultEl.style.color = 'var(--safe)';
+  const eqTaxRow = document.getElementById('eqTaxRow');
+  if (tax > 0) {
+    document.getElementById('eqTax').textContent = fmtMan(tax);
+    eqTaxRow.style.display = '';
   } else {
-    labelEl.textContent = '含み損'; labelEl.style.color = 'var(--danger)';
-    resultEl.textContent = fmtMan(diff); resultEl.style.color = 'var(--danger)';
+    eqTaxRow.style.display = 'none';
+  }
+  document.getElementById('eqNet').textContent = (netProceeds >= 0 ? '+' : '') + fmtMan(netProceeds);
+  document.getElementById('eqNet').style.color = netProceeds >= 0 ? 'var(--safe)' : 'var(--danger)';
+
+  // Depreciation impact
+  const depRow = document.getElementById('eqDepRow');
+  if (taxDiffByDep > 0) {
+    depRow.style.display = '';
+    document.getElementById('eqDepImpact').textContent = '+' + fmtMan(taxDiffByDep);
+  } else {
+    depRow.style.display = 'none';
   }
 }
 

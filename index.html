@@ -28,115 +28,70 @@
     --interest: #e07868;
     --principal: #d4b478;
     --info: #6a9ed8;
-    --radius: 10px;
-    --radius-sm: 6px;
+    --radius: 12px;
+    --radius-sm: 8px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 105%; }
+  html { font-size: 100%; }
   body {
     background: var(--bg);
     color: var(--text);
     font-family: 'Noto Serif JP', serif;
     min-height: 100vh;
-    padding: 20px 8px 48px;
-    max-width: 680px;
+    padding: 16px 12px 60px;
+    max-width: 640px;
     margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
   }
 
   /* ── Header ── */
   .header {
-    position: relative; margin-bottom: 28px;
-    padding: 36px 8px 30px;
-    border-bottom: 1px solid var(--border);
-    overflow: hidden;
-  }
-  /* Blueprint grid background */
-  .header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(212,180,120,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(212,180,120,0.04) 1px, transparent 1px);
-    background-size: 32px 32px;
-    mask-image: radial-gradient(ellipse 80% 100% at 50% 50%, black 40%, transparent 100%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 100% at 50% 50%, black 40%, transparent 100%);
-  }
-  /* Corner brackets */
-  .header::after {
-    content: '';
-    position: absolute; inset: 12px;
-    border: 1px solid rgba(212,180,120,0.15);
-    border-radius: 4px;
-    pointer-events: none;
-  }
-  .header-inner {
-    position: relative; text-align: center;
+    position: relative; margin-bottom: 20px;
+    padding: 20px 4px 16px;
+    text-align: center;
   }
   .header-eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: 0.6rem; color: var(--accent); letter-spacing: 0.22em;
-    text-transform: uppercase; margin-bottom: 14px;
-    padding: 4px 14px; border: 1px solid rgba(212,180,120,0.25);
-    border-radius: 2px; background: rgba(212,180,120,0.05);
-  }
-  .header-eyebrow::before, .header-eyebrow::after {
-    content: '◆'; font-size: 0.4rem; opacity: 0.6;
+    display: inline-block;
+    font-size: 0.6rem; color: var(--muted); letter-spacing: 0.3em;
+    text-transform: uppercase; margin-bottom: 6px;
   }
   .header h1 {
-    font-size: 1.9rem; font-weight: 300; letter-spacing: 0.2em;
-    line-height: 1;
+    font-size: 1.5rem; font-weight: 300; letter-spacing: 0.15em;
+    line-height: 1.2;
     background: linear-gradient(135deg, #e8c98a 0%, #f5f0d8 45%, #c8a060 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 10px;
-  }
-  .header-rule {
-    display: flex; align-items: center; gap: 10px;
-    margin: 12px auto; max-width: 280px;
-  }
-  .header-rule::before, .header-rule::after {
-    content: ''; flex: 1; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(212,180,120,0.4), transparent);
-  }
-  .header-rule-dot {
-    width: 4px; height: 4px; border-radius: 50%;
-    background: var(--accent); opacity: 0.7;
+    margin-bottom: 4px;
   }
   .header p {
-    color: var(--muted); font-size: 0.7rem; letter-spacing: 0.12em;
-    text-transform: uppercase;
+    color: var(--muted); font-size: 0.7rem; letter-spacing: 0.06em;
   }
-  /* Corner decorations */
-  .header-corner {
-    position: absolute; width: 14px; height: 14px;
-  }
-  .header-corner.tl { top: 12px; left: 12px; border-top: 1.5px solid rgba(212,180,120,0.5); border-left: 1.5px solid rgba(212,180,120,0.5); }
-  .header-corner.tr { top: 12px; right: 12px; border-top: 1.5px solid rgba(212,180,120,0.5); border-right: 1.5px solid rgba(212,180,120,0.5); }
-  .header-corner.bl { bottom: 0px; left: 12px; border-bottom: 1.5px solid rgba(212,180,120,0.5); border-left: 1.5px solid rgba(212,180,120,0.5); }
-  .header-corner.br { bottom: 0px; right: 12px; border-bottom: 1.5px solid rgba(212,180,120,0.5); border-right: 1.5px solid rgba(212,180,120,0.5); }
 
   /* ── Cards ── */
   .card {
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 18px 12px;  margin-bottom: 14px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    border-radius: var(--radius); padding: 20px 16px; margin-bottom: 12px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.2);
   }
   .card-title {
-    font-size: 0.68rem; color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase;
-    margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    font-size: 0.78rem; color: var(--accent); letter-spacing: 0.06em;
+    margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
     display: flex; justify-content: space-between; align-items: center; gap: 8px;
   }
 
   /* ── Forms ── */
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-grid { display: flex; flex-wrap: wrap; gap: 14px 12px; }
+  .form-grid > .form-group { flex: 0 0 calc((100% - 12px) / 2); max-width: calc((100% - 12px) / 2); }
 
-  .form-group { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
-  .form-group label { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; min-width: 0; overflow: hidden; }
+  .form-group label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.02em; }
   .form-group input, .form-group select {
     background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius-sm);
-    color: var(--text); padding: 9px 11px; font-family: 'DM Mono', monospace;
-    font-size: 0.88rem; outline: none; transition: border-color 0.2s, background 0.2s;
-    width: 100%; box-sizing: border-box; -webkit-appearance: none;
+    color: var(--text); padding: 11px 12px; font-family: 'DM Mono', monospace;
+    font-size: 0.9rem; outline: none; transition: border-color 0.2s, background 0.2s;
+    width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;
+    -webkit-appearance: none; -moz-appearance: none; appearance: none;
+    min-width: 0 !important;
   }
   .form-group input:focus, .form-group select:focus {
     border-color: var(--accent); background: var(--surface3);
@@ -145,100 +100,119 @@
 
   .checkbox-group {
     display: flex; align-items: flex-start; gap: 10px; margin-top: 6px;
-    padding: 10px 12px; background: rgba(200,169,110,0.04);
+    padding: 12px 14px; background: rgba(200,169,110,0.03);
     border-radius: var(--radius-sm); border: 1px solid var(--border);
   }
   .checkbox-group input[type="checkbox"] { width: auto; margin: 2px 0 0; flex-shrink: 0; cursor: pointer; }
-  .checkbox-group label { font-size: 0.78rem; color: var(--text2); cursor: pointer; line-height: 1.4; }
-  .rule-desc { font-size: 0.67rem; color: var(--muted); margin: 4px 0 0 22px; line-height: 1.5; }
+  .checkbox-group label { font-size: 0.8rem; color: var(--text2); cursor: pointer; line-height: 1.4; }
+  .rule-desc { font-size: 0.7rem; color: var(--muted); margin: 4px 0 0 22px; line-height: 1.5; }
 
   /* ── Buttons ── */
   .btn {
     background: var(--accent); color: #0d0c0a; border: none; border-radius: var(--radius-sm);
-    padding: 11px 24px; font-family: 'Noto Serif JP', serif; font-size: 0.88rem;
+    padding: 12px 24px; font-family: 'Noto Serif JP', serif; font-size: 0.88rem;
     font-weight: 600; cursor: pointer; transition: background 0.18s, transform 0.1s;
-    width: 100%; margin-top: 12px; letter-spacing: 0.05em;
+    width: 100%; margin-top: 14px; letter-spacing: 0.04em;
   }
   .btn:hover { background: var(--accent2); }
   .btn:active { transform: scale(0.98); }
   .btn-outline {
     background: transparent; border: 1px solid var(--border2); color: var(--text2);
-    border-radius: var(--radius-sm); padding: 7px 14px; font-family: 'Noto Serif JP', serif;
-    font-size: 0.75rem; cursor: pointer; transition: all 0.18s; width: 100%;
+    border-radius: var(--radius-sm); padding: 10px 14px; font-family: 'Noto Serif JP', serif;
+    font-size: 0.8rem; cursor: pointer; transition: all 0.18s; width: 100%;
     text-align: left;
   }
-  .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: rgba(200,169,110,0.05); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: rgba(200,169,110,0.04); }
 
   /* ── Banner ── */
   .total-cost-banner {
-    background: linear-gradient(135deg, rgba(200,169,110,0.12), rgba(200,169,110,0.06));
-    border: 1px solid rgba(200,169,110,0.35);
-    border-radius: var(--radius); padding: 18px 16px; margin-bottom: 14px; text-align: center;
+    background: var(--surface);
+    border: 1px solid rgba(200,169,110,0.25);
+    border-radius: var(--radius); padding: 24px 20px 16px; margin-bottom: 12px; text-align: center;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.2);
   }
-  .total-cost-label { font-size: 0.7rem; color: var(--accent); margin-bottom: 6px; letter-spacing: 0.1em; }
+
+  /* ── Detail Toggle ── */
+  .detail-toggle {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(200,169,110,0.15);
+    cursor: pointer; color: var(--muted); font-size: 0.72rem;
+    transition: color 0.2s; user-select: none; -webkit-user-select: none;
+  }
+  .detail-toggle:hover { color: var(--accent); }
+  .detail-toggle-icon {
+    font-size: 0.6rem; transition: transform 0.25s ease;
+  }
+  .detail-toggle-icon.open { transform: rotate(180deg); }
+  .detail-section {
+    animation: fadeIn 0.3s ease;
+  }
+  .total-cost-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.08em; }
   .total-cost-value { font-family: 'DM Mono', monospace; font-size: 2rem; color: var(--accent2); font-weight: 500; line-height: 1; }
-  .total-cost-detail { font-size: 0.72rem; color: var(--muted); margin-top: 8px; }
+  .total-cost-detail { font-size: 0.75rem; color: var(--muted); margin-top: 10px; }
   .total-cost-detail span { color: var(--text2); font-weight: 500; }
 
   /* ── Stats ── */
   .stats-section-label {
-    font-size: 0.65rem; color: var(--muted); margin: 14px 0 8px 2px;
-    padding-left: 8px; border-left: 2px solid var(--accent); letter-spacing: 0.06em;
+    font-size: 0.68rem; color: var(--muted); margin: 16px 0 10px 0;
+    padding-left: 10px; border-left: 2px solid var(--accent); letter-spacing: 0.04em;
+    font-weight: 600;
   }
-  .stats-grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 10px; }
-  @media (max-width: 580px) { .stats-grid-4 { grid-template-columns: repeat(2,1fr); } }
-  .stats-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 10px; }
+  .stats-grid-4 { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 12px; }
+  .stats-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 12px; }
+  @media (min-width: 520px) { .stats-grid-4 { grid-template-columns: repeat(4,1fr); } }
 
   .stat-box {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm);
-    padding: 12px 6px 10px; text-align: center; display: flex; flex-direction: column;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 14px 10px 12px; text-align: center; display: flex; flex-direction: column;
   }
-  .stat-label { font-size: 0.65rem; color: #c0bab2; font-weight: 700; margin-bottom: 8px; line-height: 1.4; min-height: 2.7em; display:flex; align-items:center; justify-content:center; letter-spacing: 0.02em; }
-  .stat-value { font-family: 'DM Mono', monospace; font-size: 0.95rem; color: var(--text); font-weight: 500; min-height: 1.3em; display:flex; align-items:center; justify-content:center; }
+  .stat-label { font-size: 0.68rem; color: var(--muted); font-weight: 600; margin-bottom: 6px; line-height: 1.4; min-height: 1.4em; display:flex; align-items:center; justify-content:center; letter-spacing: 0.02em; }
+  .stat-value { font-family: 'DM Mono', monospace; font-size: 1.05rem; color: var(--text); font-weight: 500; min-height: 1.3em; display:flex; align-items:center; justify-content:center; }
   .stat-value.accent { color: var(--accent2); }
   .stat-value.danger { color: var(--danger); }
-  .stat-sub { font-size: 0.62rem; color: #a8a39a; margin-top: auto; padding-top: 6px; line-height: 1.35; min-height: 2.4em; }
+  .stat-sub { font-size: 0.62rem; color: #a8a39a; margin-top: auto; padding-top: 5px; line-height: 1.35; }
 
   /* ── Progress ── */
-  .progress-bar { background: var(--surface3); border-radius: 3px; height: 5px; overflow: hidden; margin: 12px 0 6px; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 3px; transition: width 0.6s ease; }
-  .progress-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted); }
+  .progress-bar { background: var(--surface3); border-radius: 4px; height: 6px; overflow: hidden; margin: 12px 0 8px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 4px; transition: width 0.6s ease; }
+  .progress-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); }
 
   /* ── Tabs ── */
-  .tabs { display: flex; gap: 3px; margin-bottom: 14px; background: var(--surface2); border-radius: var(--radius-sm); padding: 3px; }
+  .tabs { display: flex; gap: 2px; margin-bottom: 16px; background: var(--surface2); border-radius: var(--radius-sm); padding: 3px; border: 1px solid var(--border); }
   .tab {
-    flex: 1; padding: 7px 4px; background: transparent; border: none; border-radius: 4px;
-    color: var(--muted); cursor: pointer; font-size: 0.68rem; text-align: center;
+    flex: 1; padding: 8px 4px; background: transparent; border: none; border-radius: 6px;
+    color: var(--muted); cursor: pointer; font-size: 0.72rem; text-align: center;
     transition: all 0.18s; font-family: 'Noto Serif JP', serif;
   }
-  .tab.active { background: var(--surface); color: var(--accent2); font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
-  .tab:hover:not(.active) { color: var(--text2); }
+  .tab.active { background: var(--accent); color: #0d0c0a; font-weight: 600; }
+  .tab:hover:not(.active) { color: var(--text2); background: rgba(255,255,255,0.03); }
 
-  .tools-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 14px; }
-  .tools-tab { flex: 1; padding: 9px 4px; text-align: center; font-size: 0.72rem; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.18s; }
+  .tools-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 16px; gap: 4px; }
+  .tools-tab { flex: 1; padding: 10px 4px; text-align: center; font-size: 0.78rem; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.18s; }
   .tools-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
 
   /* ── Table ── */
   .table-wrap { overflow-y: auto; max-height: 420px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
   table { width: 100%; table-layout: fixed; border-collapse: collapse; }
   th {
-    background: var(--surface3); padding: 9px 6px; text-align: center; color: #9a9590;
-    font-weight: 600; font-size: 0.58rem; position: sticky; top: 0; z-index: 1;
-    white-space: nowrap; overflow: hidden; letter-spacing: 0.03em;
+    background: var(--surface3); padding: 10px 6px; text-align: center; color: var(--muted);
+    font-weight: 600; font-size: 0.65rem; position: sticky; top: 0; z-index: 1;
+    white-space: nowrap; overflow: hidden; letter-spacing: 0.02em;
+    border-right: 1px solid var(--border);
   }
   th:first-child { text-align: center; padding-left: 6px; }
-  th:last-child { padding-right: 10px; }
+  th:last-child { padding-right: 10px; border-right: none; }
   td {
     padding: 7px 6px; text-align: right; border-bottom: 1px solid var(--border);
     font-family: 'DM Mono', monospace; font-size: 0.64rem; color: #e8e4da;
-    overflow: hidden;
+    overflow: hidden; border-right: 1px solid var(--border);
   }
   td:first-child {
     text-align: left; color: #b8b4ac; font-family: 'Noto Serif JP', serif;
     font-size: 0.6rem; padding-left: 10px; overflow: hidden;
     white-space: normal; word-break: keep-all;
   }
-  td:last-child { padding-right: 10px; }
+  td:last-child { padding-right: 10px; border-right: none; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: rgba(255,255,255,0.025); }
   tr.highlight td { background: rgba(200,169,110,0.09); }
@@ -260,34 +234,34 @@
     gap: 10px; margin-bottom: 10px;
   }
   .rate-section-title {
-    font-size: 0.78rem; color: var(--accent); font-weight: 600;
+    font-size: 0.82rem; color: var(--accent); font-weight: 600;
     white-space: nowrap; flex-shrink: 0;
   }
   .rate-section-add-btn {
     background: var(--surface3); border: 1px solid var(--border2); color: var(--accent);
-    border-radius: var(--radius-sm); padding: 6px 14px; font-family: 'Noto Serif JP', serif;
-    font-size: 0.75rem; cursor: pointer; transition: all 0.18s; white-space: nowrap;
+    border-radius: var(--radius-sm); padding: 8px 16px; font-family: 'Noto Serif JP', serif;
+    font-size: 0.78rem; cursor: pointer; transition: all 0.18s; white-space: nowrap;
     flex-shrink: 0;
   }
-  .rate-section-add-btn:hover { background: rgba(200,169,110,0.12); border-color: var(--accent); }
+  .rate-section-add-btn:hover { background: rgba(200,169,110,0.1); border-color: var(--accent); }
   .rate-change-item {
-    display: flex; align-items: center; gap: 8px; padding: 10px 12px; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 10px; padding: 12px 14px; margin-bottom: 6px;
     background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm);
   }
   .rate-item-main { flex: 1; display: flex; flex-direction: column; gap: 3px; }
-  .rate-item-date { font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--text); }
-  .rate-item-val { font-size: 0.68rem; color: var(--safe); }
+  .rate-item-date { font-family: 'DM Mono', monospace; font-size: 0.86rem; color: var(--text); }
+  .rate-item-val { font-size: 0.72rem; color: var(--safe); }
   .rate-add-form {
     display: none; background: var(--surface2); border: 1px solid var(--accent);
-    border-radius: var(--radius-sm); padding: 14px; margin: 8px 0;
+    border-radius: var(--radius-sm); padding: 16px; margin: 8px 0;
   }
   .rate-actions { display: flex; gap: 6px; }
 
 
   /* ── Misc small components ── */
   .btn-sm {
-    background: var(--surface3); border: 1px solid var(--border2); border-radius: 4px;
-    color: var(--muted); padding: 5px 10px; font-size: 0.7rem; cursor: pointer;
+    background: var(--surface3); border: 1px solid var(--border2); border-radius: var(--radius-sm);
+    color: var(--muted); padding: 6px 12px; font-size: 0.72rem; cursor: pointer;
     transition: all 0.18s; font-family: 'Noto Serif JP', serif;
   }
   .btn-sm.edit:hover { border-color: var(--accent); color: var(--accent); }
@@ -295,23 +269,23 @@
 
   .chart-wrapper { position: relative; height: 240px; width: 100%; }
   canvas { display: block; width: 100%; }
-  .empty-state { text-align: center; color: var(--muted); padding: 20px; font-size: 0.82rem; }
-  .save-notice { font-size: 0.68rem; color: var(--safe); margin-top: 8px; text-align: center; display: none; }
+  .empty-state { text-align: center; color: var(--muted); padding: 20px; font-size: 0.85rem; }
+  .save-notice { font-size: 0.72rem; color: var(--safe); margin-top: 8px; text-align: center; display: none; }
   #results { display: none; }
   #results.visible { display: block; }
 
   .badge-warn {
-    display: inline-block; background: rgba(192,104,88,0.12); color: var(--danger);
-    padding: 2px 5px; border-radius: 3px; font-size: 0.6rem; border: 1px solid rgba(192,104,88,0.4);
+    display: inline-block; background: rgba(192,104,88,0.1); color: var(--danger);
+    padding: 3px 8px; border-radius: 4px; font-size: 0.65rem; border: 1px solid rgba(192,104,88,0.35);
   }
   .badge-rule {
-    display: inline-block; background: rgba(94,160,130,0.12); color: var(--safe);
-    padding: 2px 5px; border-radius: 3px; font-size: 0.6rem; border: 1px solid rgba(94,160,130,0.4);
+    display: inline-block; background: rgba(94,160,130,0.1); color: var(--safe);
+    padding: 3px 8px; border-radius: 4px; font-size: 0.65rem; border: 1px solid rgba(94,160,130,0.35);
   }
   .deferred-interest {
-    color: var(--danger); font-size: 0.73rem; margin-top: 8px; padding: 8px 12px;
-    border: 1px solid rgba(192,104,88,0.4); border-radius: var(--radius-sm);
-    background: rgba(192,104,88,0.06); display: none;
+    color: var(--danger); font-size: 0.78rem; margin-top: 8px; padding: 10px 14px;
+    border: 1px solid rgba(192,104,88,0.35); border-radius: var(--radius-sm);
+    background: rgba(192,104,88,0.05); display: none;
   }
 
   .tool-content { display: none; animation: fadeIn 0.25s ease; }
@@ -319,17 +293,17 @@
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
   .tool-summary {
-    background: rgba(94,160,130,0.08); border: 1px solid rgba(94,160,130,0.3);
-    border-radius: var(--radius-sm); padding: 14px; margin-top: 14px; text-align: center;
+    background: rgba(94,160,130,0.06); border: 1px solid rgba(94,160,130,0.25);
+    border-radius: var(--radius-sm); padding: 16px; margin-top: 16px; text-align: center;
   }
-  .tool-summary-label { font-size: 0.68rem; color: var(--safe); margin-bottom: 5px; letter-spacing: 0.04em; }
-  .tool-summary-val { font-size: 1.18rem; font-family: 'DM Mono', monospace; color: var(--text); }
+  .tool-summary-label { font-size: 0.72rem; color: var(--safe); margin-bottom: 6px; letter-spacing: 0.03em; font-weight: 600; }
+  .tool-summary-val { font-size: 1.25rem; font-family: 'DM Mono', monospace; color: var(--text); }
 
-  .refi-row { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 7px 0; font-size: 0.78rem; }
+  .refi-row { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 9px 0; font-size: 0.82rem; }
   .refi-row span:last-child { font-family: 'DM Mono', monospace; }
   .refi-row.has-sub { border-bottom: none; padding-bottom: 3px; }
-  .refi-row.sub { border-bottom: none; padding: 2px 0 2px 12px; font-size: 0.7rem; color: var(--muted); }
-  .refi-row.sub-last { border-bottom: 1px solid var(--border); padding-bottom: 7px; }
+  .refi-row.sub { border-bottom: none; padding: 3px 0 3px 12px; font-size: 0.74rem; color: var(--muted); }
+  .refi-row.sub-last { border-bottom: 1px solid var(--border); padding-bottom: 9px; }
   .refi-diff { font-weight: bold; }
   .refi-diff.plus { color: var(--safe); }
   .refi-diff.minus { color: var(--danger); }
@@ -343,25 +317,25 @@
   .tax-reduced { background: rgba(82,130,184,0.12); color: var(--info);  border: 1px solid rgba(82,130,184,0.4); }
   .tax-zero { background: rgba(212,180,120,0.12); color: var(--accent); border: 1px solid rgba(212,180,120,0.35); }
 
-  .calc-breakdown { margin-top: 18px; position: relative; }
+  .calc-breakdown { margin-top: 20px; position: relative; }
   .calc-breakdown::before {
-    content:''; position:absolute; left:10px; top:30px; bottom:80px; width:2px;
+    content:''; position:absolute; left:11px; top:30px; bottom:80px; width:2px;
     background: linear-gradient(180deg, var(--accent) 0%, var(--info) 35%, var(--danger) 65%, var(--safe) 100%);
-    opacity: 0.30; border-radius:1px;
+    opacity: 0.25; border-radius:1px;
   }
 
   .step-box {
-    position:relative; margin-left:36px; margin-bottom:0; padding:14px 16px 16px;
+    position:relative; margin-left:36px; margin-bottom:0; padding:16px 18px 18px;
     background: var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm);
   }
-  .step-box + .step-box { margin-top:6px; }
+  .step-box + .step-box { margin-top:8px; }
   .step-connector {
     display:flex; align-items:center; justify-content:center;
-    height:18px; width:22px; color:var(--border2); font-size:0.55rem;
+    height:20px; width:22px; color:var(--border2); font-size:0.55rem;
   }
 
   .step-num {
-    position:absolute; left:-36px; top:14px;
+    position:absolute; left:-36px; top:16px;
     width:22px; height:22px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
     font-size:0.6rem; font-weight:700; flex-shrink:0;
@@ -373,8 +347,8 @@
   .step-num.s4 { background:var(--safe); border-color:var(--safe); color:#fff; }
 
   .step-title {
-    font-size:0.68rem; font-weight:600; margin-bottom:10px;
-    display:flex; align-items:center; gap:6px; letter-spacing:0.03em;
+    font-size:0.72rem; font-weight:600; margin-bottom:10px;
+    display:flex; align-items:center; gap:6px; letter-spacing:0.02em;
   }
   .step-title.c1 { color:var(--accent); }
   .step-title.c2 { color:var(--info); }
@@ -383,77 +357,77 @@
 
   .step-row {
     display:flex; justify-content:space-between; align-items:baseline;
-    padding:4px 0; font-size:0.72rem; color:var(--text2);
+    padding:5px 0; font-size:0.76rem; color:var(--text2);
   }
-  .step-row.sub { padding-left:10px; font-size:0.66rem; color:var(--muted); }
+  .step-row.sub { padding-left:10px; font-size:0.7rem; color:var(--muted); }
   .step-row.sub .step-sign { display:inline-block; width:14px; text-align:center; color:var(--muted); font-weight:600; }
   .step-row span:last-child { font-family:'DM Mono',monospace; text-align:right; min-width:80px; white-space:nowrap; }
   .step-row.result {
     border-top:1px solid var(--border2); margin-top:8px; padding-top:8px;
-    font-weight:700; font-size:0.78rem;
+    font-weight:700; font-size:0.82rem;
   }
   .step-row.result.positive { color:var(--safe); }
   .step-row.result.negative { color:var(--danger); }
   .step-row.result.gold { color:var(--accent2); }
 
   .step-detail {
-    margin:4px 0 2px 10px; padding:8px 10px;
-    background:rgba(212,180,120,0.04); border-left:2px solid rgba(212,180,120,0.2);
-    border-radius:0 4px 4px 0; font-size:0.58rem; color:var(--muted); line-height:1.6;
+    margin:6px 0 2px 10px; padding:10px 12px;
+    background:rgba(212,180,120,0.03); border-left:2px solid rgba(212,180,120,0.15);
+    border-radius:0 var(--radius-sm) var(--radius-sm) 0; font-size:0.65rem; color:var(--muted); line-height:1.6;
   }
   .step-badge {
-    display:inline-flex; align-items:center; gap:4px; padding:3px 10px;
-    border-radius:20px; font-size:0.65rem; font-weight:600;
+    display:inline-flex; align-items:center; gap:4px; padding:4px 12px;
+    border-radius:20px; font-size:0.68rem; font-weight:600;
   }
   .step-badge.safe { background:rgba(110,196,150,0.12); color:var(--safe); border:1px solid rgba(110,196,150,0.25); }
   .step-badge.danger { background:rgba(224,120,104,0.12); color:var(--danger); border:1px solid rgba(224,120,104,0.25); }
   .step-badge.info { background:rgba(106,158,216,0.12); color:var(--info); border:1px solid rgba(106,158,216,0.25); }
 
   .step-final {
-    position:relative; margin-left:36px; margin-top:6px; padding:16px 18px;
-    background: linear-gradient(135deg, rgba(110,196,150,0.08), rgba(110,196,150,0.03));
-    border:1px solid rgba(110,196,150,0.35); border-radius:var(--radius);
+    position:relative; margin-left:36px; margin-top:8px; padding:18px 20px;
+    background: linear-gradient(135deg, rgba(110,196,150,0.06), rgba(110,196,150,0.02));
+    border:1px solid rgba(110,196,150,0.3); border-radius:var(--radius);
   }
-  .step-final .step-row.result { border-top:none; margin-top:4px; padding-top:0; font-size:1.05rem; }
-  .step-final-items { display:grid; grid-template-columns:1fr 1fr; gap:2px 12px; margin-bottom:4px; }
-  .step-final-item { display:flex; justify-content:space-between; font-size:0.64rem; color:var(--muted); padding:3px 0; }
+  .step-final .step-row.result { border-top:none; margin-top:4px; padding-top:0; font-size:1.1rem; }
+  .step-final-items { display:grid; grid-template-columns:1fr 1fr; gap:2px 14px; margin-bottom:4px; }
+  .step-final-item { display:flex; justify-content:space-between; font-size:0.68rem; color:var(--muted); padding:3px 0; }
   .step-final-item span:last-child { font-family:'DM Mono',monospace; color:var(--text2); }
 
   /* ── Depreciation comparison card ── */
   .dep-card {
-    margin:14px 0 4px; border-radius:var(--radius-sm); overflow:hidden;
+    margin:16px 0 4px; border-radius:var(--radius-sm); overflow:hidden;
     border:1px solid var(--border2);
   }
   .dep-card-header {
-    padding:9px 14px; font-size:0.66rem; font-weight:600; color:var(--accent);
+    padding:10px 14px; font-size:0.7rem; font-weight:600; color:var(--accent);
     background:var(--surface3); display:flex; align-items:center; gap:6px;
     border-bottom:1px solid var(--border);
   }
   .dep-cols { display:grid; grid-template-columns:1fr 1fr; }
-  .dep-col { padding:10px 12px; }
+  .dep-col { padding:12px 14px; }
   .dep-col.before { background:var(--surface2); }
-  .dep-col.after { background:rgba(224,120,104,0.04); }
+  .dep-col.after { background:rgba(224,120,104,0.03); }
   .dep-col-title {
-    font-size:0.58rem; font-weight:600; text-align:center;
+    font-size:0.62rem; font-weight:600; text-align:center;
     padding-bottom:8px; margin-bottom:8px; border-bottom:1px solid var(--border);
-    letter-spacing:0.03em;
+    letter-spacing:0.02em;
   }
   .dep-col.before .dep-col-title { color:var(--muted); }
   .dep-col.after .dep-col-title { color:var(--danger); }
   .dep-col-row {
     display:flex; justify-content:space-between; align-items:baseline;
-    padding:3px 0; font-size:0.6rem; color:var(--muted);
+    padding:3px 0; font-size:0.65rem; color:var(--muted);
   }
   .dep-col-row span:last-child {
-    font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--text2);
+    font-family:'DM Mono',monospace; font-size:0.67rem; color:var(--text2);
     text-align:right; min-width:55px;
   }
   .dep-col-row.changed span:last-child { color:var(--danger); font-weight:600; }
   .dep-col-row.result-row {
     margin-top:6px; padding-top:6px; border-top:1px dashed var(--border2);
-    font-weight:600; font-size:0.64rem;
+    font-weight:600; font-size:0.68rem;
   }
-  .dep-col-row.result-row span:last-child { font-size:0.7rem; }
+  .dep-col-row.result-row span:last-child { font-size:0.74rem; }
   .dep-col.before .dep-col-row.result-row span:last-child { color:var(--text); }
   .dep-col.after .dep-col-row.result-row span:last-child { color:var(--danger); }
   .dep-col-divider {
@@ -461,77 +435,110 @@
     background:var(--border2);
   }
   .dep-bottom {
-    padding:10px 14px; background:var(--surface3);
+    padding:12px 14px; background:var(--surface3);
     border-top:1px solid var(--border); display:flex; flex-direction:column; gap:4px;
   }
   .dep-bottom-row {
     display:flex; justify-content:space-between; align-items:center;
-    font-size:0.64rem;
+    font-size:0.68rem;
   }
   .dep-bottom-row .dep-label { color:var(--text2); }
   .dep-bottom-row .dep-val {
-    font-family:'DM Mono',monospace; font-weight:700; font-size:0.78rem;
+    font-family:'DM Mono',monospace; font-weight:700; font-size:0.82rem;
   }
   .dep-bottom-note {
-    font-size:0.56rem; color:var(--muted); line-height:1.5; margin-top:2px;
+    font-size:0.6rem; color:var(--muted); line-height:1.5; margin-top:2px;
   }
 
   /* ── Footer ── */
-  .footer-links { margin-top: 32px; padding: 18px 0 40px; border-top: 1px solid var(--border); text-align: center; }
+  .footer-links { margin-top: 28px; padding: 20px 0 40px; border-top: 1px solid var(--border); text-align: center; }
   .external-link {
     display: inline-flex; align-items: center; gap: 5px;
-    font-size: 0.72rem; color: var(--muted); text-decoration: none; transition: color 0.2s;
+    font-size: 0.75rem; color: var(--muted); text-decoration: none; transition: color 0.2s;
   }
   .external-link:hover { color: var(--accent); }
-  .external-link::before { content: '🔗'; font-size: 0.75rem; }
+  .external-link::before { content: '🔗'; font-size: 0.78rem; }
 
   /* ── Validation ── */
   .field-error { font-size: 0.67rem; color: var(--danger); margin-top: 2px; display: none; }
   .field-error.show { display: block; }
   .input-error { border-color: var(--danger) !important; }
 
+  /* ── Standalone Hints ── */
+  .autofill-badge {
+    display: none; font-size: 0.55rem; color: var(--safe);
+    background: rgba(110,196,150,0.1); border: 1px solid rgba(110,196,150,0.3);
+    padding: 1px 6px; border-radius: 3px; margin-top: 3px;
+    font-weight: 600; letter-spacing: 0.02em; width: fit-content;
+  }
+  .standalone-hint {
+    font-size: 0.68rem; color: var(--info); line-height: 1.6;
+    padding: 10px 12px; margin-top: 10px; margin-bottom: 4px;
+    background: rgba(106,158,216,0.06); border: 1px solid rgba(106,158,216,0.2);
+    border-radius: var(--radius-sm);
+  }
+  .standalone-hint-warn {
+    color: var(--accent); background: rgba(212,180,120,0.06);
+    border-color: rgba(212,180,120,0.25);
+  }
+
   /* ── Prepayment ── */
   .prepay-type-row { display: flex; gap: 8px; margin-bottom: 14px; }
   .prepay-type-btn {
-    flex: 1; padding: 10px 6px; background: var(--surface2); border: 1px solid var(--border2);
-    border-radius: var(--radius-sm); color: var(--muted); cursor: pointer; font-size: 0.75rem;
+    flex: 1; padding: 12px 6px; background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: var(--radius-sm); color: var(--muted); cursor: pointer; font-size: 0.78rem;
     text-align: center; transition: all 0.18s; font-family: 'Noto Serif JP', serif; line-height: 1.4;
   }
   .prepay-type-btn.active {
-    background: rgba(200,169,110,0.1); border-color: var(--accent); color: var(--accent2); font-weight: 600;
+    background: rgba(200,169,110,0.08); border-color: var(--accent); color: var(--accent2); font-weight: 600;
   }
-  .prepay-result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+  .prepay-result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
   .prepay-result-box {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm);
-    padding: 12px; text-align: center;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 14px; text-align: center;
   }
-  .prepay-result-box.highlight { border-color: rgba(94,160,130,0.5); background: rgba(94,160,130,0.06); }
-  .prepay-result-label { font-size: 0.65rem; color: var(--muted); margin-bottom: 6px; }
-  .prepay-result-val { font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--text); }
+  .prepay-result-box.highlight { border-color: rgba(94,160,130,0.4); background: rgba(94,160,130,0.05); }
+  .prepay-result-label { font-size: 0.68rem; color: var(--muted); margin-bottom: 6px; }
+  .prepay-result-val { font-family: 'DM Mono', monospace; font-size: 1.05rem; color: var(--text); }
   .prepay-result-val.green { color: var(--safe); }
   .prepay-result-val.gold { color: var(--accent2); }
 
   /* ── Breakeven box ── */
   .breakeven-box {
-    background: rgba(82,130,184,0.07); border: 1px solid rgba(82,130,184,0.35);
-    border-radius: var(--radius-sm); padding: 14px 16px; margin-top: 12px; display: none;
+    background: rgba(82,130,184,0.06); border: 1px solid rgba(82,130,184,0.3);
+    border-radius: var(--radius-sm); padding: 16px 18px; margin-top: 14px; display: none;
   }
-  .breakeven-label { font-size: 0.68rem; color: var(--info); margin-bottom: 5px; }
-  .breakeven-val { font-family: 'DM Mono', monospace; font-size: 1.05rem; color: var(--text); }
+  .breakeven-label { font-size: 0.72rem; color: var(--info); margin-bottom: 6px; font-weight: 600; }
+  .breakeven-val { font-family: 'DM Mono', monospace; font-size: 1.1rem; color: var(--text); }
 
   /* ── Collapsible ── */
   .collapsible-header {
     display: flex; justify-content: space-between; align-items: center;
     cursor: pointer; user-select: none; -webkit-user-select: none;
-    margin: -18px -12px; padding: 18px 12px;
+    margin: -20px -16px 0 -16px; padding: 20px 16px;
     border-radius: var(--radius) var(--radius) 0 0;
   }
   .collapsible-header:hover { background: rgba(255,255,255,0.02); }
   .collapsible-header:hover .collapse-icon { color: var(--accent2); }
-  .collapse-icon { font-size: 1rem; color: var(--muted); transition: transform 0.25s ease; flex-shrink: 0; margin-left: 8px; }
+  .collapse-icon { font-size: 0.75rem; color: var(--muted); transition: transform 0.25s ease; flex-shrink: 0; margin-left: 8px; }
   .collapse-icon.open { transform: rotate(180deg); }
   .collapsible-body { overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25,0,0.3,1), opacity 0.25s ease; max-height: 0; opacity: 0; pointer-events: none; }
-  .collapsible-body.open { max-height: 3000px; opacity: 1; pointer-events: auto; padding-top: 18px; }
+  .collapsible-body.open { max-height: 3000px; opacity: 1; pointer-events: auto; padding-top: 8px; }
+
+  /* ── Section Nav ── */
+  .section-nav {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+    margin: 16px 0 8px; padding: 0;
+  }
+  .section-nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    padding: 14px 4px 12px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    text-decoration: none; font-size: 0.65rem; color: var(--muted);
+    transition: all 0.2s; letter-spacing: 0.02em; font-weight: 600;
+  }
+  .section-nav-item:hover { border-color: var(--nav-color, var(--accent)); color: var(--nav-color, var(--accent)); background: rgba(255,255,255,0.015); transform: translateY(-1px); }
+  .section-nav-icon { font-size: 1.2rem; line-height: 1; }
 
   /* ── Share notice ── */
   .share-notice { font-size: 0.7rem; color: var(--safe); margin-top: 6px; text-align: center; display: none; }
@@ -548,20 +555,21 @@
 
   /* ── Share Modal ── */
   .share-modal-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8);
     z-index: 2000; align-items: center; justify-content: center; padding: 16px;
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
   }
   .share-modal-overlay.open { display: flex; }
   .share-modal {
     background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius);
-    padding: 20px; width: 100%; max-width: 420px; box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    padding: 24px 20px; width: 100%; max-width: 420px; box-shadow: 0 8px 40px rgba(0,0,0,0.6);
     animation: fadeIn 0.2s ease;
     max-height: 90vh; display: flex; flex-direction: column;
   }
-  .share-modal-title { font-size: 0.8rem; color: var(--accent2); font-weight: 700; margin-bottom: 14px; letter-spacing: 0.06em; flex-shrink: 0; }
+  .share-modal-title { font-size: 0.85rem; color: var(--accent2); font-weight: 700; margin-bottom: 16px; letter-spacing: 0.04em; flex-shrink: 0; }
   .share-preview {
     width: 100%; border-radius: var(--radius-sm); overflow-y: auto; overflow-x: hidden;
-    margin-bottom: 12px; border: 1px solid var(--border);
+    margin-bottom: 14px; border: 1px solid var(--border);
     flex: 1; min-height: 80px; max-height: 50vh;
   }
   .share-preview img { width: 100%; display: block; }
@@ -569,10 +577,10 @@
     height: 120px; display: flex; align-items: center; justify-content: center;
     color: var(--muted); font-size: 0.78rem;
   }
-  .share-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; flex-shrink: 0; }
+  .share-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; flex-shrink: 0; }
   .share-btn {
     display: flex; align-items: center; justify-content: center; gap: 7px;
-    padding: 11px 8px; border-radius: var(--radius-sm); font-family: 'Noto Serif JP', serif;
+    padding: 12px 8px; border-radius: var(--radius-sm); font-family: 'Noto Serif JP', serif;
     font-size: 0.78rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.18s;
   }
   .share-btn.download { background: var(--surface3); color: var(--text2); border: 1px solid var(--border2); }
@@ -580,13 +588,13 @@
   .share-btn.webshare { background: var(--accent); color: #0d0c0a; }
   .share-btn.webshare:hover { background: var(--accent2); }
   .share-btn.xshare { background: #000; color: #fff; border: 1px solid #333; }
-  .share-btn.xshare:hover { background: #111; }
+  .share-btn.xshare:hover { background: #1a1a1a; }
   .share-btn.lineshare { background: #06c755; color: #fff; }
   .share-btn.lineshare:hover { background: #05b34d; }
   .share-modal-close {
-    width: 100%; padding: 9px; background: transparent; border: 1px solid var(--border);
+    width: 100%; padding: 10px; background: transparent; border: 1px solid var(--border);
     color: var(--muted); border-radius: var(--radius-sm); font-family: 'Noto Serif JP', serif;
-    font-size: 0.75rem; cursor: pointer; transition: all 0.18s;
+    font-size: 0.78rem; cursor: pointer; transition: all 0.18s;
   }
   .share-modal-close:hover { border-color: var(--border2); color: var(--text2); }
 
@@ -630,54 +638,49 @@
 
   /* ── Capture Button ── */
   .capture-btn {
-    display: inline-flex; align-items: center; gap: 6px; margin-top: 14px;
-    padding: 8px 16px; background: var(--surface3); border: 1px solid var(--border2);
-    border-radius: var(--radius-sm); color: var(--text2); font-family: 'Noto Serif JP', serif;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px; background: transparent; border: 1px solid var(--border);
+    border-radius: var(--radius-sm); color: var(--muted); font-family: 'Noto Serif JP', serif;
     font-size: 0.72rem; cursor: pointer; transition: all 0.18s; width: auto;
   }
-  .capture-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(212,180,120,0.06); }
+  .capture-btn:hover { border-color: var(--accent); color: var(--accent); }
 
   /* ── B: Today Summary Card ── */
   .today-card {
-    background: linear-gradient(135deg, rgba(212,180,120,0.10), rgba(212,180,120,0.04));
-    border: 1px solid rgba(212,180,120,0.30);
-    border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px;
+    background: var(--surface);
+    border: 1px solid rgba(212,180,120,0.25);
+    border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.2);
   }
-  .today-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-  .today-card-title { font-size:0.65rem; color:var(--accent); letter-spacing:0.15em; text-transform:uppercase; }
-  .today-card-date { font-size:0.62rem; color:var(--muted); font-family:'DM Mono',monospace; }
-  .today-card-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+  .today-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .today-card-title { font-size:0.72rem; color:var(--accent); letter-spacing:0.08em; font-weight:600; }
+  .today-card-date { font-size:0.68rem; color:var(--muted); font-family:'DM Mono',monospace; }
+  .today-card-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
   .today-card-item { text-align:center; }
-  .today-card-label { font-size:0.6rem; color:var(--muted); margin-bottom:4px; }
-  .today-card-val { font-family:'DM Mono',monospace; font-size:1rem; font-weight:500; }
-  .today-card-bar { height:4px; border-radius:2px; background:var(--surface3); margin-top:10px; overflow:hidden; }
-  .today-card-bar-fill { height:100%; border-radius:2px; transition:width 0.6s ease; }
+  .today-card-label { font-size:0.65rem; color:var(--muted); margin-bottom:4px; }
+  .today-card-val { font-family:'DM Mono',monospace; font-size:1.05rem; font-weight:500; }
+  .today-card-bar { height:5px; border-radius:3px; background:var(--surface3); margin-top:12px; overflow:hidden; }
+  .today-card-bar-fill { height:100%; border-radius:3px; transition:width 0.6s ease; }
 
 
 
   /* ── F: Sliders ── */
-  .slider-wrap { padding:0 2px; margin-top:4px; }
-  .slider-wrap input[type="range"] { -webkit-appearance:none; width:100%; height:4px; border-radius:2px; background:var(--surface3); outline:none; cursor:pointer; }
-  .slider-wrap input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--accent); border:2px solid var(--bg); cursor:pointer; }
-  .slider-wrap input[type="range"]::-moz-range-thumb { width:14px; height:14px; border-radius:50%; background:var(--accent); border:2px solid var(--bg); cursor:pointer; }
 
   /* ── A: Yearly Schedule ── */
-  .schedule-mode-btns { display:flex; gap:4px; margin-bottom:10px; }
-  .schedule-mode-btn { padding:5px 12px; font-size:0.68rem; border:1px solid var(--border2); border-radius:4px; background:transparent; color:var(--muted); cursor:pointer; font-family:'Noto Serif JP',serif; transition:all 0.15s; }
+  .schedule-mode-btns { display:flex; gap:4px; margin-bottom:12px; }
+  .schedule-mode-btn { padding:7px 14px; font-size:0.72rem; border:1px solid var(--border2); border-radius:var(--radius-sm); background:transparent; color:var(--muted); cursor:pointer; font-family:'Noto Serif JP',serif; transition:all 0.15s; }
   .schedule-mode-btn.active { background:var(--accent); color:var(--bg); border-color:var(--accent); font-weight:600; }
-  .yearly-header { display:grid; grid-template-columns:1.2fr 1fr 1fr 1fr 1.2fr; gap:0; background:var(--surface3); border-radius:4px 4px 0 0; position:sticky; top:0; z-index:1; }
-  .yearly-header > div { padding:8px 6px; font-size:0.58rem; color:var(--muted); letter-spacing:0.03em; }
-  .yearly-header > div:not(:first-child) { text-align:right; }
-  .yearly-row { display:grid; grid-template-columns:1.2fr 1fr 1fr 1fr 1.2fr; gap:0; border-bottom:1px solid var(--border); font-family:'DM Mono',monospace; font-size:0.68rem; cursor:pointer; transition:background 0.15s; }
-  .yearly-row:hover { background:rgba(255,255,255,0.025); }
-  .yearly-row.hl { background:rgba(200,169,110,0.09); }
-  .yearly-row > div { padding:8px 6px; text-align:right; color:var(--text); overflow:hidden; }
-  .yearly-row > div:first-child { text-align:left; color:var(--muted); font-family:'Noto Serif JP',serif; font-size:0.7rem; }
-  .yearly-months { max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
-  .yearly-months.open { max-height:2000px; }
-  .yearly-months .monthly-sub { display:grid; grid-template-columns:1.2fr 1fr 1fr 1fr 1.2fr; gap:0; font-family:'DM Mono',monospace; font-size:0.62rem; border-bottom:1px solid rgba(56,53,50,0.5); border-left:3px solid var(--accent); margin-left:6px; }
-  .yearly-months .monthly-sub > div { padding:5px 6px; text-align:right; color:var(--text2); }
-  .yearly-months .monthly-sub > div:first-child { text-align:left; color:var(--muted); font-family:'Noto Serif JP',serif; }
+  #scheduleYearly table { width:100%; table-layout:fixed; border-collapse:collapse; }
+  #scheduleYearly th, #scheduleYearly td { border-right:1px solid var(--border); }
+  #scheduleYearly th:last-child, #scheduleYearly td:last-child { border-right:none; }
+  .yearly-row-tr { cursor:pointer; transition:background 0.15s; }
+  .yearly-row-tr:hover { background:rgba(255,255,255,0.02); }
+  .yearly-row-tr.hl { background:rgba(200,169,110,0.08); }
+  .yearly-expand-tr { display:none; }
+  .yearly-expand-tr.open { display:table-row; }
+  .yearly-expand-tr td { padding:0; border-bottom:1px solid rgba(56,53,50,0.5); }
+  .monthly-sub-row { border-left:3px solid var(--accent); }
+  .monthly-sub-row td { padding:5px 6px !important; font-size:0.62rem !important; }
 
   /* ── C: Prepay Compare Chart ── */
   .prepay-chart-wrap { margin-top:14px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; }
@@ -689,10 +692,10 @@
   .refi-advice.neutral { background:rgba(106,158,216,0.08); border:1px solid rgba(106,158,216,0.3); color:var(--info); }
 
   /* ── G: Equity Donut ── */
-  .equity-wrap { display:flex; align-items:center; gap:16px; padding:14px; margin-top:12px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); flex-wrap:wrap; }
+  .equity-wrap { display:flex; align-items:center; gap:18px; padding:16px; margin-top:14px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); flex-wrap:wrap; }
   .equity-wrap canvas { width:100px; height:100px; flex-shrink:0; }
   .equity-info { flex:1; min-width:140px; }
-  .equity-row { display:flex; justify-content:space-between; font-size:0.72rem; padding:4px 0; border-bottom:1px solid var(--border); }
+  .equity-row { display:flex; justify-content:space-between; font-size:0.75rem; padding:5px 0; border-bottom:1px solid var(--border); }
   .equity-row:last-child { border-bottom:none; }
   .equity-row span:last-child { font-family:'DM Mono',monospace; }
 
@@ -709,16 +712,9 @@
 </div>
 
 <div class="header">
-  <div class="header-corner tl"></div>
-  <div class="header-corner tr"></div>
-  <div class="header-corner bl"></div>
-  <div class="header-corner br"></div>
-  <div class="header-inner">
-    <div class="header-eyebrow">MORTGAGE SIMULATOR</div>
-    <h1>住宅ローン管理</h1>
-    <div class="header-rule"><div class="header-rule-dot"></div></div>
-    <p>返済状況・変動金利シミュレーター</p>
-  </div>
+  <div class="header-eyebrow">MORTGAGE SIMULATOR</div>
+  <h1>住宅ローン管理</h1>
+  <p>返済状況・変動金利シミュレーター</p>
 </div>
 
 <div class="card">
@@ -731,17 +727,14 @@
     <div class="form-group">
       <label>借入金額（万円）</label>
       <input type="number" id="principal" value="4700" min="1" inputmode="decimal">
-      <div class="slider-wrap"><input type="range" id="principalSlider" min="500" max="15000" step="100" value="4700"></div>
     </div>
     <div class="form-group">
       <label>当初年利（%）</label>
       <input type="number" id="rate" value="0.25" step="0.001" min="0.01" inputmode="decimal">
-      <div class="slider-wrap"><input type="range" id="rateSlider" min="0.1" max="5.0" step="0.01" value="0.25"></div>
     </div>
     <div class="form-group">
       <label>返済期間（年）</label>
       <input type="number" id="years" value="35" min="1" max="50" inputmode="numeric">
-      <div class="slider-wrap"><input type="range" id="yearsSlider" min="5" max="50" step="1" value="35"></div>
     </div>
     <div class="form-group">
       <label>返済方式</label>
@@ -832,7 +825,26 @@
     <div class="total-cost-detail">
       ( ローン: <span id="detailLoan">0</span> + 管理費等: <span id="detailRun">0</span> )
     </div>
+    <!-- Progress integrated into banner -->
+    <div style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(200,169,110,0.2);">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-labels">
+        <span id="paidAmount">—</span>
+        <span>残高: <span id="remainBalance">—</span></span>
+      </div>
+      <div style="text-align:center; font-size:0.72rem; color:var(--muted); margin-top:6px;">
+        返済進捗 <span style="color:var(--accent2); font-family:'DM Mono',monospace; font-weight:500;" id="progressPct">—</span>
+        ・残り <span style="color:var(--text); font-family:'DM Mono',monospace;" id="remainMonths">—</span>
+      </div>
+    </div>
+    <!-- Toggle for detail section -->
+    <div class="detail-toggle" id="detailToggle" onclick="toggleDetailSection()">
+      <span id="detailToggleLabel">詳細を表示</span>
+      <span class="detail-toggle-icon" id="detailToggleIcon">▼</span>
+    </div>
   </div>
+
+  <div class="detail-section" id="detailSection" style="display:none;">
 
   <!-- B: 今月の返済内訳サマリー -->
   <div class="today-card" id="todayCard" style="display:none;">
@@ -849,46 +861,37 @@
     <div style="display:flex;justify-content:space-between;font-size:0.55rem;color:var(--muted);margin-top:2px;"><span>← 利息</span><span>元金 →</span></div>
   </div>
 
-  <div class="stats-section-label">返済額の比較 (ローンのみ)</div>
+  <div class="stats-section-label">返済額の比較</div>
   <div class="stats-grid-4">
     <div class="stat-box">
       <div class="stat-label">当初 月返済額</div>
       <div class="stat-value" id="statInitial">—</div>
-      <div class="stat-sub">借入開始時のお支払額</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">現在 月返済額</div>
       <div class="stat-value accent" id="statCurrent">—</div>
-      <div class="stat-sub">現在の金利でのお支払額</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">5年・125%ルールが<br>なかった場合</div>
+      <div class="stat-label">ルールなしの場合</div>
       <div class="stat-value" id="statTheoretical" style="color:var(--muted)">—</div>
       <div class="stat-sub" id="statTheoreticalDiff"></div>
     </div>
-    <div class="stat-box" style="border-color:var(--safe); background:rgba(106,170,142,0.05);">
-      <div class="stat-label" style="color:var(--safe)">次回 見直し予定</div>
+    <div class="stat-box" style="border-color:rgba(110,196,150,0.4);">
+      <div class="stat-label" style="color:var(--safe)">次回見直し</div>
       <div class="stat-value" style="color:var(--safe)" id="statNextChange">—</div>
-      <div class="stat-sub" id="statNextChangeDate">5年ルールの次回適用時</div>
+      <div class="stat-sub" id="statNextChangeDate"></div>
     </div>
   </div>
 
-  <div class="stats-section-label">総支払・進捗状況</div>
-  <div class="stats-grid-3">
+  <div class="stats-section-label">総支払</div>
+  <div class="stats-grid-3" style="grid-template-columns:1fr 1fr;">
     <div class="stat-box">
       <div class="stat-label">総利息</div>
       <div class="stat-value danger" id="statTotalInterest">—</div>
-      <div class="stat-sub">全期間で払う利息の合計</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">総支払額</div>
       <div class="stat-value" id="statTotal">—</div>
-      <div class="stat-sub">元金＋利息の最終合計額</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-label">返済進捗</div>
-      <div class="stat-value" id="progressPct">—</div>
-      <div class="stat-sub">当初元金に対する返済済み割合</div>
     </div>
   </div>
 
@@ -896,28 +899,8 @@
     ⚠️ <strong>注意:</strong> 未払利息が発生しています。
   </div>
 
-  <!-- ⑦ セクションナビ -->
-  <div style="display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 6px;justify-content:center;">
-    <a href="#" onclick="event.preventDefault();jumpTo('bodyPrepay')" style="font-size:0.68rem;color:var(--accent);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);">📅 繰り上げ返済</a>
-    <a href="#" onclick="event.preventDefault();jumpTo('bodyRefi')" style="font-size:0.68rem;color:var(--info);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);">🏦 借り換え</a>
-    <a href="#" onclick="event.preventDefault();jumpTo('bodySale')" style="font-size:0.68rem;color:var(--safe);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);">🏠 売却</a>
-    <a href="#" onclick="event.preventDefault();jumpTo('bodyTools')" style="font-size:0.68rem;color:var(--muted);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);">⚙ 控除・設定</a>
-  </div>
-
-  <div style="text-align:right; margin-top:8px; margin-bottom:6px;">
+  <div style="text-align:right; margin-top:8px; margin-bottom:10px;">
     <button class="capture-btn" onclick="openShareModal('summary')">📤 この結果を共有</button>
-  </div>
-
-  <div class="card">
-    <div class="card-title">残高推移</div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-    <div class="progress-labels">
-      <span id="paidAmount">—</span>
-      <span>残高: <span id="remainBalance">—</span></span>
-    </div>
-    <div style="margin-top:12px; font-size:0.78rem; color:var(--muted); text-align:right;">
-      残り期間: <span style="color:var(--text); font-family:'DM Mono',monospace;" id="remainMonths">—</span>
-    </div>
   </div>
 
   <div class="card">
@@ -969,7 +952,7 @@
         <div class="table-wrap">
           <table>
             <caption class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">月別返済予定表</caption>
-            <colgroup><col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:15%"><col style="width:25%"></colgroup>
+            <colgroup><col style="width:17%"><col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:23%"></colgroup>
             <thead><tr><th>年月</th><th>返済額(円)</th><th>元金(円)</th><th>利息(円)</th><th>残高(円)</th></tr></thead>
             <tbody id="scheduleBody"></tbody>
           </table>
@@ -978,13 +961,34 @@
     </div>
   </div>
 
-  <div class="card" style="border-top:3px solid var(--accent2)">
+  </div><!-- /detail-section -->
+
+  <!-- ⑦ セクションナビ -->
+  <div class="section-nav">
+    <a href="#" onclick="event.preventDefault();jumpTo('bodyPrepay')" class="section-nav-item" style="--nav-color:var(--accent2);">
+      <span class="section-nav-icon">📅</span>繰り上げ返済
+    </a>
+    <a href="#" onclick="event.preventDefault();jumpTo('bodyRefi')" class="section-nav-item" style="--nav-color:var(--info);">
+      <span class="section-nav-icon">🏦</span>借り換え
+    </a>
+    <a href="#" onclick="event.preventDefault();jumpTo('bodySale')" class="section-nav-item" style="--nav-color:var(--safe);">
+      <span class="section-nav-icon">🏠</span>売却
+    </a>
+    <a href="#" onclick="event.preventDefault();jumpTo('bodyTools')" class="section-nav-item" style="--nav-color:var(--muted);">
+      <span class="section-nav-icon">⚙</span>控除・設定
+    </a>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--accent2)">
     <div class="card-title collapsible-header" onclick="toggleCard('bodyPrepay')" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyPrepay" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodyPrepay')}">
-      <span>繰り上げ返済シミュレーション</span>
+      <span>📅 繰り上げ返済シミュレーション</span>
       <span class="collapse-icon" id="iconPrepay">▼</span>
     </div>
     <div class="collapsible-body" id="bodyPrepay">
     <p style="font-size:0.75rem; color:var(--muted); margin-bottom:14px; margin-top:4px;">今すぐ繰り上げ返済した場合の効果（利息削減額・期間短縮）を試算します。</p>
+    <div class="standalone-hint standalone-hint-warn" id="prepayNeedCalcHint" style="display:none;">
+      ⚠ 繰り上げ返済シミュレーションは、月ごとの返済スケジュールを使って計算するため、先に上部のローン情報を入力して「計算する」を実行してください。
+    </div>
 
     <div class="prepay-type-row">
       <button class="prepay-type-btn active" id="prepayTypeShorten" onclick="setPrepayType('shorten')">📅 期間短縮型<br><span style="font-size:0.65rem; font-weight:400;">返済期間を縮める</span></button>
@@ -1048,14 +1052,24 @@
     </div><!-- /collapsible-body -->
   </div>
 
-  <div class="card" style="border-top:3px solid var(--info)">
+  <div class="card" style="border-left:3px solid var(--info)">
     <div class="card-title collapsible-header" onclick="toggleCard('bodyRefi')" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyRefi" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodyRefi')}">
-      <span>借り換えシミュレーション</span>
+      <span>🏦 借り換えシミュレーション</span>
       <span class="collapse-icon" id="iconRefi">▼</span>
     </div>
     <div class="collapsible-body" id="bodyRefi">
     <p style="font-size:0.75rem; color:var(--muted); margin-bottom:12px; margin-top:4px;">現在の残高で借り換えた場合の損得を計算します。</p>
     <div class="form-grid">
+      <div class="form-group">
+        <label>現在のローン残高 (万円)</label>
+        <input type="number" id="refiBalance" value="" step="1" inputmode="decimal" placeholder="手入力 or 自動計算">
+        <span class="autofill-badge" id="refiBalanceAuto" style="display:none;">自動入力済</span>
+      </div>
+      <div class="form-group">
+        <label>残り返済期間 (年)</label>
+        <input type="number" id="refiRemainYears" value="" step="1" inputmode="numeric" placeholder="手入力 or 自動計算">
+        <span class="autofill-badge" id="refiRemainYearsAuto" style="display:none;">自動入力済</span>
+      </div>
       <div class="form-group">
         <label>借り換え金利 (%)</label>
         <input type="number" id="refiRate" value="0.4" step="0.001" inputmode="decimal">
@@ -1068,6 +1082,9 @@
         <label>その他諸費用 (万円)</label>
         <input type="number" id="refiFixCost" value="20" placeholder="登記費用など" inputmode="decimal">
       </div>
+    </div>
+    <div class="standalone-hint" id="refiStandaloneHint">
+      💡 上部のローン情報を入力・計算すると、残高と残り期間が自動で反映されます。手入力でも計算できます。
     </div>
     <button class="btn" style="margin-top:12px" onclick="calcRefinance()">シミュレーション実行</button>
     
@@ -1110,15 +1127,15 @@
     </div><!-- /collapsible-body -->
   </div>
 
-  <div class="card" style="border-top:3px solid var(--safe)">
+  <div class="card" style="border-left:3px solid var(--safe)">
     <div class="card-title collapsible-header" onclick="toggleCard('bodySale')" role="button" tabindex="0" aria-expanded="false" aria-controls="bodySale" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodySale')}">
-      <span>売却シミュレーション (手取り額計算)</span>
+      <span>🏠 売却シミュレーション</span>
       <span class="collapse-icon" id="iconSale">▼</span>
     </div>
     <div class="collapsible-body" id="bodySale">
     <p style="font-size:0.75rem; color:var(--muted); margin-bottom:8px; margin-top:4px;">指定した時期のローン残高や税金を差し引き、最終的な手取り額を試算します。</p>
-    <div style="margin-bottom:12px; min-height:20px;">
-      <span id="taxBadge" class="tax-badge" style="display:none;"></span>
+    <div id="taxBadgeWrap" style="margin-bottom:8px; display:none;">
+      <span id="taxBadge" class="tax-badge"></span>
     </div>
     <div class="form-grid">
       <div class="form-group">
@@ -1137,6 +1154,19 @@
         <label>購入時の諸費用 (万円)</label>
         <input type="number" id="purchaseCost" value="300" placeholder="仲介手数料等" inputmode="decimal">
       </div>
+      <div class="form-group">
+        <label>購入年月</label>
+        <input type="month" id="salePurchaseDate" value="">
+        <span class="autofill-badge" id="salePurchaseDateAuto" style="display:none;">自動入力済</span>
+      </div>
+      <div class="form-group">
+        <label>売却時点のローン残高 (万円)</label>
+        <input type="number" id="saleBalance" value="" step="1" inputmode="decimal" placeholder="手入力 or 自動計算">
+        <span class="autofill-badge" id="saleBalanceAuto" style="display:none;">自動入力済</span>
+      </div>
+    </div>
+    <div class="standalone-hint" id="saleStandaloneHint">
+      💡 上部のローン情報を入力・計算すると、購入年月と残高が自動で反映されます。手入力でも計算できます。
     </div>
     <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border);">
       <div style="font-size:0.72rem; color:var(--accent); font-weight:600; margin-bottom:8px;">📐 減価償却（任意）</div>
@@ -1215,9 +1245,9 @@
     </div><!-- /collapsible-body -->
   </div>
 
-  <div class="card" style="border-top:3px solid var(--accent)">
+  <div class="card" style="border-left:3px solid var(--accent)">
     <div class="card-title collapsible-header" onclick="toggleCard('bodyTools')" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyTools" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodyTools')}">
-      <span>住宅ローン控除・設定</span>
+      <span>⚙ 住宅ローン控除・設定</span>
       <span class="collapse-icon" id="iconTools">▼</span>
     </div>
     <div class="collapsible-body" id="bodyTools">
@@ -1394,6 +1424,16 @@ function toggleCard(bodyId) {
   if (icon) icon.classList.toggle('open', !isOpen);
   const header = body.parentElement.querySelector(`[aria-controls="${bodyId}"]`);
   if (header) header.setAttribute('aria-expanded', !isOpen);
+}
+
+function toggleDetailSection() {
+  const section = document.getElementById('detailSection');
+  const label = document.getElementById('detailToggleLabel');
+  const icon = document.getElementById('detailToggleIcon');
+  const isHidden = section.style.display === 'none';
+  section.style.display = isHidden ? 'block' : 'none';
+  label.textContent = isHidden ? '詳細を隠す' : '詳細を表示';
+  icon.classList.toggle('open', isHidden);
 }
 
 // ⑫ saveSettings統合
@@ -1645,9 +1685,64 @@ function calculate(silent = false) {
   document.getElementById('results').classList.add('visible');
   renderYearlySchedule();
   updateTodayCard();
-  syncSliders();
   document.getElementById('deferredWarning').style.display = simResult.hasWarning ? 'block' : 'none';
   renderSchedule(startDate);
+  autoFillStandaloneFields();
+}
+
+function autoFillStandaloneFields() {
+  if (scheduleData.length === 0) return;
+  const today = new Date();
+  const startMoment = new Date(document.getElementById('startDate').value + '-01');
+  let elapsedMonths = (today.getFullYear() - startMoment.getFullYear()) * 12 + (today.getMonth() - startMoment.getMonth()) + 1;
+  if (elapsedMonths < 1) elapsedMonths = 1;
+  if (elapsedMonths > scheduleData.length) elapsedMonths = scheduleData.length;
+  const currentRow = scheduleData[elapsedMonths - 1];
+  const currentBalance = currentRow.balance;
+  const remainMonths = scheduleData.length - elapsedMonths + 1;
+
+  // 借り換え: 残高・残り期間
+  const refiBalEl = document.getElementById('refiBalance');
+  refiBalEl.value = Math.round(currentBalance / 10000);
+  document.getElementById('refiBalanceAuto').style.display = 'inline-block';
+  refiBalEl.addEventListener('input', function() { document.getElementById('refiBalanceAuto').style.display = 'none'; }, { once: true });
+
+  const refiRemainEl = document.getElementById('refiRemainYears');
+  refiRemainEl.value = Math.round(remainMonths / 12 * 10) / 10;
+  document.getElementById('refiRemainYearsAuto').style.display = 'inline-block';
+  refiRemainEl.addEventListener('input', function() { document.getElementById('refiRemainYearsAuto').style.display = 'none'; }, { once: true });
+
+  // 売却: 購入年月
+  const salePurchaseDateEl = document.getElementById('salePurchaseDate');
+  salePurchaseDateEl.value = document.getElementById('startDate').value;
+  document.getElementById('salePurchaseDateAuto').style.display = 'inline-block';
+  salePurchaseDateEl.addEventListener('input', function() { document.getElementById('salePurchaseDateAuto').style.display = 'none'; }, { once: true });
+
+  // 売却: 残高は売却時期に応じて動的に計算する → saleDateの変更時にも更新
+  updateSaleBalance();
+
+  // ヒント非表示
+  document.getElementById('refiStandaloneHint').style.display = 'none';
+  document.getElementById('saleStandaloneHint').style.display = 'none';
+  document.getElementById('prepayNeedCalcHint').style.display = 'none';
+}
+
+function updateSaleBalance() {
+  if (scheduleData.length === 0) return;
+  const saleDateStr = document.getElementById('saleDate').value;
+  if (!saleDateStr) return;
+  const startMoment = new Date(document.getElementById('startDate').value + '-01');
+  const saleMoment = new Date(saleDateStr + '-01');
+  let elapsedMonths = (saleMoment.getFullYear() - startMoment.getFullYear()) * 12 + (saleMoment.getMonth() - startMoment.getMonth());
+  let remainBalance;
+  if (elapsedMonths < 0) remainBalance = parseFloat(document.getElementById('principal').value) * 10000;
+  else if (elapsedMonths >= scheduleData.length) remainBalance = 0;
+  else remainBalance = elapsedMonths === 0 ? parseFloat(document.getElementById('principal').value) * 10000 : scheduleData[elapsedMonths - 1].balance;
+  
+  const saleBalEl = document.getElementById('saleBalance');
+  saleBalEl.value = Math.round(remainBalance / 10000);
+  document.getElementById('saleBalanceAuto').style.display = 'inline-block';
+  saleBalEl.addEventListener('input', function() { document.getElementById('saleBalanceAuto').style.display = 'none'; }, { once: true });
 }
 
 function updateStats(initialP, method, warning) {
@@ -1944,7 +2039,10 @@ function calcPrepayment() {
   const amount = parseFloat(amountEl.value) * 10000;
   if (!amount || amount <= 0) { amountEl.classList.add('input-error'); errEl.classList.add('show'); return; }
   amountEl.classList.remove('input-error'); errEl.classList.remove('show');
-  if (scheduleData.length === 0) return;
+  if (scheduleData.length === 0) {
+    document.getElementById('prepayNeedCalcHint').style.display = 'block';
+    return;
+  }
 
   const today = new Date();
   const startMoment = new Date(document.getElementById('startDate').value + '-01');
@@ -1968,6 +2066,7 @@ function calcPrepayment() {
   if (prepayType === 'shorten') {
     const origPayment = scheduleData[applyIdx].payment;
     let bal = balAfter, newMonths = 0, newInterest = 0;
+    newBalSchedule.push({month: applyIdx, balance: balAfter}); // 繰り上げ直後の残高
     while (bal > 0 && newMonths < 9999) {
       const mIdx = applyIdx + newMonths + 1;
       const rr = getRateForMonth(mIdx); // ③ 金利変動対応
@@ -1975,7 +2074,7 @@ function calcPrepayment() {
       const principal = Math.min(origPayment - interest, bal);
       if (principal <= 0) break;
       newInterest += interest; bal -= principal; newMonths++;
-      if (newMonths % 12 === 0 || bal <= 0) newBalSchedule.push({month: mIdx, balance: bal});
+      if (mIdx % 12 === 11 || bal <= 0) newBalSchedule.push({month: mIdx, balance: bal});
     }
     const shortened = remainMonths - newMonths;
     const savedInterest = oldInterest - newInterest;
@@ -1989,12 +2088,14 @@ function calcPrepayment() {
     const r0 = getRateForMonth(applyIdx + 1);
     const newPayment = r0 > 0 ? Math.floor(balAfter * r0 * Math.pow(1+r0, remainMonths) / (Math.pow(1+r0, remainMonths) - 1)) : Math.floor(balAfter / remainMonths);
     let bal = balAfter, newInterest = 0;
+    newBalSchedule.push({month: applyIdx, balance: balAfter}); // 繰り上げ直後の残高
     for (let mm = 0; mm < remainMonths && bal > 0; mm++) {
-      const rr = getRateForMonth(applyIdx + mm + 1);
+      const mIdx = applyIdx + mm + 1;
+      const rr = getRateForMonth(mIdx);
       const interest = Math.floor(bal * rr);
       const principal = (mm === remainMonths - 1) ? bal : Math.min(newPayment - interest, bal);
       newInterest += interest; bal -= principal;
-      if ((mm + 1) % 12 === 0 || bal <= 0) newBalSchedule.push({month: applyIdx + mm + 1, balance: bal});
+      if (mIdx % 12 === 11 || bal <= 0) newBalSchedule.push({month: mIdx, balance: bal});
     }
     const savedInterest = oldInterest - newInterest;
     const origPayment = scheduleData[applyIdx].payment;
@@ -2018,26 +2119,36 @@ function drawPrepayCompareChart(applyIdx, newBalSchedule) {
   if (prepayCompareChart) prepayCompareChart.destroy();
   if (!newBalSchedule.length) { wrap.style.display='none'; return; }
   wrap.style.display='block';
-  // 年次の元データ
   const labels = [], oldBal = [], newBal = [];
   const startMoment = new Date(document.getElementById('startDate').value + '-01');
-  let ni = 0;
+  let greenStopped = false;
   for (let i = 11; i < scheduleData.length; i += 12) {
     const d = new Date(startMoment); d.setMonth(d.getMonth() + i);
     labels.push(d.getFullYear() + '年');
     oldBal.push(Math.round(scheduleData[i].balance / 10000));
-    // 対応する繰り上げ後データ
-    while (ni < newBalSchedule.length - 1 && newBalSchedule[ni + 1].month <= i + 1) ni++;
-    if (ni < newBalSchedule.length && newBalSchedule[ni].month <= i + 1) newBal.push(Math.round(newBalSchedule[ni].balance / 10000));
-    else if (i + 1 <= applyIdx) newBal.push(Math.round(scheduleData[i].balance / 10000));
-    else newBal.push(0);
+    if (!greenStopped) {
+      if (i < applyIdx) {
+        newBal.push(Math.round(scheduleData[i].balance / 10000));
+      } else {
+        let found = null;
+        for (let j = newBalSchedule.length - 1; j >= 0; j--) {
+          if (newBalSchedule[j].month <= i) { found = newBalSchedule[j]; break; }
+        }
+        const val = found ? Math.round(Math.max(0, found.balance) / 10000) : 0;
+        if (val <= 0) {
+          greenStopped = true; // これ以降pushしない → 配列が短くなる
+        } else {
+          newBal.push(val);
+        }
+      }
+    }
   }
   prepayCompareChart = new Chart(ctx, {
     type:'line', data: {
       labels,
       datasets: [
         { label:'繰り上げ前', data:oldBal, borderColor:'#c4715a', backgroundColor:'rgba(196,113,90,0.1)', fill:true, tension:0.3, pointRadius:0, borderWidth:2 },
-        { label:'繰り上げ後', data:newBal, borderColor:'#6ec496', backgroundColor:'rgba(110,196,150,0.1)', fill:true, tension:0.3, pointRadius:0, borderWidth:2 }
+        { label:'繰り上げ後', data:newBal, borderColor:'#6ec496', fill:false, tension:0.3, pointRadius:0, borderWidth:2.5 }
       ]
     },
     options: { responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false}, plugins:{ legend:{display:false}, tooltip:{mode:'index',intersect:false} },
@@ -2112,22 +2223,45 @@ function calcTaxDeduction() {
 }
 
 function calcRefinance() {
-  if (scheduleData.length === 0) { alert('先に「計算する」を押してください'); return; }
-  const today = new Date();
-  const startMoment = new Date(document.getElementById('startDate').value + '-01');
-  let elapsedMonths = (today.getFullYear() - startMoment.getFullYear()) * 12 + (today.getMonth() - startMoment.getMonth()) + 1;
-  if (elapsedMonths < 1) elapsedMonths = 1;
-  if (elapsedMonths > scheduleData.length) elapsedMonths = scheduleData.length;
-  const currentRow = scheduleData[elapsedMonths - 1];
-  const currentBalance = currentRow.balance;
-  const remainMonths = scheduleData.length - elapsedMonths + 1; // 現在月を含む残り返済回数
+  const refiBalVal = parseFloat(document.getElementById('refiBalance').value);
+  const refiRemainVal = parseFloat(document.getElementById('refiRemainYears').value);
+  if (!refiBalVal || refiBalVal <= 0) { alert('現在のローン残高を入力してください'); return; }
+  if (!refiRemainVal || refiRemainVal <= 0) { alert('残り返済期間を入力してください'); return; }
+
+  const currentBalance = refiBalVal * 10000;
+  const remainMonths = Math.round(refiRemainVal * 12);
+
+  // 現在の残り総支払・利息を計算
   let oldTotalRemaining = 0;
   let oldTotalInterest = 0;
-  // 現在月（elapsedMonths-1）を含めた残り全額を集計
-  for (let i = elapsedMonths - 1; i < scheduleData.length; i++) {
-    oldTotalRemaining += scheduleData[i].payment;
-    oldTotalInterest += scheduleData[i].interest;
+  let hasSchedule = false;
+
+  if (scheduleData.length > 0) {
+    // メイン計算済み: scheduleDataから正確に集計
+    const today = new Date();
+    const startMoment = new Date(document.getElementById('startDate').value + '-01');
+    let elapsedMonths = (today.getFullYear() - startMoment.getFullYear()) * 12 + (today.getMonth() - startMoment.getMonth()) + 1;
+    if (elapsedMonths < 1) elapsedMonths = 1;
+    if (elapsedMonths > scheduleData.length) elapsedMonths = scheduleData.length;
+    for (let i = elapsedMonths - 1; i < scheduleData.length; i++) {
+      oldTotalRemaining += scheduleData[i].payment;
+      oldTotalInterest += scheduleData[i].interest;
+    }
+    hasSchedule = true;
+  } else {
+    // スタンドアロン: 現在の金利で元利均等の概算
+    const currentRateInput = parseFloat(document.getElementById('rate').value) || 0.5;
+    const oldMonthlyRate = currentRateInput / 100 / 12;
+    if (oldMonthlyRate > 0 && remainMonths > 0) {
+      const oldPayment = Math.round(currentBalance * oldMonthlyRate * Math.pow(1 + oldMonthlyRate, remainMonths) / (Math.pow(1 + oldMonthlyRate, remainMonths) - 1));
+      oldTotalRemaining = oldPayment * remainMonths;
+      oldTotalInterest = oldTotalRemaining - currentBalance;
+    } else {
+      oldTotalRemaining = currentBalance;
+      oldTotalInterest = 0;
+    }
   }
+
   const newRate = parseFloat(document.getElementById('refiRate').value) / 100 / 12;
   const feeRate = parseFloat(document.getElementById('refiFeeRate').value) / 100;
   const fixCost = parseFloat(document.getElementById('refiFixCost').value) * 10000;
@@ -2137,9 +2271,9 @@ function calcRefinance() {
   const newLoanTotal = newPayment * remainMonths;
   const newTotalPayment = newLoanTotal + initialCost;
   const diff = oldTotalRemaining - newTotalPayment;
-  document.getElementById('refiOldTotal').textContent = fmtShort(oldTotalRemaining) + '円';
+  document.getElementById('refiOldTotal').textContent = fmtShort(oldTotalRemaining) + '円' + (!hasSchedule ? ' (概算)' : '');
   document.getElementById('refiOldPrincipal').textContent = fmtShort(currentBalance) + '円';
-  document.getElementById('refiOldInterest').textContent = fmtShort(oldTotalInterest) + '円';
+  document.getElementById('refiOldInterest').textContent = fmtShort(oldTotalInterest) + '円' + (!hasSchedule ? ' (概算)' : '');
   document.getElementById('refiNewTotal').textContent = fmtShort(newTotalPayment) + '円';
   document.getElementById('refiNewLoan').textContent = fmtShort(newLoanTotal) + '円';
   document.getElementById('refiCost').textContent = fmtShort(initialCost) + '円';
@@ -2297,34 +2431,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById(id);
     if (el) el.addEventListener('change', scheduleAutoCalc);
   });
-  // F: スライダー同期
-  ['principalSlider','rateSlider','yearsSlider'].forEach(sid => {
-    const sl = document.getElementById(sid);
-    if (sl) sl.addEventListener('input', () => {
-      const target = sid.replace('Slider','');
-      document.getElementById(target).value = sl.value;
-      scheduleAutoCalc();
-    });
-  });
-  ['principal','rate','years'].forEach(id => {
-    document.getElementById(id).addEventListener('input', () => {
-      const sl = document.getElementById(id + 'Slider');
-      if (sl) sl.value = document.getElementById(id).value;
-    });
-  });
   // ⑩ サブセクション自動計算
   ['prepayAmount','prepayTiming'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.addEventListener('change', () => { if (scheduleData.length > 0 && document.getElementById('prepayAmount').value) calcPrepayment(); });
   });
-  ['refiRate','refiFeeRate','refiFixCost'].forEach(id => {
+  ['refiRate','refiFeeRate','refiFixCost','refiBalance','refiRemainYears'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.addEventListener('change', () => { if (scheduleData.length > 0) { calcRefinance(); updateRefiAdvice(); } });
+    if (el) el.addEventListener('change', () => {
+      const balVal = document.getElementById('refiBalance').value;
+      const remVal = document.getElementById('refiRemainYears').value;
+      if (balVal && remVal && document.getElementById('refiResult')?.style.display !== 'none') { calcRefinance(); updateRefiAdvice(); }
+    });
   });
-  ['saleDate','salePrice','purchasePrice','purchaseCost','use30mDeduction','use10yRate','buildingRatio','buildingType'].forEach(id => {
+  ['saleDate','salePrice','purchasePrice','purchaseCost','use30mDeduction','use10yRate','buildingRatio','buildingType','saleBalance','salePurchaseDate'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.addEventListener('change', () => { if (scheduleData.length > 0 && document.getElementById('saleResult')?.style.display !== 'none') calcSale(); });
+    if (el) el.addEventListener('change', () => { if (document.getElementById('saleResult')?.style.display !== 'none') calcSale(); });
   });
+  // saleDate変更時にscheduleDataがあれば残高を自動更新
+  document.getElementById('saleDate').addEventListener('change', () => {
+    if (scheduleData.length > 0) updateSaleBalance();
+  });
+  // 初期状態: スタンドアロンヒント表示、繰り上げ返済のヒント非表示
+  document.getElementById('prepayNeedCalcHint').style.display = 'none';
   // 建物構造変更時に耐用年数表示を更新
   const btEl = document.getElementById('buildingType');
   if (btEl) btEl.addEventListener('change', updateDepreciationInfo);
@@ -2382,13 +2511,14 @@ function drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startM
     const year = parseInt(row.label.split('年')[0]);
     const isLast = idx === scheduleData.length - 1;
     if ((row.label.includes('12月') || isLast) && year !== lastYear) {
-      const bal = idx === 0
-        ? parseFloat(document.getElementById('principal').value) * 10000
-        : scheduleData[idx - 1].balance;
-      const holdingYears = year - 1 - startMoment.getFullYear();
+      const bal = row.balance;
+      // 税法上の所有期間: 取得日 → その年の1月1日
+      const taxRef = new Date(year, 0, 1);
+      const holdingMonths = (taxRef.getFullYear() - startMoment.getFullYear()) * 12 + (taxRef.getMonth() - startMoment.getMonth());
+      const holdingYears = holdingMonths / 12;
       const yrsHeld = year - startMoment.getFullYear();
       const buildCost = pPrice * (buildingRatio || 0);
-      const depAmt = Math.floor(buildCost * (depInfo ? depInfo.rate : 0) * yrsHeld);
+      const depAmt = Math.floor(buildCost * 0.9 * (depInfo ? depInfo.rate : 0) * yrsHeld);
       const adjBuild = Math.max(buildCost * 0.05, buildCost - depAmt);
       const acqCost = buildingRatio > 0 ? Math.floor((landCost || pPrice * (1 - buildingRatio)) + adjBuild + pCost) : Math.floor(pPrice + pCost);
       const taxY = calcTaxForYear(sPrice, acqCost, 0, sCost, holdingYears, use30m, use10y);
@@ -2448,7 +2578,10 @@ function drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startM
 
 
 function calcSale() {
-  if (scheduleData.length === 0) { alert('先に上部の「計算する」を押してください'); return; }
+  const salePurchaseDateStr = document.getElementById('salePurchaseDate').value;
+  const saleBalVal = parseFloat(document.getElementById('saleBalance').value);
+  if (!salePurchaseDateStr) { alert('購入年月を入力してください'); return; }
+  if (isNaN(saleBalVal) || saleBalVal < 0) { alert('売却時点のローン残高を入力してください'); return; }
   saveSettings();
   const saleDateStr = document.getElementById('saleDate').value;
   const sPrice = (parseFloat(document.getElementById('salePrice').value) || 0) * 10000;
@@ -2456,13 +2589,11 @@ function calcSale() {
   const pCost = (parseFloat(document.getElementById('purchaseCost').value) || 0) * 10000;
   const use30m = document.getElementById('use30mDeduction').checked;
   const use10y = document.getElementById('use10yRate').checked;
-  const startMoment = new Date(document.getElementById('startDate').value + '-01');
+  const startMoment = new Date(salePurchaseDateStr + '-01');
   const saleMoment = new Date(saleDateStr + '-01');
   let elapsedMonths = (saleMoment.getFullYear() - startMoment.getFullYear()) * 12 + (saleMoment.getMonth() - startMoment.getMonth());
-  let remainBalance = 0;
-  if (elapsedMonths < 0) { alert('売却時期は借入開始(購入月)より後に設定してください'); return; }
-  else if (elapsedMonths >= scheduleData.length) { remainBalance = 0; }
-  else { remainBalance = elapsedMonths === 0 ? parseFloat(document.getElementById('principal').value) * 10000 : scheduleData[elapsedMonths - 1].balance; }
+  if (elapsedMonths < 0) { alert('売却時期は購入年月より後に設定してください'); return; }
+  const remainBalance = saleBalVal * 10000;
   let brokerFee = 0;
   if (sPrice > 4000000) brokerFee = (sPrice * 0.03 + 60000) * 1.1;
   else if (sPrice > 2000000) brokerFee = (sPrice * 0.04 + 20000) * 1.1;
@@ -2473,10 +2604,13 @@ function calcSale() {
   const buildingType = document.getElementById('buildingType').value;
   const depInfo = getDepreciationRate(buildingType);
   const holdingYears = saleMoment.getFullYear() - startMoment.getFullYear();
-  const taxHoldingYears = saleMoment.getFullYear() - 1 - startMoment.getFullYear();
+  // 税法上の所有期間: 取得日 → 譲渡年の1月1日（月単位で正確に計算）
+  const taxRefDate = new Date(saleMoment.getFullYear(), 0, 1);
+  const taxHoldMonths = (taxRefDate.getFullYear() - startMoment.getFullYear()) * 12 + (taxRefDate.getMonth() - startMoment.getMonth());
+  const taxHoldingYears = taxHoldMonths / 12;
   const buildingCost = pPrice * buildingRatio;
   const landCost = pPrice * (1 - buildingRatio);
-  const depreciationAmount = Math.floor(buildingCost * depInfo.rate * holdingYears);
+  const depreciationAmount = Math.floor(buildingCost * 0.9 * depInfo.rate * holdingYears);
   const adjustedBuildingCost = Math.max(buildingCost * 0.05, buildingCost - depreciationAmount);
   const acquisitionCost = Math.floor(landCost + adjustedBuildingCost + pCost);
   const acquisitionCostNoDep = Math.floor(pPrice + pCost); // 減価償却なしの取得費
@@ -2500,32 +2634,37 @@ function calcSale() {
   const taxDiffByDep = tax - taxNoDep; // 減価償却による税額差
   const netProceeds = sPrice - remainBalance - sCost - tax;
   const badge = document.getElementById('taxBadge');
-  badge.textContent = taxLabel; badge.className = `tax-badge ${taxBadgeClass}`; badge.style.display = 'inline-block';
+  badge.textContent = taxLabel; badge.className = `tax-badge ${taxBadgeClass}`; document.getElementById('taxBadgeWrap').style.display = 'block';
   document.getElementById('saleResNet').textContent = fmtShort(netProceeds) + '円';
 
   // 損益分岐点：手取りがプラスになる最短月を検索（年ごとに税額を再計算）
   const beBox = document.getElementById('breakevenBox');
   const beVal = document.getElementById('breakevenVal');
-  let breakevenLabel = null;
-  for (let m = 0; m < scheduleData.length; m++) {
-    const bal = m === 0 ? parseFloat(document.getElementById('principal').value)*10000 : scheduleData[m-1].balance;
-    const yearForM = parseInt(scheduleData[m].label.split('年')[0]);
-    const holdYrs = yearForM - 1 - startMoment.getFullYear();
-    const yrsM = yearForM - startMoment.getFullYear();
-    const depM = Math.floor(buildingCost * depInfo.rate * yrsM);
-    const adjBM = Math.max(buildingCost * 0.05, buildingCost - depM);
-    const acqM = Math.floor(landCost + adjBM + pCost);
-    const taxM = calcTaxForYear(sPrice, acqM, 0, sCost, holdYrs, use30m, use10y);
-    const netChk = sPrice - bal - sCost - taxM;
-    if (netChk >= 0) { breakevenLabel = scheduleData[m].label; break; }
-  }
-  if (breakevenLabel) {
-    beVal.textContent = breakevenLabel + '以降';
+  if (scheduleData.length > 0) {
+    let breakevenLabel = null;
+    for (let m = 0; m < scheduleData.length; m++) {
+      const bal = m === 0 ? parseFloat(document.getElementById('principal').value)*10000 : scheduleData[m-1].balance;
+      const yearForM = parseInt(scheduleData[m].label.split('年')[0]);
+      const holdYrs = ((new Date(yearForM, 0, 1).getFullYear() - startMoment.getFullYear()) * 12 + (0 - startMoment.getMonth())) / 12;
+      const yrsM = yearForM - startMoment.getFullYear();
+      const depM = Math.floor(buildingCost * 0.9 * depInfo.rate * yrsM);
+      const adjBM = Math.max(buildingCost * 0.05, buildingCost - depM);
+      const acqM = Math.floor(landCost + adjBM + pCost);
+      const taxM = calcTaxForYear(sPrice, acqM, 0, sCost, holdYrs, use30m, use10y);
+      const netChk = sPrice - bal - sCost - taxM;
+      if (netChk >= 0) { breakevenLabel = scheduleData[m].label; break; }
+    }
+    if (breakevenLabel) {
+      beVal.textContent = breakevenLabel + '以降';
+    } else {
+      beVal.textContent = '全期間マイナス';
+    }
+    beBox.style.display = 'block';
+    drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startMoment, buildingRatio, depInfo, landCost);
   } else {
-    beVal.textContent = '全期間マイナス';
+    // スタンドアロン: 損益分岐点チャートは非表示
+    beBox.style.display = 'none';
   }
-  beBox.style.display = 'block';
-  drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startMoment, buildingRatio, depInfo, landCost);
   const breakdownHtml = `
     <div class="step-box">
       <span class="step-num s1">1</span>
@@ -2582,12 +2721,12 @@ function calcSale() {
     <div class="step-box">
       <span class="step-num s2">2</span>
       <div class="step-title c2">税率の判定</div>
-      <div class="step-row"><span>所有期間</span><span>${taxHoldingYears}年</span></div>
-      <div class="step-row sub" style="color:var(--muted);font-size:0.6rem;"><span>※ 譲渡年の1月1日時点で判定</span></div>
+      <div class="step-row"><span>所有期間</span><span>${Math.floor(taxHoldingYears)}年${Math.round((taxHoldingYears % 1) * 12)}ヶ月</span></div>
+      <div style="font-size:0.56rem;color:var(--muted);margin-top:2px;">※ 譲渡年の1月1日時点で判定</div>
       <div class="step-row result" style="color:var(--info);"><span>判定</span>
         <span class="step-badge ${taxBadgeClass === 'tax-short' ? 'danger' : taxBadgeClass === 'tax-reduced' ? 'safe' : taxBadgeClass === 'tax-zero' ? 'info' : 'info'}">${taxLabel}${appliedRateText ? ' (' + appliedRateText + ')' : ''}</span>
       </div>
-      ${taxBadgeClass === 'tax-zero' ? '<div class="step-row sub" style="font-size:0.58rem;margin-top:4px;"><span style="color:var(--accent);">💡 控除により非課税のため、所有期間（短期/長期）は税額に影響しません。</span></div>' : ''}
+      ${taxBadgeClass === 'tax-zero' ? '<div style="font-size:0.56rem;margin-top:6px;color:var(--accent);line-height:1.5;">💡 控除内で非課税のため、所有期間は税額に影響しません</div>' : ''}
     </div>
 
     <div class="step-connector">▼</div>
@@ -2599,7 +2738,7 @@ function calcSale() {
       <div class="step-row sub"><span><span class="step-sign">×</span>税率</span><span>${appliedRateText}</span></div>
       <div class="step-row result negative"><span>＝ 譲渡税</span><span>${fmtShort(tax)}円</span></div>`
       : `<div class="step-row result positive"><span>＝ 譲渡税</span><span>0円</span></div>
-      <div class="step-row sub" style="font-size:0.58rem;"><span style="color:var(--safe);">${capitalGain <= 0 ? '譲渡益がないため非課税です。' : '3,000万円特別控除の枠内のため非課税です。'}</span></div>`}
+      <div style="font-size:0.56rem;margin-top:4px;color:var(--safe);line-height:1.5;">${capitalGain <= 0 ? '譲渡益がないため非課税です。' : '3,000万円特別控除の枠内のため非課税です。'}</div>`}
     </div>
 
     <div class="step-connector">▼</div>
@@ -3003,9 +3142,8 @@ function setScheduleMode(mode) {
 function renderYearlySchedule() {
   const wrap = document.getElementById('scheduleYearly');
   if (!scheduleData.length) { wrap.innerHTML=''; return; }
-  let html = '<div class="yearly-header"><div>年</div><div>返済額</div><div>元金</div><div>利息</div><div>年末残高</div></div>';
   const years = {};
-  scheduleData.forEach((d,i) => {
+  scheduleData.forEach((d) => {
     const y = d.label.split('年')[0];
     if (!years[y]) years[y] = {payment:0, principal:0, interest:0, balance:0, months:[]};
     years[y].payment += d.payment; years[y].principal += d.principal; years[y].interest += d.interest;
@@ -3013,22 +3151,24 @@ function renderYearlySchedule() {
   });
   const today = new Date();
   const curYear = today.getFullYear().toString();
+  let html = '<table><colgroup><col style="width:17%"><col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:23%"></colgroup>';
+  html += '<thead><tr><th>年</th><th>返済額(円)</th><th>元金(円)</th><th>利息(円)</th><th>残高(円)</th></tr></thead><tbody>';
   Object.entries(years).forEach(([y, v], idx) => {
     const hl = y === curYear ? ' hl' : '';
-    html += `<div class="yearly-row${hl}" onclick="toggleYearlyExpand(${idx})">
-      <div>${y}年</div><div>${v.payment.toLocaleString()}</div><div>${v.principal.toLocaleString()}</div>
-      <div>${v.interest.toLocaleString()}</div><div>${v.balance.toLocaleString()}</div></div>`;
-    html += `<div class="yearly-months" id="yearExpand${idx}">`;
+    html += `<tr class="yearly-row-tr${hl}" onclick="toggleYearlyExpand(${idx})">
+      <td>${y}年</td><td>${v.payment.toLocaleString()}</td><td>${v.principal.toLocaleString()}</td>
+      <td>${v.interest.toLocaleString()}</td><td>${v.balance.toLocaleString()}</td></tr>`;
     v.months.forEach(mo => {
-      html += `<div class="monthly-sub"><div>${mo.label.split('年')[1]}</div><div>${mo.payment.toLocaleString()}</div>
-        <div>${mo.principal.toLocaleString()}</div><div>${mo.interest.toLocaleString()}</div><div>${mo.balance.toLocaleString()}</div></div>`;
+      html += `<tr class="yearly-expand-tr" data-year-idx="${idx}">
+        <td>${mo.label.split('年')[1]}</td><td>${mo.payment.toLocaleString()}</td>
+        <td>${mo.principal.toLocaleString()}</td><td>${mo.interest.toLocaleString()}</td><td>${mo.balance.toLocaleString()}</td></tr>`;
     });
-    html += '</div>';
   });
+  html += '</tbody></table>';
   wrap.innerHTML = html;
 }
 function toggleYearlyExpand(idx) {
-  document.getElementById('yearExpand'+idx).classList.toggle('open');
+  document.querySelectorAll(`.yearly-expand-tr[data-year-idx="${idx}"]`).forEach(tr => tr.classList.toggle('open'));
 }
 
 // ═══ B: 今月サマリー更新 ═══
@@ -3081,15 +3221,6 @@ function updateRefiAdvice() {
 }
 
 // ═══ F: スライダー同期 ═══
-function syncSliders() {
-  const ps = document.getElementById('principalSlider');
-  const rs = document.getElementById('rateSlider');
-  const ys = document.getElementById('yearsSlider');
-  if (ps) ps.value = document.getElementById('principal').value || 4700;
-  if (rs) rs.value = document.getElementById('rate').value || 0.25;
-  if (ys) ys.value = document.getElementById('years').value || 35;
-}
-
 // ═══ G: 残債vs物件価値ドーナツ ═══
 function drawEquityDonut(debt, sPrice, sCost, tax, taxDiffByDep) {
   const wrap = document.getElementById('equityWrap');

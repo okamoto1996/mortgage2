@@ -855,29 +855,29 @@
     <div class="today-card-grid">
       <div class="today-card-item"><div class="today-card-label">元金</div><div class="today-card-val" style="color:var(--accent2)" id="todayPrincipal">—</div></div>
       <div class="today-card-item"><div class="today-card-label">利息</div><div class="today-card-val" style="color:var(--danger)" id="todayInterest">—</div></div>
-      <div class="today-card-item"><div class="today-card-label">元金比率</div><div class="today-card-val" style="color:var(--safe)" id="todayRatio">—</div></div>
+      <div class="today-card-item"><div class="today-card-label">今月の元金割合<br><span style="font-size:0.6rem;color:var(--border2);">元金÷返済額</span></div><div class="today-card-val" style="color:var(--safe)" id="todayRatio">—</div></div>
     </div>
     <div class="today-card-bar"><div class="today-card-bar-fill" id="todayBarFill" style="width:0%;background:linear-gradient(90deg,var(--accent),var(--safe));"></div></div>
-    <div style="display:flex;justify-content:space-between;font-size:0.55rem;color:var(--muted);margin-top:2px;"><span>← 利息</span><span>元金 →</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--muted);margin-top:2px;"><span>← 利息が多い</span><span>元金が多い →</span></div>
   </div>
 
   <div class="stats-section-label">返済額の比較</div>
   <div class="stats-grid-4">
     <div class="stat-box">
-      <div class="stat-label">当初 月返済額</div>
+      <div class="stat-label">当初 月返済額<br><span style="font-size:0.6rem;font-weight:400;color:var(--border2)">借入開始時点</span></div>
       <div class="stat-value" id="statInitial">—</div>
     </div>
-    <div class="stat-box">
-      <div class="stat-label">現在 月返済額</div>
+    <div class="stat-box" style="border-color:rgba(212,180,120,0.5);background:rgba(212,180,120,0.04);">
+      <div class="stat-label" style="color:var(--accent)">現在 月返済額<br><span style="font-size:0.6rem;font-weight:400;color:var(--muted)">今月の実際の金額</span></div>
       <div class="stat-value accent" id="statCurrent">—</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">ルールなしの場合</div>
+      <div class="stat-label">5年ルールなしなら<br><span style="font-size:0.6rem;font-weight:400;color:var(--muted)">金利変動を即反映した場合</span></div>
       <div class="stat-value" id="statTheoretical" style="color:var(--muted)">—</div>
       <div class="stat-sub" id="statTheoreticalDiff"></div>
     </div>
     <div class="stat-box" style="border-color:rgba(110,196,150,0.4);">
-      <div class="stat-label" style="color:var(--safe)">次回見直し</div>
+      <div class="stat-label" style="color:var(--safe)">次回見直し<br><span style="font-size:0.6rem;font-weight:400;color:var(--muted)">5年ごとに返済額を更新</span></div>
       <div class="stat-value" style="color:var(--safe)" id="statNextChange">—</div>
       <div class="stat-sub" id="statNextChangeDate"></div>
     </div>
@@ -912,6 +912,7 @@
     </div>
 
     <div id="tab-graph" style="display:none">
+      <p style="font-size:0.74rem; color:var(--text2); margin-bottom:6px; padding:8px 10px; background:rgba(255,255,255,0.02); border-radius:var(--radius-sm);">返済が進むほど、毎年の利息が減り元金の割合が増えていきます。</p>
       <p style="text-align:center; font-size:0.75rem; color:var(--muted); margin-bottom:10px;">
         <span style="display:inline-block; width:10px; height:10px; background:var(--principal); margin-right:4px;"></span>元金
         <span style="display:inline-block; width:10px; height:10px; background:var(--interest); margin-right:4px; margin-left:10px;"></span>利息
@@ -922,6 +923,7 @@
     </div>
 
     <div id="tab-balance" style="display:none">
+      <p style="font-size:0.74rem; color:var(--text2); margin-bottom:6px; padding:8px 10px; background:rgba(255,255,255,0.02); border-radius:var(--radius-sm);">残高（青）と返済済み元金（金）の推移です。黄色マーカーが現在地点です。</p>
       <p style="font-size:0.72rem; color:var(--muted); margin-bottom:10px; text-align:center;">
         <span style="display:inline-block; width:8px; height:8px; background:var(--info); border-radius:50%; margin-right:3px;"></span>ローン残高
         <span style="display:inline-block; width:8px; height:8px; background:var(--accent); border-radius:50%; margin-right:3px; margin-left:8px;"></span>返済済み元金
@@ -932,6 +934,7 @@
     </div>
 
     <div id="tab-cumulative" style="display:none">
+      <p style="font-size:0.74rem; color:var(--text2); margin-bottom:6px; padding:8px 10px; background:rgba(255,255,255,0.02); border-radius:var(--radius-sm);">ローン返済の累計と、管理費等を含む住居費累計の差がトータルコストです。</p>
       <p style="font-size:0.72rem; color:var(--muted); margin-bottom:10px; text-align:center;">
         <span style="display:inline-block; width:8px; height:8px; background:#c4715a; border-radius:50%; margin-right:3px;"></span>ローン累計
         <span style="display:inline-block; width:8px; height:8px; background:#5a8bc4; border-radius:50%; margin-right:3px; margin-left:8px;"></span>住居費累計（管理費等含む）
@@ -991,8 +994,8 @@
     </div>
 
     <div class="prepay-type-row">
-      <button class="prepay-type-btn active" id="prepayTypeShorten" onclick="setPrepayType('shorten')">📅 期間短縮型<br><span style="font-size:0.65rem; font-weight:400;">返済期間を縮める</span></button>
-      <button class="prepay-type-btn" id="prepayTypeReduce" onclick="setPrepayType('reduce')">💴 返済額軽減型<br><span style="font-size:0.65rem; font-weight:400;">月返済額を下げる</span></button>
+      <button class="prepay-type-btn active" id="prepayTypeShorten" onclick="setPrepayType('shorten')">📅 期間短縮型<br><span style="font-size:0.65rem; font-weight:400;">完済を早める → 利息削減効果大</span></button>
+      <button class="prepay-type-btn" id="prepayTypeReduce" onclick="setPrepayType('reduce')">💴 返済額軽減型<br><span style="font-size:0.65rem; font-weight:400;">月負担を下げる → 毎月の余裕を確保</span></button>
     </div>
 
     <div class="form-grid">
@@ -1036,7 +1039,14 @@
           <div class="prepay-result-val" id="prepayNewInterest">—</div>
         </div>
       </div>
-      <p style="font-size:0.65rem; color:var(--muted); margin-top:10px; text-align:right;">※5年ルール・125%ルールは考慮せず計算しています</p>
+      <div id="prepayDiffNote" style="display:none;margin-top:10px;padding:10px 14px;background:rgba(110,196,150,0.06);border:1px solid rgba(110,196,150,0.25);border-radius:var(--radius-sm);font-size:0.78rem;color:var(--text2);line-height:1.7;">
+        <span style="color:var(--muted);">繰り上げ前</span> <span id="prepayDiffOld" style="font-family:'DM Mono',monospace;"></span>
+        <span style="color:var(--muted);margin:0 6px;">−</span>
+        <span style="color:var(--muted);">繰り上げ後</span> <span id="prepayDiffNew" style="font-family:'DM Mono',monospace;"></span>
+        <span style="color:var(--muted);margin:0 6px;">=</span>
+        <span style="color:var(--safe);font-weight:600;" id="prepayDiffResult"></span> 節約
+      </div>
+      <p style="font-size:0.65rem; color:var(--muted); margin-top:8px; text-align:right;">※5年ルール・125%ルールは考慮せず計算しています</p>
       <!-- C: ビフォーアフターチャート -->
       <div class="prepay-chart-wrap" id="prepayChartWrap" style="display:none;">
         <div style="display:flex;gap:14px;justify-content:center;font-size:0.68rem;color:var(--muted);margin-bottom:8px;">
@@ -1217,11 +1227,11 @@
   <div class="equity-wrap" id="equityWrap" style="display:none;">
     <canvas id="equityDonut" width="110" height="110"></canvas>
     <div class="equity-info">
-      <div style="font-size:0.62rem;font-weight:600;color:var(--accent);margin-bottom:6px;">売却額の内訳</div>
-      <div class="equity-row"><span style="color:var(--muted);">🔴 ローン返済</span><span style="color:var(--danger);" id="eqDebt">—</span></div>
-      <div class="equity-row"><span style="color:var(--muted);">🟠 売却費用</span><span style="color:#e0a868;" id="eqCost">—</span></div>
-      <div class="equity-row" id="eqTaxRow" style="display:none;"><span style="color:var(--muted);">🟣 譲渡税</span><span style="color:#b07cd8;" id="eqTax">—</span></div>
-      <div class="equity-row"><span style="color:var(--muted);">🟢 手取り</span><span style="color:var(--safe);" id="eqNet">—</span></div>
+      <div style="font-size:0.62rem;font-weight:600;color:var(--accent);margin-bottom:6px;">売却額の内訳 <span style="font-weight:400;color:var(--muted);" id="eqTotalLabel"></span></div>
+      <div class="equity-row"><span style="color:var(--muted);">🔴 ローン返済</span><span style="display:flex;gap:5px;align-items:center;"><span style="color:var(--danger);" id="eqDebt">—</span><span style="font-size:0.62rem;color:var(--muted);" id="eqDebtPct"></span></span></div>
+      <div class="equity-row"><span style="color:var(--muted);">🟠 売却費用</span><span style="display:flex;gap:5px;align-items:center;"><span style="color:#e0a868;" id="eqCost">—</span><span style="font-size:0.62rem;color:var(--muted);" id="eqCostPct"></span></span></div>
+      <div class="equity-row" id="eqTaxRow" style="display:none;"><span style="color:var(--muted);">🟣 譲渡税</span><span style="display:flex;gap:5px;align-items:center;"><span style="color:#b07cd8;" id="eqTax">—</span><span style="font-size:0.62rem;color:var(--muted);" id="eqTaxPct"></span></span></div>
+      <div class="equity-row" style="border-bottom:none;padding-top:7px;margin-top:2px;border-top:1px solid var(--border);"><span style="color:var(--muted);">🟢 手取り</span><span style="display:flex;gap:5px;align-items:center;"><span id="eqNet">—</span><span style="font-size:0.62rem;color:var(--muted);" id="eqNetPct"></span></span></div>
     </div>
   </div>
   <div class="breakeven-box" id="breakevenBox">
@@ -1253,28 +1263,34 @@
     </div>
 
     <div id="tool-tax" class="tool-content active">
-      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:12px;">年末残高をもとに控除額を試算します。</p>
+      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:8px;">各年の年末残高をもとに控除額を試算します。</p>
+      <div style="font-size:0.72rem; color:var(--text2); line-height:1.7; padding:10px 12px; margin-bottom:12px; background:rgba(106,158,216,0.06); border:1px solid rgba(106,158,216,0.2); border-radius:var(--radius-sm);">
+        💡 <strong>控除の仕組み：</strong>毎年12月31日時点の残高（借入限度額以内）×控除率 が所得税等から戻ってきます。<br>
+        <span style="color:var(--muted);">通常は「控除率 0.7%・期間 13年・借入限度額は物件種別で異なる」がデフォルト設定です。</span>
+      </div>
       <div class="form-grid">
         <div class="form-group">
           <label>控除期間</label>
           <select id="taxPeriod">
-            <option value="13">13年間</option>
-            <option value="10">10年間</option>
+            <option value="13">13年間（2022年以降取得の新築等）</option>
+            <option value="10">10年間（旧制度・中古等）</option>
           </select>
         </div>
         <div class="form-group">
           <label>控除率 (%)</label>
           <input type="number" id="taxRate" value="0.7" step="0.1">
+          <span style="font-size:0.68rem;color:var(--muted);margin-top:3px;">通常は0.7%（旧制度は1.0%）</span>
         </div>
         <div class="form-group">
           <label>借入限度額 (万円)</label>
           <select id="taxLimit">
-            <option value="2000">2000万円</option>
-            <option value="3000" selected>3000万円</option>
-            <option value="4000">4000万円</option>
-            <option value="4500">4500万円</option>
-            <option value="5000">5000万円</option>
+            <option value="2000">2000万円（既存住宅等）</option>
+            <option value="3000" selected>3000万円（一般新築）</option>
+            <option value="4000">4000万円（認定住宅等）</option>
+            <option value="4500">4500万円（認定長期優良等）</option>
+            <option value="5000">5000万円（認定長期優良・ZEH）</option>
           </select>
+          <span style="font-size:0.68rem;color:var(--muted);margin-top:3px;">残高がこの額を超える場合は上限で計算</span>
         </div>
       </div>
       <button class="btn" style="margin-top:12px" onclick="calcTaxDeduction()">控除額を計算</button>
@@ -1282,7 +1298,7 @@
         <div class="tool-summary">
           <div class="tool-summary-label">総控除額（目安）</div>
           <div class="tool-summary-val" id="taxTotalVal">0円</div>
-          <div style="font-size:0.65rem; color:var(--muted); margin-top:4px;">※所得税・住民税の上限等は考慮していません</div>
+          <div style="font-size:0.68rem; color:var(--muted); margin-top:6px; line-height:1.6;">※所得税・住民税の上限等は考慮していません<br>※実際の控除額は確定申告または年末調整で確定します</div>
         </div>
       </div>
     </div>
@@ -1760,8 +1776,8 @@ function updateStats(initialP, method, warning) {
   
   const diff = noRuleRow.payment - currentRow.payment;
   const diffEl = document.getElementById('statTheoreticalDiff');
-  if (diff > 0) diffEl.innerHTML = `<span style="color:var(--safe)">▼ ${diff.toLocaleString()}円 低減</span><br><span style="font-size:0.6rem;">5年ルールにより抑制中</span>`;
-  else if (diff < 0) diffEl.innerHTML = `<span style="color:var(--danger)">▲ ${Math.abs(diff).toLocaleString()}円 増加</span><br><span style="font-size:0.6rem;">5年ルールで据え置き中</span>`;
+  if (diff > 0) diffEl.innerHTML = `<span style="color:var(--safe)">▼ ${diff.toLocaleString()}円 低減</span><br><span style="font-size:0.68rem;color:var(--muted);">5年ルールにより抑制中</span>`;
+  else if (diff < 0) diffEl.innerHTML = `<span style="color:var(--danger)">▲ ${Math.abs(diff).toLocaleString()}円 増加</span><br><span style="font-size:0.68rem;color:var(--muted);">5年ルールで据え置き中</span>`;
   else diffEl.textContent = '現在と同額';
 
   const useJibunRules = document.getElementById('useJibunRules').checked && method === 'equal_payment';
@@ -2104,6 +2120,19 @@ function calcPrepayment() {
   document.getElementById('prepayResult').style.display = 'block';
   const noteEl = document.getElementById('prepayFullPayoffNote');
   if (noteEl) { noteEl.textContent = fullPayoffNote; noteEl.style.display = fullPayoffNote ? 'block' : 'none'; }
+
+  // 差分まとめノートを更新
+  const savedVal = parseInt(document.getElementById('prepayInterestSaved').textContent.replace(/[^0-9]/g,'')) || 0;
+  const oldVal = parseInt(document.getElementById('prepayOldInterest').textContent.replace(/[^0-9]/g,'')) || 0;
+  const newVal = parseInt(document.getElementById('prepayNewInterest').textContent.replace(/[^0-9]/g,'')) || 0;
+  if (oldVal > 0 && savedVal > 0) {
+    document.getElementById('prepayDiffOld').textContent = oldVal.toLocaleString() + '円';
+    document.getElementById('prepayDiffNew').textContent = newVal.toLocaleString() + '円';
+    document.getElementById('prepayDiffResult').textContent = savedVal.toLocaleString() + '円';
+    document.getElementById('prepayDiffNote').style.display = 'block';
+  } else {
+    document.getElementById('prepayDiffNote').style.display = 'none';
+  }
 
   // C: ビフォーアフターチャート描画
   drawPrepayCompareChart(applyIdx, newBalSchedule);
@@ -3261,17 +3290,27 @@ function drawEquityDonut(debt, sPrice, sCost, tax) {
   ctx.font = '9px sans-serif';
   ctx.fillText('手取り率', cx, cy + 12);
 
+  const debtPct  = sPrice > 0 ? Math.round(debt / sPrice * 100) : 0;
+  const costPct  = sPrice > 0 ? Math.round(sCost / sPrice * 100) : 0;
+  const taxPct   = sPrice > 0 ? Math.round(tax  / sPrice * 100) : 0;
+  const netPctVal= sPrice > 0 ? Math.round(Math.max(0, netProceeds) / sPrice * 100) : 0;
+
+  document.getElementById('eqTotalLabel').textContent = fmtMan(sPrice);
   document.getElementById('eqDebt').textContent = fmtMan(debt);
+  document.getElementById('eqDebtPct').textContent = debtPct > 0 ? `(${debtPct}%)` : '';
   document.getElementById('eqCost').textContent = fmtMan(sCost);
+  document.getElementById('eqCostPct').textContent = costPct > 0 ? `(${costPct}%)` : '';
   const eqTaxRow = document.getElementById('eqTaxRow');
   if (tax > 0) {
     document.getElementById('eqTax').textContent = fmtMan(tax);
+    document.getElementById('eqTaxPct').textContent = taxPct > 0 ? `(${taxPct}%)` : '';
     eqTaxRow.style.display = '';
   } else {
     eqTaxRow.style.display = 'none';
   }
   document.getElementById('eqNet').textContent = (netProceeds >= 0 ? '+' : '') + fmtMan(netProceeds);
   document.getElementById('eqNet').style.color = netProceeds >= 0 ? 'var(--safe)' : 'var(--danger)';
+  document.getElementById('eqNetPct').textContent = netPctVal > 0 ? `(${netPctVal}%)` : (netProceeds < 0 ? '(赤字)' : '');
 }
 
 loadSettings();

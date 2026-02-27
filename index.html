@@ -952,7 +952,7 @@
         <div class="table-wrap">
           <table>
             <caption class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">月別返済予定表</caption>
-            <colgroup><col style="width:17%"><col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:23%"></colgroup>
+            <colgroup><col style="width:23%"><col style="width:19%"><col style="width:19%"><col style="width:19%"><col style="width:20%"></colgroup>
             <thead><tr><th>年月</th><th>返済額(円)</th><th>元金(円)</th><th>利息(円)</th><th>残高(円)</th></tr></thead>
             <tbody id="scheduleBody"></tbody>
           </table>
@@ -1784,14 +1784,14 @@ function updateStats(initialP, method, warning) {
     }
     if (nextChangePayment !== null) {
       nextChangeEl.textContent = fmtShort(nextChangePayment);
-      nextChangeDateEl.innerHTML = `${nextChangeLabel}〜<br>適用予定`;
+      nextChangeDateEl.textContent = `${nextChangeLabel}〜 適用予定`;
     } else {
       nextChangeEl.textContent = '—';
-      nextChangeDateEl.innerHTML = `今後の見直し<br>予定なし`;
+      nextChangeDateEl.textContent = `今後の見直し予定なし`;
     }
   } else {
     nextChangeEl.textContent = '—';
-    nextChangeDateEl.innerHTML = `5年ルール<br>非適用`;
+    nextChangeDateEl.textContent = `5年ルール非適用`;
   }
 
   document.getElementById('statTotalInterest').textContent = fmtShort(totalInterest);

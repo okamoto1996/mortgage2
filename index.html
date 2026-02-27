@@ -2512,7 +2512,8 @@ function drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startM
       const taxRef = new Date(year, 0, 1);
       const holdingMonths = (taxRef.getFullYear() - startMoment.getFullYear()) * 12 + (taxRef.getMonth() - startMoment.getMonth());
       const holdingYears = holdingMonths / 12;
-      const yrsHeld = year - startMoment.getFullYear();
+      const moHeld = (year - startMoment.getFullYear()) * 12 - startMoment.getMonth();
+      const yrsHeld = moHeld <= 0 ? 0 : Math.floor(moHeld / 12) + (moHeld % 12 >= 6 ? 1 : 0);
       const buildCost = pPrice * (buildingRatio || 0);
       const depAmt = Math.floor(buildCost * 0.9 * (depInfo ? depInfo.rate : 0) * yrsHeld);
       const adjBuild = Math.max(buildCost * 0.05, buildCost - depAmt);
@@ -2599,7 +2600,7 @@ function calcSale() {
   const buildingRatio = (parseFloat(document.getElementById('buildingRatio').value) || 0) / 100;
   const buildingType = document.getElementById('buildingType').value;
   const depInfo = getDepreciationRate(buildingType);
-  const holdingYears = saleMoment.getFullYear() - startMoment.getFullYear();
+  const holdingYears = Math.floor(elapsedMonths / 12) + (elapsedMonths % 12 >= 6 ? 1 : 0);
   // 税法上の所有期間: 取得日 → 譲渡年の1月1日（月単位で正確に計算）
   const taxRefDate = new Date(saleMoment.getFullYear(), 0, 1);
   const taxHoldMonths = (taxRefDate.getFullYear() - startMoment.getFullYear()) * 12 + (taxRefDate.getMonth() - startMoment.getMonth());
@@ -2642,7 +2643,8 @@ function calcSale() {
       const bal = m === 0 ? parseFloat(document.getElementById('principal').value)*10000 : scheduleData[m-1].balance;
       const yearForM = parseInt(scheduleData[m].label.split('年')[0]);
       const holdYrs = ((new Date(yearForM, 0, 1).getFullYear() - startMoment.getFullYear()) * 12 + (0 - startMoment.getMonth())) / 12;
-      const yrsM = yearForM - startMoment.getFullYear();
+      const moM = (yearForM - startMoment.getFullYear()) * 12 - startMoment.getMonth();
+      const yrsM = moM <= 0 ? 0 : Math.floor(moM / 12) + (moM % 12 >= 6 ? 1 : 0);
       const depM = Math.floor(buildingCost * 0.9 * depInfo.rate * yrsM);
       const adjBM = Math.max(buildingCost * 0.05, buildingCost - depM);
       const acqM = Math.floor(landCost + adjBM + pCost);

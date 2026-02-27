@@ -1222,10 +1222,6 @@
       <div class="equity-row"><span style="color:var(--muted);">🟠 売却費用</span><span style="color:#e0a868;" id="eqCost">—</span></div>
       <div class="equity-row" id="eqTaxRow" style="display:none;"><span style="color:var(--muted);">🟣 譲渡税</span><span style="color:#b07cd8;" id="eqTax">—</span></div>
       <div class="equity-row"><span style="color:var(--muted);">🟢 手取り</span><span style="color:var(--safe);" id="eqNet">—</span></div>
-      <div class="equity-row" id="eqDepRow" style="display:none; border-top:1px solid var(--border); padding-top:4px; margin-top:4px;">
-        <span style="color:var(--muted); font-size:0.56rem;">📐 償却による税増</span>
-        <span style="color:var(--danger); font-size:0.6rem;" id="eqDepImpact">—</span>
-      </div>
     </div>
   </div>
   <div class="breakeven-box" id="breakevenBox">
@@ -2762,7 +2758,7 @@ function calcSale() {
   document.getElementById('calcBreakdown').innerHTML = breakdownHtml;
   document.getElementById('saleResult').style.display = 'block';
   // G: 残債vs物件価値ドーナツ
-  drawEquityDonut(remainBalance, sPrice, sCost, tax, taxDiffByDep);
+  drawEquityDonut(remainBalance, sPrice, sCost, tax);
 }
 
 /* ── Share / Capture ── */
@@ -3222,13 +3218,12 @@ function updateRefiAdvice() {
 
 // ═══ F: スライダー同期 ═══
 // ═══ G: 残債vs物件価値ドーナツ ═══
-function drawEquityDonut(debt, sPrice, sCost, tax, taxDiffByDep) {
+function drawEquityDonut(debt, sPrice, sCost, tax) {
   const wrap = document.getElementById('equityWrap');
   const canvas = document.getElementById('equityDonut');
   if (!canvas || !wrap) return;
   sCost = sCost || 0;
   tax = tax || 0;
-  taxDiffByDep = taxDiffByDep || 0;
   wrap.style.display = 'flex';
   const ctx = canvas.getContext('2d');
   const W = 110, H = 110;
@@ -3275,15 +3270,6 @@ function drawEquityDonut(debt, sPrice, sCost, tax, taxDiffByDep) {
   }
   document.getElementById('eqNet').textContent = (netProceeds >= 0 ? '+' : '') + fmtMan(netProceeds);
   document.getElementById('eqNet').style.color = netProceeds >= 0 ? 'var(--safe)' : 'var(--danger)';
-
-  // Depreciation impact
-  const depRow = document.getElementById('eqDepRow');
-  if (taxDiffByDep > 0) {
-    depRow.style.display = '';
-    document.getElementById('eqDepImpact').textContent = '+' + fmtMan(taxDiffByDep);
-  } else {
-    depRow.style.display = 'none';
-  }
 }
 
 loadSettings();

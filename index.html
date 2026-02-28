@@ -2853,27 +2853,32 @@ function calcSale() {
     const pairHtml = `
       <div class="step-box">
         <span class="step-num s1">1</span>
-        <div class="step-title c1">譲渡益の計算（全体）</div>
-        <div class="step-desc">まず物件全体の利益を計算します。この後、持分割合で二人に按分します。</div>
-        <div class="step-row"><span>売却予定額</span><span>${fmtSale(sPrice)}</span></div>
-        <div class="step-row sub"><span><span class="step-sign">−</span>取得費${buildingRatio > 0 && depreciationAmount > 0 ? '（減価償却後）' : ''}</span><span>${fmtSale(acquisitionCost)}</span></div>
-        <div class="step-row sub"><span><span class="step-sign">−</span>売却諸費用（概算）</span><span>${fmtSale(sCost)}</span></div>
-        <div class="step-row result ${capitalGain>=0?'positive':'negative'}"><span>＝ 全体の譲渡益</span><span>${capitalGain>=0?'+':''}${fmtSale(capitalGain)}</span></div>
-        <div style="font-size:0.6rem;color:var(--muted);margin-top:8px;line-height:1.6;">↓ 持分割合で按分（本人 ${pctA}%・配偶者 ${pctB}%）</div>
-        ${buildingRatio > 0 && depreciationAmount > 0 ? `<div style="font-size:0.56rem;color:var(--muted);margin-top:4px;">📐 減価償却 ${holdingYears}年間 ${fmtMan(depreciationAmount)} 分が取得費から差し引かれています。</div>` : ''}
-      </div>
-
-      <div class="step-connector">▼</div>
-
-      <div class="step-box">
-        <span class="step-num s2">2</span>
-        <div class="step-title c2">税率の判定（両者共通）</div>
+        <div class="step-title c1">税率の判定（両者共通）</div>
         <div class="step-desc">所有期間が5年超なら税率が低い長期譲渡、5年以下なら高い短期譲渡です。二人とも同じ税率が適用されます。</div>
         <div class="step-row"><span>所有期間</span><span>${Math.floor(taxHoldingYears)}年${Math.round((taxHoldingYears % 1) * 12)}ヶ月</span></div>
         <div style="font-size:0.56rem;color:var(--muted);margin-top:2px;">※ 譲渡年の1月1日時点で判定</div>
         <div class="step-row result" style="color:var(--info);"><span>判定</span>
           <span class="step-badge ${pTaxClass==='tax-short'?'danger':pTaxClass==='tax-reduced'?'safe':'info'}">${pTaxLabel}${pRateText?' ('+pRateText+')':''}</span>
         </div>
+        ${(use30mA || use30mB) ? `<div style="font-size:0.6rem;margin-top:8px;padding:6px 8px;background:rgba(80,200,120,0.08);border-left:3px solid var(--safe);border-radius:4px;color:var(--safe);line-height:1.6;">💡 <strong>3,000万円特別控除を適用する場合</strong>、各自の按分後の譲渡益が控除枠（3,000万円）に収まれば、<strong>所有期間に関わらず</strong>譲渡税は0円になります。</div>` : ''}
+      </div>
+
+      <div class="step-connector">▼</div>
+
+      <div class="step-box">
+        <span class="step-num s2">2</span>
+        <div class="step-title c2">譲渡益の計算（全体・按分）</div>
+        <div class="step-desc">まず物件全体の利益を計算し、持分割合で二人に按分します。</div>
+        <div class="step-row"><span>売却予定額</span><span>${fmtSale(sPrice)}</span></div>
+        <div class="step-row sub"><span><span class="step-sign">−</span>取得費${buildingRatio > 0 && depreciationAmount > 0 ? '（減価償却後）' : ''}</span><span>${fmtSale(acquisitionCost)}</span></div>
+        <div class="step-row sub"><span><span class="step-sign">−</span>売却諸費用（概算）</span><span>${fmtSale(sCost)}</span></div>
+        <div class="step-row result ${capitalGain>=0?'positive':'negative'}"><span>＝ 全体の譲渡益</span><span>${capitalGain>=0?'+':''}${fmtSale(capitalGain)}</span></div>
+        <div style="font-size:0.6rem;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);line-height:1.8;">
+          <div style="margin-bottom:4px;font-weight:600;">↓ 持分割合で按分</div>
+          <div>本人（${pctA}%）：${fmtSale(capitalGain)} × ${pctA}% ＝ <strong>${capitalGain>=0?'+':''}${fmtSale(capitalGainA)}</strong></div>
+          <div>配偶者（${pctB}%）：${fmtSale(capitalGain)} × ${pctB}% ＝ <strong>${capitalGain>=0?'+':''}${fmtSale(capitalGainB)}</strong></div>
+        </div>
+        ${buildingRatio > 0 && depreciationAmount > 0 ? `<div style="font-size:0.56rem;color:var(--muted);margin-top:4px;">📐 減価償却 ${holdingYears}年間 ${fmtMan(depreciationAmount)} 分が取得費から差し引かれています。</div>` : ''}
       </div>
 
       <div class="step-connector">▼</div>
@@ -2969,7 +2974,21 @@ function calcSale() {
   const breakdownHtml = `
     <div class="step-box">
       <span class="step-num s1">1</span>
-      <div class="step-title c1">譲渡益の計算</div>
+      <div class="step-title c1">税率の判定</div>
+      <div class="step-desc">所有期間が5年超かどうかで税率が大きく変わります。長く保有するほど税率は低くなります。</div>
+      <div class="step-row"><span>所有期間</span><span>${Math.floor(taxHoldingYears)}年${Math.round((taxHoldingYears % 1) * 12)}ヶ月</span></div>
+      <div style="font-size:0.56rem;color:var(--muted);margin-top:2px;">※ 譲渡年の1月1日時点で判定</div>
+      <div class="step-row result" style="color:var(--info);"><span>判定</span>
+        <span class="step-badge ${taxBadgeClass === 'tax-short' ? 'danger' : taxBadgeClass === 'tax-reduced' ? 'safe' : taxBadgeClass === 'tax-zero' ? 'info' : 'info'}">${taxLabel}${appliedRateText ? ' (' + appliedRateText + ')' : ''}</span>
+      </div>
+      ${use30m && capitalGain > 0 ? `<div style="font-size:0.6rem;margin-top:8px;padding:6px 8px;background:rgba(80,200,120,0.08);border-left:3px solid var(--safe);border-radius:4px;color:var(--safe);line-height:1.6;">💡 <strong>3,000万円特別控除を適用中</strong>：譲渡益が控除枠（3,000万円）に収まれば、<strong>所有期間に関わらず</strong>譲渡税は0円になります。${taxBadgeClass === 'tax-zero' ? '（今回の試算では非課税）' : ''}</div>` : ''}
+    </div>
+
+    <div class="step-connector">▼</div>
+
+    <div class="step-box">
+      <span class="step-num s2">2</span>
+      <div class="step-title c2">譲渡益の計算</div>
       <div class="step-desc">売った価格から「買ったときの費用＋売却費用」を引いた利益です。プラスなら課税対象になります。</div>
       <div class="step-row"><span>売却予定額</span><span>${fmtSale(sPrice)}</span></div>
       <div class="step-row sub"><span><span class="step-sign">−</span>取得費${buildingRatio > 0 && depreciationAmount > 0 ? '（減価償却後）' : ''}</span><span>${fmtSale(acquisitionCost)}</span></div>
@@ -3016,20 +3035,6 @@ function calcSale() {
         <div class="step-row sub" style="color:var(--safe);"><span><span class="step-sign">−</span>3,000万円特別控除</span><span class="step-badge safe">適用</span></div>
         <div class="step-row result positive"><span>＝ 課税譲渡所得</span><span>${fmtSale(taxableGain)}</span></div>
       </div>` : ''}
-    </div>
-
-    <div class="step-connector">▼</div>
-
-    <div class="step-box">
-      <span class="step-num s2">2</span>
-      <div class="step-title c2">税率の判定</div>
-      <div class="step-desc">所有期間が5年超かどうかで税率が大きく変わります。長く保有するほど税率は低くなります。</div>
-      <div class="step-row"><span>所有期間</span><span>${Math.floor(taxHoldingYears)}年${Math.round((taxHoldingYears % 1) * 12)}ヶ月</span></div>
-      <div style="font-size:0.56rem;color:var(--muted);margin-top:2px;">※ 譲渡年の1月1日時点で判定</div>
-      <div class="step-row result" style="color:var(--info);"><span>判定</span>
-        <span class="step-badge ${taxBadgeClass === 'tax-short' ? 'danger' : taxBadgeClass === 'tax-reduced' ? 'safe' : taxBadgeClass === 'tax-zero' ? 'info' : 'info'}">${taxLabel}${appliedRateText ? ' (' + appliedRateText + ')' : ''}</span>
-      </div>
-      ${taxBadgeClass === 'tax-zero' ? '<div style="font-size:0.56rem;margin-top:6px;color:var(--accent);line-height:1.5;">💡 控除内で非課税のため、所有期間は税額に影響しません</div>' : ''}
     </div>
 
     <div class="step-connector">▼</div>

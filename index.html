@@ -2850,6 +2850,26 @@ function calcSale() {
       </div>`;
     };
 
+    // ペアローン：シミュレーション結果サマリー
+    const pairSummary = (() => {
+      const items = [];
+      if (capitalGain > 0) items.push({ok:1, t:`売却益が <strong>${fmtSale(capitalGain)}</strong> 出ています。`});
+      else if (capitalGain < 0) items.push({ok:0, t:`売却損が <strong>${fmtSale(-capitalGain)}</strong> あります（売却価格が取得費を下回る状態）。`});
+      else items.push({ok:2, t:`売却益・損はほぼゼロです。`});
+      if (totalTax === 0) items.push({ok:1, t: capitalGain <= 0 ? `売却益がないため、譲渡税はかかりません。` : `3,000万円特別控除で、二人の譲渡税は合計 <strong>0円</strong> です。`});
+      else items.push({ok:0, t:`二人合計の譲渡税は <strong>${fmtSale(totalTax)}</strong> です（各自の確定申告が必要）。`});
+      if (totalNet >= 0) items.push({ok:1, t:`残債・費用・税金をすべて差し引いた二人の合計手取りは <strong>${fmtSale(totalNet)}</strong> になります。`});
+      else items.push({ok:0, t:`合計手取りが <strong>${fmtSale(totalNet)}</strong> でマイナスです。売却には二人合計で <strong>${fmtSale(-totalNet)}</strong> の自己資金が必要です。`});
+      if (capitalGain > 0 && totalTax > 0 && taxHoldingYears <= 5) {
+        const mo = Math.ceil((5.001 - taxHoldingYears) * 12);
+        items.push({ok:2, t:`所有期間が5年以下のため短期譲渡税率（39.63%）が適用中。あと約${mo}ヶ月待つと長期（20.315%）に下がります。`});
+      }
+      return `<div style="margin-top:16px;margin-left:36px;padding:14px 16px;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);font-size:0.7rem;line-height:1.7;">
+        <div style="font-weight:700;font-size:0.72rem;margin-bottom:10px;color:var(--text);">📋 シミュレーション結果のまとめ</div>
+        ${items.map((it, i) => `<div style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;${i < items.length-1 ? 'border-bottom:1px solid var(--border);' : ''}"><span style="flex-shrink:0;font-size:0.8rem;">${it.ok===1?'✅':it.ok===0?'⚠️':'💡'}</span><span style="color:var(--text2);">${it.t}</span></div>`).join('')}
+      </div>`;
+    })();
+
     const pairHtml = `
       <div class="step-box">
         <span class="step-num s1">1</span>
@@ -2913,6 +2933,7 @@ function calcSale() {
         </div>
       </div>
       <div style="font-size:0.6rem;color:var(--muted);text-align:right;margin-top:10px;margin-left:36px;">※売却諸費用は仲介手数料＋印紙代の概算です。</div>
+      ${pairSummary}
     `;
     document.getElementById('calcBreakdown').innerHTML = pairHtml;
     document.getElementById('saleResult').style.display = 'block';
@@ -2971,6 +2992,26 @@ function calcSale() {
     // スタンドアロン: 損益分岐点チャートは非表示
     beBox.style.display = 'none';
   }
+  // 単独ローン：シミュレーション結果サマリー
+  const singleSummary = (() => {
+    const items = [];
+    if (capitalGain > 0) items.push({ok:1, t:`売却益が <strong>${fmtSale(capitalGain)}</strong> 出ています。`});
+    else if (capitalGain < 0) items.push({ok:0, t:`売却損が <strong>${fmtSale(-capitalGain)}</strong> あります（売却価格が取得費を下回る状態）。`});
+    else items.push({ok:2, t:`売却益・損はほぼゼロです。`});
+    if (tax === 0) items.push({ok:1, t: capitalGain <= 0 ? `売却益がないため、譲渡税はかかりません。` : `3,000万円特別控除で、譲渡税は <strong>0円</strong> です。`});
+    else items.push({ok:0, t:`<strong>${taxLabel}（${appliedRateText}）</strong> で、<strong>${fmtSale(tax)}</strong> の譲渡税がかかります。`});
+    if (netProceeds >= 0) items.push({ok:1, t:`残債・費用・税金をすべて差し引いた手取りは <strong>${fmtSale(netProceeds)}</strong> になります。`});
+    else items.push({ok:0, t:`手取りが <strong>${fmtSale(netProceeds)}</strong> でマイナスです。売却には <strong>${fmtSale(-netProceeds)}</strong> の自己資金が必要です。`});
+    if (capitalGain > 0 && tax > 0 && taxHoldingYears <= 5) {
+      const mo = Math.ceil((5.001 - taxHoldingYears) * 12);
+      items.push({ok:2, t:`所有期間が5年以下のため短期譲渡税率（39.63%）が適用中。あと約${mo}ヶ月待つと長期（20.315%）に下がります。`});
+    }
+    return `<div style="margin-top:16px;margin-left:36px;padding:14px 16px;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);font-size:0.7rem;line-height:1.7;">
+      <div style="font-weight:700;font-size:0.72rem;margin-bottom:10px;color:var(--text);">📋 シミュレーション結果のまとめ</div>
+      ${items.map((it, i) => `<div style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;${i < items.length-1 ? 'border-bottom:1px solid var(--border);' : ''}"><span style="flex-shrink:0;font-size:0.8rem;">${it.ok===1?'✅':it.ok===0?'⚠️':'💡'}</span><span style="color:var(--text2);">${it.t}</span></div>`).join('')}
+    </div>`;
+  })();
+
   const breakdownHtml = `
     <div class="step-box">
       <span class="step-num s1">1</span>
@@ -3068,6 +3109,7 @@ function calcSale() {
       </div>
     </div>
     <div style="font-size:0.6rem; color:var(--muted); text-align:right; margin-top:10px; margin-left:36px;">※売却諸費用は仲介手数料＋印紙代の概算です。</div>
+    ${singleSummary}
   `;
   document.getElementById('calcBreakdown').innerHTML = breakdownHtml;
   document.getElementById('saleResult').style.display = 'block';

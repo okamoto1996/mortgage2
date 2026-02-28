@@ -1,4 +1,4 @@
-const CACHE_NAME = "mortgage-app-v26";
+const CACHE_NAME = "mortgage-app-v27";
 const urlsToCache = [
   "/mortgage2/",
   "/mortgage2/index.html",

@@ -864,20 +864,20 @@
   <div class="stats-section-label">返済額の比較</div>
   <div class="stats-grid-4">
     <div class="stat-box">
-      <div class="stat-label">当初 月返済額<br><span style="font-size:0.6rem;font-weight:400;color:var(--border2)">借入開始時点</span></div>
+      <div class="stat-label">当初 月返済額</div>
       <div class="stat-value" id="statInitial">—</div>
     </div>
-    <div class="stat-box" style="border-color:rgba(212,180,120,0.5);background:rgba(212,180,120,0.04);">
-      <div class="stat-label" style="color:var(--accent)">現在 月返済額<br><span style="font-size:0.6rem;font-weight:400;color:var(--muted)">今月の実際の金額</span></div>
+    <div class="stat-box">
+      <div class="stat-label">現在 月返済額</div>
       <div class="stat-value accent" id="statCurrent">—</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">5年ルールなしなら<br><span style="font-size:0.6rem;font-weight:400;color:var(--muted)">金利変動を即反映した場合</span></div>
+      <div class="stat-label">ルールなしの場合</div>
       <div class="stat-value" id="statTheoretical" style="color:var(--muted)">—</div>
       <div class="stat-sub" id="statTheoreticalDiff"></div>
     </div>
     <div class="stat-box" style="border-color:rgba(110,196,150,0.4);">
-      <div class="stat-label" style="color:var(--safe)">次回見直し<br><span style="font-size:0.6rem;font-weight:400;color:var(--muted)">5年ごとに返済額を更新</span></div>
+      <div class="stat-label" style="color:var(--safe)">次回見直し</div>
       <div class="stat-value" style="color:var(--safe)" id="statNextChange">—</div>
       <div class="stat-sub" id="statNextChangeDate"></div>
     </div>
@@ -1169,7 +1169,7 @@
         <input type="month" id="salePurchaseDate" value="">
         <span class="autofill-badge" id="salePurchaseDateAuto" style="display:none;">自動入力済</span>
       </div>
-      <div class="form-group">
+      <div class="form-group" id="saleBalanceWrap">
         <label>売却時点のローン残高 (万円)</label>
         <input type="number" id="saleBalance" value="" step="1" inputmode="decimal" placeholder="手入力 or 自動計算">
         <span class="autofill-badge" id="saleBalanceAuto" style="display:none;">自動入力済</span>
@@ -1204,7 +1204,7 @@
     </div>
     
     <div style="display:flex; flex-direction:column; gap:8px; margin-top:16px;">
-      <div class="checkbox-group" style="margin-top:0;">
+      <div class="checkbox-group" id="use30mWrap" style="margin-top:0;">
         <input type="checkbox" id="use30mDeduction" checked>
         <label for="use30mDeduction">居住用財産の3,000万円特別控除を適用する</label>
       </div>
@@ -1214,7 +1214,52 @@
       </div>
       <div style="font-size:0.65rem; color:var(--danger); margin-top:-4px;">※上記2つの特例は、新居で住宅ローン控除を利用する場合は併用できません。</div>
     </div>
-    
+
+    <!-- ペアローントグル -->
+    <div class="checkbox-group" style="margin-top:12px;">
+      <input type="checkbox" id="usePairLoan" onchange="togglePairLoan()">
+      <label for="usePairLoan">👫 ペアローン（共有名義）で購入した</label>
+    </div>
+
+    <!-- ペアローン入力欄 -->
+    <div id="pairLoanSection" style="display:none; margin-top:12px; padding:16px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm);">
+      <div style="font-size:0.72rem; color:var(--accent); font-weight:600; margin-bottom:12px;">👫 持分・ローン残高の設定</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>本人の持分 (%)</label>
+          <input type="number" id="pairRatioA" value="50" min="1" max="99" step="1" inputmode="numeric" oninput="syncPairRatioB()">
+        </div>
+        <div class="form-group">
+          <label>配偶者の持分 (%)</label>
+          <input type="number" id="pairRatioB" value="50" min="1" max="99" step="1" inputmode="numeric" readonly style="opacity:0.6;cursor:default;">
+        </div>
+        <div class="form-group">
+          <label>本人のローン残高 (万円)</label>
+          <input type="number" id="saleBalanceA" step="1" inputmode="decimal" placeholder="売却時点の残高">
+          <span class="autofill-badge" id="saleBalanceAAuto" style="display:none;">自動入力済</span>
+        </div>
+        <div class="form-group">
+          <label>配偶者のローン残高 (万円)</label>
+          <input type="number" id="saleBalanceB" step="1" inputmode="decimal" placeholder="売却時点の残高">
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+        <div class="checkbox-group" style="margin-top:0;">
+          <input type="checkbox" id="use30mA" checked>
+          <label for="use30mA">本人: 3,000万円特別控除を適用する</label>
+        </div>
+        <div class="checkbox-group" style="margin-top:0;">
+          <input type="checkbox" id="use30mB" checked>
+          <label for="use30mB">配偶者: 3,000万円特別控除を適用する</label>
+        </div>
+      </div>
+      <div style="font-size:0.68rem; color:var(--info); margin-top:10px; line-height:1.7; padding:10px 12px; background:rgba(106,158,216,0.06); border:1px solid rgba(106,158,216,0.2); border-radius:var(--radius-sm);">
+        💡 各自が持分割合で按分した譲渡益を申告します。それぞれが3,000万円控除を使える（合計最大6,000万円）ため、単独名義より税負担が小さくなる場合があります。<br>
+        軽減税率（10年超）は所有期間が共通なので両者に同様に適用されます。<br>
+        <span style="color:var(--accent);">新居でローン控除を使う場合は3,000万円控除との併用不可（各自）。</span>
+      </div>
+    </div>
+
     <button class="btn" style="background:var(--safe); color:#fff; margin-top:16px" onclick="calcSale()">売却手取り額を計算</button>
 
     <div id="saleResult" style="display:none; margin-top:20px;">
@@ -1469,9 +1514,15 @@ function saveSettings(showToast = true) {
     use30mDeduction: document.getElementById('use30mDeduction').checked,
     use10yRate: document.getElementById('use10yRate').checked,
     buildingRatio: document.getElementById('buildingRatio').value,
-    buildingType: document.getElementById('buildingType').value
+    buildingType: document.getElementById('buildingType').value,
+    usePairLoan: document.getElementById('usePairLoan').checked,
+    pairRatioA: document.getElementById('pairRatioA').value,
+    saleBalanceA: document.getElementById('saleBalanceA').value,
+    saleBalanceB: document.getElementById('saleBalanceB').value,
+    use30mA: document.getElementById('use30mA').checked,
+    use30mB: document.getElementById('use30mB').checked
   };
-  localStorage.setItem('mortgage_settings_v13', JSON.stringify(data));
+  localStorage.setItem('mortgage_settings_v14', JSON.stringify(data));
   if (showToast) {
     const n = document.getElementById('saveNotice');
     n.style.display = 'block';
@@ -1481,7 +1532,7 @@ function saveSettings(showToast = true) {
 }
 
 function loadSettings() {
-  const s = localStorage.getItem('mortgage_settings_v13');
+  const s = localStorage.getItem('mortgage_settings_v14');
   if (!s) return;
   try {
     const d = JSON.parse(s);
@@ -1495,7 +1546,7 @@ function loadSettings() {
     if (d.costAdmin) document.getElementById('costAdmin').value = d.costAdmin;
     if (d.costRepair) document.getElementById('costRepair').value = d.costRepair;
     if (d.costOther) document.getElementById('costOther').value = d.costOther;
-    
+
     if (d.saleDate) document.getElementById('saleDate').value = d.saleDate;
     if (d.salePrice) document.getElementById('salePrice').value = d.salePrice;
     if (d.purchasePrice) document.getElementById('purchasePrice').value = d.purchasePrice;
@@ -1504,6 +1555,12 @@ function loadSettings() {
     if (d.use10yRate !== undefined) document.getElementById('use10yRate').checked = d.use10yRate;
     if (d.buildingRatio) document.getElementById('buildingRatio').value = d.buildingRatio;
     if (d.buildingType) document.getElementById('buildingType').value = d.buildingType;
+    if (d.usePairLoan !== undefined) { document.getElementById('usePairLoan').checked = d.usePairLoan; togglePairLoan(); }
+    if (d.pairRatioA) { document.getElementById('pairRatioA').value = d.pairRatioA; syncPairRatioB(); }
+    if (d.saleBalanceA) document.getElementById('saleBalanceA').value = d.saleBalanceA;
+    if (d.saleBalanceB) document.getElementById('saleBalanceB').value = d.saleBalanceB;
+    if (d.use30mA !== undefined) document.getElementById('use30mA').checked = d.use30mA;
+    if (d.use30mB !== undefined) document.getElementById('use30mB').checked = d.use30mB;
 
     if (d.rateChanges) { rateChanges = d.rateChanges; renderRateChanges(); }
     toggleRulesVisibility();
@@ -1755,6 +1812,14 @@ function updateSaleBalance() {
   saleBalEl.value = Math.round(remainBalance / 10000);
   document.getElementById('saleBalanceAuto').style.display = 'inline-block';
   saleBalEl.addEventListener('input', function() { document.getElementById('saleBalanceAuto').style.display = 'none'; }, { once: true });
+
+  // ペアローンモード: 本人のローン残高も同じ値を自動入力（目安）
+  const saleBalAEl = document.getElementById('saleBalanceA');
+  if (saleBalAEl) {
+    saleBalAEl.value = Math.round(remainBalance / 10000);
+    document.getElementById('saleBalanceAAuto').style.display = 'inline-block';
+    saleBalAEl.addEventListener('input', function() { document.getElementById('saleBalanceAAuto').style.display = 'none'; }, { once: true });
+  }
 }
 
 function updateStats(initialP, method, warning) {
@@ -1776,8 +1841,8 @@ function updateStats(initialP, method, warning) {
   
   const diff = noRuleRow.payment - currentRow.payment;
   const diffEl = document.getElementById('statTheoreticalDiff');
-  if (diff > 0) diffEl.innerHTML = `<span style="color:var(--safe)">▼ ${diff.toLocaleString()}円 低減</span><br><span style="font-size:0.68rem;color:var(--muted);">5年ルールにより抑制中</span>`;
-  else if (diff < 0) diffEl.innerHTML = `<span style="color:var(--danger)">▲ ${Math.abs(diff).toLocaleString()}円 増加</span><br><span style="font-size:0.68rem;color:var(--muted);">5年ルールで据え置き中</span>`;
+  if (diff > 0) diffEl.innerHTML = `<span style="color:var(--safe)">▼ ${diff.toLocaleString()}円 低減</span><br><span style="font-size:0.6rem;">5年ルールにより抑制中</span>`;
+  else if (diff < 0) diffEl.innerHTML = `<span style="color:var(--danger)">▲ ${Math.abs(diff).toLocaleString()}円 増加</span><br><span style="font-size:0.6rem;">5年ルールで据え置き中</span>`;
   else diffEl.textContent = '現在と同額';
 
   const useJibunRules = document.getElementById('useJibunRules').checked && method === 'equal_payment';
@@ -2503,23 +2568,24 @@ function updateDepreciationInfo() {
 /* --- 売却シミュレーション --- */
 let breakevenChartInstance = null;
 
+// 課税譲渡所得（3,000万円控除適用済み）から税額を計算する低レベルヘルパー
+function applyTaxRate(taxableGain, taxHoldYrs, use10y) {
+  if (taxableGain <= 0) return 0;
+  if (taxHoldYrs > 10 && use10y) {
+    if (taxableGain <= 60000000) return Math.floor(taxableGain * 0.1421);
+    return Math.floor((60000000 * 0.1421) + ((taxableGain - 60000000) * 0.20315));
+  }
+  if (taxHoldYrs > 5) return Math.floor(taxableGain * 0.20315);
+  return Math.floor(taxableGain * 0.3963);
+}
+
 // 年ごとの税額を正確に計算するヘルパー
 function calcTaxForYear(sPrice, pPrice, pCost, sCost, taxHoldYrs, use30m, use10y) {
   const capitalGain = sPrice - (pPrice + pCost) - sCost;
   if (capitalGain <= 0) return 0;
   let taxableGain = capitalGain;
   if (use30m) taxableGain = Math.max(0, taxableGain - 30000000);
-  if (taxableGain <= 0) return 0;
-  let tax = 0;
-  if (taxHoldYrs > 10 && use10y) {
-    if (taxableGain <= 60000000) tax = taxableGain * 0.1421;
-    else tax = (60000000 * 0.1421) + ((taxableGain - 60000000) * 0.20315);
-  } else if (taxHoldYrs > 5) {
-    tax = taxableGain * 0.20315;
-  } else {
-    tax = taxableGain * 0.3963;
-  }
-  return Math.floor(tax);
+  return applyTaxRate(taxableGain, taxHoldYrs, use10y);
 }
 
 function drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startMoment, buildingRatio, depInfo, landCost) {
@@ -2603,11 +2669,29 @@ function drawBreakevenChart(sPrice, sCost, pPrice, pCost, use30m, use10y, startM
 }
 
 
+function syncPairRatioB() {
+  const a = parseFloat(document.getElementById('pairRatioA').value) || 50;
+  document.getElementById('pairRatioB').value = Math.max(1, Math.min(99, 100 - a));
+}
+
+function togglePairLoan() {
+  const isPair = document.getElementById('usePairLoan').checked;
+  document.getElementById('pairLoanSection').style.display = isPair ? 'block' : 'none';
+  document.getElementById('use30mWrap').style.display = isPair ? 'none' : '';
+  document.getElementById('saleBalanceWrap').style.display = isPair ? 'none' : '';
+}
+
 function calcSale() {
   const salePurchaseDateStr = document.getElementById('salePurchaseDate').value;
-  const saleBalVal = parseFloat(document.getElementById('saleBalance').value);
+  const isPairLoan = document.getElementById('usePairLoan').checked;
+  const saleBalVal = isPairLoan ? 0 : parseFloat(document.getElementById('saleBalance').value);
   if (!salePurchaseDateStr) { alert('購入年月を入力してください'); return; }
-  if (isNaN(saleBalVal) || saleBalVal < 0) { alert('売却時点のローン残高を入力してください'); return; }
+  if (!isPairLoan && (isNaN(saleBalVal) || saleBalVal < 0)) { alert('売却時点のローン残高を入力してください'); return; }
+  if (isPairLoan) {
+    const balAv = parseFloat(document.getElementById('saleBalanceA').value);
+    const balBv = parseFloat(document.getElementById('saleBalanceB').value);
+    if (isNaN(balAv) || balAv < 0 || isNaN(balBv) || balBv < 0) { alert('本人・配偶者のローン残高を入力してください'); return; }
+  }
   saveSettings();
   const saleDateStr = document.getElementById('saleDate').value;
   const sPrice = (parseFloat(document.getElementById('salePrice').value) || 0) * 10000;
@@ -2642,6 +2726,130 @@ function calcSale() {
   const acquisitionCostNoDep = Math.floor(pPrice + pCost); // 減価償却なしの取得費
   const capitalGainNoDep = sPrice - acquisitionCostNoDep - sCost; // 減価償却なしの譲渡益
   let capitalGain = sPrice - acquisitionCost - sCost;
+
+  // ── ペアローンモード ───────────────────────────────────────────────────────
+  if (isPairLoan) {
+    const ratioA = parseFloat(document.getElementById('pairRatioA').value) / 100;
+    const ratioB = 1 - ratioA;
+    const balA = parseFloat(document.getElementById('saleBalanceA').value) * 10000;
+    const balB = parseFloat(document.getElementById('saleBalanceB').value) * 10000;
+    const use30mA = document.getElementById('use30mA').checked;
+    const use30mB = document.getElementById('use30mB').checked;
+    const pctA = Math.round(ratioA * 100), pctB = Math.round(ratioB * 100);
+
+    // 持分按分後の譲渡益
+    const capitalGainA = Math.round(capitalGain * ratioA);
+    const capitalGainB = capitalGain - capitalGainA;
+
+    // 各自の課税譲渡所得
+    const taxableGainA = capitalGain > 0 ? Math.max(0, capitalGainA - (use30mA ? 30000000 : 0)) : 0;
+    const taxableGainB = capitalGain > 0 ? Math.max(0, capitalGainB - (use30mB ? 30000000 : 0)) : 0;
+
+    // 各自の税額
+    const taxA = applyTaxRate(taxableGainA, taxHoldingYears, use10y);
+    const taxB = applyTaxRate(taxableGainB, taxHoldingYears, use10y);
+    const totalTax = taxA + taxB;
+    const totalBalance = balA + balB;
+
+    // 各自の手取り
+    const netA = Math.round(sPrice * ratioA - balA - sCost * ratioA - taxA);
+    const netB = Math.round(sPrice * ratioB - balB - sCost * ratioB - taxB);
+    const totalNet = netA + netB;
+
+    // バッジ判定
+    let pTaxLabel = "非課税"; let pTaxClass = "tax-zero"; let pRateText = "";
+    if (capitalGain > 0 && totalTax > 0) {
+      if (taxHoldingYears > 10 && use10y) { pTaxLabel = "軽減税率適用"; pRateText = "14.21%"; pTaxClass = "tax-reduced"; }
+      else if (taxHoldingYears > 5) { pTaxLabel = "長期譲渡所得"; pRateText = "20.315%"; pTaxClass = "tax-long"; }
+      else { pTaxLabel = "短期譲渡所得"; pRateText = "39.63%"; pTaxClass = "tax-short"; }
+    } else if (capitalGain > 0) { pTaxLabel = "税額0円 (3,000万控除枠内)"; }
+    else { pTaxLabel = "税額0円 (譲渡益なし)"; }
+
+    const badge = document.getElementById('taxBadge');
+    badge.textContent = pTaxLabel; badge.className = `tax-badge ${pTaxClass}`; document.getElementById('taxBadgeWrap').style.display = 'block';
+    document.getElementById('saleResNet').textContent = fmtShort(totalNet) + '円';
+    document.getElementById('breakevenBox').style.display = 'none';
+
+    // 各人のカードHTML生成
+    const mkPersonCard = (name, ratio, cgI, tgI, taxI, netI, use30mI, balI) => {
+      const isLoss = cgI <= 0;
+      return `<div style="flex:1;min-width:0;padding:10px 12px;background:var(--surface3);border:1px solid var(--border2);border-radius:var(--radius-sm);">
+        <div style="font-size:0.65rem;font-weight:600;color:var(--accent);margin-bottom:8px;">${name}（持分 ${Math.round(ratio*100)}%）</div>
+        <div class="step-row"><span>按分後の譲渡益</span><span class="${isLoss?'negative':'positive'}">${cgI>=0?'+':''}${fmtShort(cgI)}円</span></div>
+        ${!isLoss && use30mI ? `<div class="step-row sub" style="color:var(--safe);"><span><span class="step-sign">−</span>3,000万円特別控除</span><span class="step-badge safe">適用</span></div>
+        <div class="step-row"><span>課税譲渡所得</span><span>${fmtShort(tgI)}円</span></div>` : ''}
+        <div class="step-row result ${taxI===0?'positive':'negative'}"><span>譲渡税</span><span>${taxI===0?'0円':fmtShort(taxI)+'円'}</span></div>
+        <div style="border-top:1px solid var(--border);margin-top:6px;padding-top:6px;">
+          <div class="step-row sub"><span>売却額×持分</span><span>${fmtShort(Math.round(sPrice*ratio))}円</span></div>
+          <div class="step-row sub"><span>残債返済</span><span>−${fmtShort(balI)}円</span></div>
+          <div class="step-row sub"><span>売却費用×持分</span><span>−${fmtShort(Math.round(sCost*ratio))}円</span></div>
+          <div class="step-row result ${netI>=0?'positive':'negative'}" style="font-weight:600;"><span>手取り</span><span>${netI>=0?'+':''}${fmtShort(netI)}円</span></div>
+        </div>
+      </div>`;
+    };
+
+    const pairHtml = `
+      <div class="step-box">
+        <span class="step-num s1">1</span>
+        <div class="step-title c1">譲渡益の計算（全体）</div>
+        <div class="step-row"><span>売却予定額</span><span>${fmtShort(sPrice)}円</span></div>
+        <div class="step-row sub"><span><span class="step-sign">−</span>取得費${buildingRatio > 0 && depreciationAmount > 0 ? '（減価償却後）' : ''}</span><span>${fmtShort(acquisitionCost)}円</span></div>
+        <div class="step-row sub"><span><span class="step-sign">−</span>売却諸費用（概算）</span><span>${fmtShort(sCost)}円</span></div>
+        <div class="step-row result ${capitalGain>=0?'positive':'negative'}"><span>＝ 全体の譲渡益</span><span>${capitalGain>=0?'+':''}${fmtShort(capitalGain)}円</span></div>
+        <div style="font-size:0.6rem;color:var(--muted);margin-top:8px;line-height:1.6;">↓ 持分割合で按分（本人 ${pctA}%・配偶者 ${pctB}%）</div>
+        ${buildingRatio > 0 && depreciationAmount > 0 ? `<div style="font-size:0.56rem;color:var(--muted);margin-top:4px;">📐 減価償却 ${holdingYears}年間 ${fmtMan(depreciationAmount)} 分が取得費から差し引かれています。</div>` : ''}
+      </div>
+
+      <div class="step-connector">▼</div>
+
+      <div class="step-box">
+        <span class="step-num s2">2</span>
+        <div class="step-title c2">税率の判定（両者共通）</div>
+        <div class="step-row"><span>所有期間</span><span>${Math.floor(taxHoldingYears)}年${Math.round((taxHoldingYears % 1) * 12)}ヶ月</span></div>
+        <div style="font-size:0.56rem;color:var(--muted);margin-top:2px;">※ 譲渡年の1月1日時点で判定</div>
+        <div class="step-row result" style="color:var(--info);"><span>判定</span>
+          <span class="step-badge ${pTaxClass==='tax-short'?'danger':pTaxClass==='tax-reduced'?'safe':'info'}">${pTaxLabel}${pRateText?' ('+pRateText+')':''}</span>
+        </div>
+      </div>
+
+      <div class="step-connector">▼</div>
+
+      <div class="step-box"${totalTax>0?' style="border-color:rgba(224,120,104,0.25);"':''}>
+        <span class="step-num s3">3</span>
+        <div class="step-title c3">各自の譲渡税</div>
+        <div style="display:flex;gap:10px;margin-top:8px;">
+          ${mkPersonCard('本人', ratioA, capitalGainA, taxableGainA, taxA, netA, use30mA, balA)}
+          ${mkPersonCard('配偶者', ratioB, capitalGainB, taxableGainB, taxB, netB, use30mB, balB)}
+        </div>
+        <div class="step-row result ${totalTax===0?'positive':'negative'}" style="margin-top:10px;border-top:1px solid var(--border);padding-top:8px;">
+          <span>合計 譲渡税</span><span>${totalTax===0?'0円':fmtShort(totalTax)+'円'}</span>
+        </div>
+      </div>
+
+      <div class="step-connector">▼</div>
+
+      <div class="step-final">
+        <span class="step-num s4">4</span>
+        <div class="step-title c4">最終手取り額（合計）</div>
+        <div class="step-final-items">
+          <div class="step-final-item"><span>売却額</span><span>${fmtShort(sPrice)}円</span></div>
+          <div class="step-final-item"><span>残債返済（本人＋配偶者）</span><span>−${fmtShort(totalBalance)}円</span></div>
+          <div class="step-final-item"><span>売却費用</span><span>−${fmtShort(sCost)}円</span></div>
+          <div class="step-final-item"><span>譲渡税（合計）</span><span>−${fmtShort(totalTax)}円</span></div>
+        </div>
+        <div class="step-row result ${totalNet>=0?'positive':'negative'}" style="font-size:1.1rem;">
+          <span>＝ 合計手取り額</span><span>${totalNet>=0?'+':''}${fmtShort(totalNet)}円</span>
+        </div>
+      </div>
+      <div style="font-size:0.6rem;color:var(--muted);text-align:right;margin-top:10px;margin-left:36px;">※売却諸費用は仲介手数料＋印紙代の概算です。</div>
+    `;
+    document.getElementById('calcBreakdown').innerHTML = pairHtml;
+    document.getElementById('saleResult').style.display = 'block';
+    drawEquityDonut(totalBalance, sPrice, sCost, totalTax);
+    return;
+  }
+  // ── 単独ローンモード（以下既存の処理） ─────────────────────────────────────
+
   let tax = 0; let taxLabel = "非課税"; let appliedRateText = ""; let taxBadgeClass = "tax-long";
   let taxableGain = capitalGain;
   if (capitalGain > 0) {

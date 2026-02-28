@@ -767,6 +767,36 @@
     </div>
   </div>
 
+  <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--border);">
+    <div class="checkbox-group" style="margin-top:0;">
+      <input type="checkbox" id="usePairLoan" onchange="togglePairLoan()">
+      <label for="usePairLoan">👫 ペアローン（共有名義）で購入した</label>
+    </div>
+    <div id="pairLoanInfoSection" style="display:none; margin-top:10px; padding:14px 16px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm);">
+      <div style="font-size:0.68rem; color:var(--text2); line-height:1.7; margin-bottom:12px; padding:8px 10px; background:rgba(212,180,120,0.04); border:1px solid rgba(212,180,120,0.2); border-radius:var(--radius-sm);">
+        💡 上の「借入金額」はペアローンの<strong>合算額</strong>で入力してください。返済スケジュール・繰り上げ・借り換えシミュレーションは合算ベースで計算します。各自の借入金額は売却時の残高按分に使用します。
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>本人の借入金額 (万円)</label>
+          <input type="number" id="pairLoanAmountA" step="1" inputmode="decimal" placeholder="例: 2500" oninput="syncPairLoanAmountB()">
+        </div>
+        <div class="form-group">
+          <label>配偶者の借入金額 (万円)</label>
+          <input type="number" id="pairLoanAmountB" step="1" inputmode="decimal" readonly style="opacity:0.6;cursor:default;" placeholder="自動計算">
+        </div>
+        <div class="form-group">
+          <label>本人の持分 (%)</label>
+          <input type="number" id="pairRatioA" value="50" min="1" max="99" step="1" inputmode="numeric" oninput="syncPairRatioB()">
+        </div>
+        <div class="form-group">
+          <label>配偶者の持分 (%)</label>
+          <input type="number" id="pairRatioB" value="50" min="1" max="99" step="1" inputmode="numeric" readonly style="opacity:0.6;cursor:default;">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--border);">
     <div class="card-title">ランニングコスト (月額)</div>
     <div class="form-grid">
@@ -1215,32 +1245,19 @@
       <div style="font-size:0.65rem; color:var(--danger); margin-top:-4px;">※上記2つの特例は、新居で住宅ローン控除を利用する場合は併用できません。</div>
     </div>
 
-    <!-- ペアローントグル -->
-    <div class="checkbox-group" style="margin-top:12px;">
-      <input type="checkbox" id="usePairLoan" onchange="togglePairLoan()">
-      <label for="usePairLoan">👫 ペアローン（共有名義）で購入した</label>
-    </div>
-
-    <!-- ペアローン入力欄 -->
-    <div id="pairLoanSection" style="display:none; margin-top:12px; padding:16px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm);">
-      <div style="font-size:0.72rem; color:var(--accent); font-weight:600; margin-bottom:12px;">👫 持分・ローン残高の設定</div>
+    <!-- ペアローン売却専用フィールド（bodyLoanでONにした場合のみ表示） -->
+    <div id="pairSaleSection" style="display:none; margin-top:16px; padding:16px; background:var(--surface2); border:1px solid rgba(212,180,120,0.3); border-radius:var(--radius-sm);">
+      <div style="font-size:0.72rem; color:var(--accent); font-weight:600; margin-bottom:12px;">👫 売却時点の各自ローン残高</div>
       <div class="form-grid">
         <div class="form-group">
-          <label>本人の持分 (%)</label>
-          <input type="number" id="pairRatioA" value="50" min="1" max="99" step="1" inputmode="numeric" oninput="syncPairRatioB()">
-        </div>
-        <div class="form-group">
-          <label>配偶者の持分 (%)</label>
-          <input type="number" id="pairRatioB" value="50" min="1" max="99" step="1" inputmode="numeric" readonly style="opacity:0.6;cursor:default;">
-        </div>
-        <div class="form-group">
-          <label>本人のローン残高 (万円)</label>
-          <input type="number" id="saleBalanceA" step="1" inputmode="decimal" placeholder="売却時点の残高">
+          <label>本人の残高 (万円)</label>
+          <input type="number" id="saleBalanceA" step="1" inputmode="decimal" placeholder="自動計算 or 手入力">
           <span class="autofill-badge" id="saleBalanceAAuto" style="display:none;">自動入力済</span>
         </div>
         <div class="form-group">
-          <label>配偶者のローン残高 (万円)</label>
-          <input type="number" id="saleBalanceB" step="1" inputmode="decimal" placeholder="売却時点の残高">
+          <label>配偶者の残高 (万円)</label>
+          <input type="number" id="saleBalanceB" step="1" inputmode="decimal" placeholder="自動計算 or 手入力">
+          <span class="autofill-badge" id="saleBalanceBAuto" style="display:none;">自動入力済</span>
         </div>
       </div>
       <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
@@ -1253,10 +1270,9 @@
           <label for="use30mB">配偶者: 3,000万円特別控除を適用する</label>
         </div>
       </div>
-      <div style="font-size:0.68rem; color:var(--info); margin-top:10px; line-height:1.7; padding:10px 12px; background:rgba(106,158,216,0.06); border:1px solid rgba(106,158,216,0.2); border-radius:var(--radius-sm);">
-        💡 各自が持分割合で按分した譲渡益を申告します。それぞれが3,000万円控除を使える（合計最大6,000万円）ため、単独名義より税負担が小さくなる場合があります。<br>
-        軽減税率（10年超）は所有期間が共通なので両者に同様に適用されます。<br>
-        <span style="color:var(--accent);">新居でローン控除を使う場合は3,000万円控除との併用不可（各自）。</span>
+      <div style="font-size:0.65rem; color:var(--info); margin-top:10px; line-height:1.7; padding:8px 10px; background:rgba(106,158,216,0.06); border:1px solid rgba(106,158,216,0.2); border-radius:var(--radius-sm);">
+        💡 持分で按分した譲渡益をそれぞれが申告。各自3,000万円控除（合計最大6,000万円）を適用できます。<br>
+        <span style="color:var(--accent);">新居でローン控除を使う場合は3,000万円控除と併用不可（各自）。</span>
       </div>
     </div>
 
@@ -1516,6 +1532,7 @@ function saveSettings(showToast = true) {
     buildingRatio: document.getElementById('buildingRatio').value,
     buildingType: document.getElementById('buildingType').value,
     usePairLoan: document.getElementById('usePairLoan').checked,
+    pairLoanAmountA: document.getElementById('pairLoanAmountA').value,
     pairRatioA: document.getElementById('pairRatioA').value,
     saleBalanceA: document.getElementById('saleBalanceA').value,
     saleBalanceB: document.getElementById('saleBalanceB').value,
@@ -1556,6 +1573,7 @@ function loadSettings() {
     if (d.buildingRatio) document.getElementById('buildingRatio').value = d.buildingRatio;
     if (d.buildingType) document.getElementById('buildingType').value = d.buildingType;
     if (d.usePairLoan !== undefined) { document.getElementById('usePairLoan').checked = d.usePairLoan; togglePairLoan(); }
+    if (d.pairLoanAmountA) { document.getElementById('pairLoanAmountA').value = d.pairLoanAmountA; syncPairLoanAmountB(); }
     if (d.pairRatioA) { document.getElementById('pairRatioA').value = d.pairRatioA; syncPairRatioB(); }
     if (d.saleBalanceA) document.getElementById('saleBalanceA').value = d.saleBalanceA;
     if (d.saleBalanceB) document.getElementById('saleBalanceB').value = d.saleBalanceB;
@@ -1813,12 +1831,25 @@ function updateSaleBalance() {
   document.getElementById('saleBalanceAuto').style.display = 'inline-block';
   saleBalEl.addEventListener('input', function() { document.getElementById('saleBalanceAuto').style.display = 'none'; }, { once: true });
 
-  // ペアローンモード: 本人のローン残高も同じ値を自動入力（目安）
-  const saleBalAEl = document.getElementById('saleBalanceA');
-  if (saleBalAEl) {
-    saleBalAEl.value = Math.round(remainBalance / 10000);
+  // ペアローンモード: 各自の借入金額比率で残高を按分して自動入力
+  if (document.getElementById('usePairLoan').checked) {
+    const amtA = parseFloat(document.getElementById('pairLoanAmountA').value) || 0;
+    const amtB = parseFloat(document.getElementById('pairLoanAmountB').value) || 0;
+    const totalAmt = amtA + amtB;
+    const saleBalAEl = document.getElementById('saleBalanceA');
+    const saleBalBEl = document.getElementById('saleBalanceB');
+    let ratioA = 0.5;
+    if (totalAmt > 0) {
+      ratioA = amtA / totalAmt;
+    } else {
+      ratioA = (parseFloat(document.getElementById('pairRatioA').value) || 50) / 100;
+    }
+    saleBalAEl.value = Math.round(remainBalance * ratioA / 10000);
+    saleBalBEl.value = Math.round(remainBalance * (1 - ratioA) / 10000);
     document.getElementById('saleBalanceAAuto').style.display = 'inline-block';
-    saleBalAEl.addEventListener('input', function() { document.getElementById('saleBalanceAAuto').style.display = 'none'; }, { once: true });
+    document.getElementById('saleBalanceBAuto').style.display = 'inline-block';
+    saleBalAEl.addEventListener('input', () => document.getElementById('saleBalanceAAuto').style.display = 'none', { once: true });
+    saleBalBEl.addEventListener('input', () => document.getElementById('saleBalanceBAuto').style.display = 'none', { once: true });
   }
 }
 
@@ -2674,9 +2705,19 @@ function syncPairRatioB() {
   document.getElementById('pairRatioB').value = Math.max(1, Math.min(99, 100 - a));
 }
 
+function syncPairLoanAmountB() {
+  const total = parseFloat(document.getElementById('principal').value) || 0;
+  const a = parseFloat(document.getElementById('pairLoanAmountA').value) || 0;
+  const b = Math.max(0, total - a);
+  document.getElementById('pairLoanAmountB').value = b > 0 ? b : '';
+  // 残高の按分も再計算
+  if (document.getElementById('saleBalanceA').value || document.getElementById('saleBalanceB').value) updateSaleBalance();
+}
+
 function togglePairLoan() {
   const isPair = document.getElementById('usePairLoan').checked;
-  document.getElementById('pairLoanSection').style.display = isPair ? 'block' : 'none';
+  document.getElementById('pairLoanInfoSection').style.display = isPair ? 'block' : 'none';
+  document.getElementById('pairSaleSection').style.display = isPair ? 'block' : 'none';
   document.getElementById('use30mWrap').style.display = isPair ? 'none' : '';
   document.getElementById('saleBalanceWrap').style.display = isPair ? 'none' : '';
 }
@@ -2773,8 +2814,8 @@ function calcSale() {
     // 各人のカードHTML生成
     const mkPersonCard = (name, ratio, cgI, tgI, taxI, netI, use30mI, balI) => {
       const isLoss = cgI <= 0;
-      return `<div style="flex:1;min-width:0;padding:10px 12px;background:var(--surface3);border:1px solid var(--border2);border-radius:var(--radius-sm);">
-        <div style="font-size:0.65rem;font-weight:600;color:var(--accent);margin-bottom:8px;">${name}（持分 ${Math.round(ratio*100)}%）</div>
+      return `<div style="width:100%;padding:12px 14px;background:var(--surface3);border:1px solid var(--border2);border-radius:var(--radius-sm);">
+        <div style="font-size:0.7rem;font-weight:600;color:var(--accent);margin-bottom:8px;">${name}（持分 ${Math.round(ratio*100)}%）</div>
         <div class="step-row"><span>按分後の譲渡益</span><span class="${isLoss?'negative':'positive'}">${cgI>=0?'+':''}${fmtShort(cgI)}円</span></div>
         ${!isLoss && use30mI ? `<div class="step-row sub" style="color:var(--safe);"><span><span class="step-sign">−</span>3,000万円特別控除</span><span class="step-badge safe">適用</span></div>
         <div class="step-row"><span>課税譲渡所得</span><span>${fmtShort(tgI)}円</span></div>` : ''}
@@ -2817,7 +2858,7 @@ function calcSale() {
       <div class="step-box"${totalTax>0?' style="border-color:rgba(224,120,104,0.25);"':''}>
         <span class="step-num s3">3</span>
         <div class="step-title c3">各自の譲渡税</div>
-        <div style="display:flex;gap:10px;margin-top:8px;">
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
           ${mkPersonCard('本人', ratioA, capitalGainA, taxableGainA, taxA, netA, use30mA, balA)}
           ${mkPersonCard('配偶者', ratioB, capitalGainB, taxableGainB, taxB, netB, use30mB, balB)}
         </div>

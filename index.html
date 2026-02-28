@@ -2853,16 +2853,16 @@ function calcSale() {
     // ペアローン：シミュレーション結果サマリー
     const pairSummary = (() => {
       const items = [];
-      if (capitalGain > 0) items.push({ok:1, t:`売却益が <strong>${fmtSale(capitalGain)}</strong> 出ています。`});
-      else if (capitalGain < 0) items.push({ok:0, t:`売却損が <strong>${fmtSale(-capitalGain)}</strong> あります（売却価格が取得費を下回る状態）。`});
-      else items.push({ok:2, t:`売却益・損はほぼゼロです。`});
-      if (totalTax === 0) items.push({ok:1, t: capitalGain <= 0 ? `売却益がないため、譲渡税はかかりません。` : `3,000万円特別控除で、二人の譲渡税は合計 <strong>0円</strong> です。`});
-      else items.push({ok:0, t:`二人合計の譲渡税は <strong>${fmtSale(totalTax)}</strong> です（各自の確定申告が必要）。`});
-      if (totalNet >= 0) items.push({ok:1, t:`残債・費用・税金をすべて差し引いた二人の合計手取りは <strong>${fmtSale(totalNet)}</strong> になります。`});
-      else items.push({ok:0, t:`合計手取りが <strong>${fmtSale(totalNet)}</strong> でマイナスです。売却には二人合計で <strong>${fmtSale(-totalNet)}</strong> の自己資金が必要です。`});
+      if (capitalGain > 0) items.push({ok:1, t:`売却益が <strong>${fmtSale(capitalGain)}</strong> 出ています。この金額が課税対象となるため、<strong>二人それぞれが翌年3月15日までに確定申告</strong>が必要です。`});
+      else if (capitalGain < 0) items.push({ok:0, t:`売却損が <strong>${fmtSale(-capitalGain)}</strong> あります（売却価格が取得費を下回る状態）。譲渡税はかかりませんが、二人合計のローン残高が売却代金を上回る「オーバーローン」になっていないか確認しましょう。`});
+      else items.push({ok:2, t:`売却益・損はほぼゼロです。譲渡税はかかりません。`});
+      if (totalTax === 0) items.push({ok:1, t: capitalGain <= 0 ? `売却益がないため、譲渡税はかかりません。確定申告も不要です。` : `3,000万円特別控除で、二人の譲渡税は合計 <strong>0円</strong> です。ただし<strong>控除を受けるには二人それぞれが確定申告が必須</strong>です。どちらか一方でも申告を忘れると課税されてしまうので注意してください。`});
+      else items.push({ok:0, t:`二人合計の譲渡税は <strong>${fmtSale(totalTax)}</strong> です。<strong>各自が翌年3月15日までに確定申告・納税が必要</strong>です。売却後は各自の納税分キャッシュを手元に確保しておきましょう。`});
+      if (totalNet >= 0) items.push({ok:1, t:`残債・費用・税金をすべて差し引いた二人の合計手取りは <strong>${fmtSale(totalNet)}</strong> になります。持分割合に応じて分配でき、次の住宅購入の頭金や将来の資金として活用できます。`});
+      else items.push({ok:0, t:`合計手取りが <strong>${fmtSale(totalNet)}</strong> でマイナスです。売却には二人合計で <strong>${fmtSale(-totalNet)}</strong> の自己資金が必要です。現金が用意できない場合は、売却時期や売値の見直しを二人で検討しましょう。`});
       if (capitalGain > 0 && totalTax > 0 && taxHoldingYears <= 5) {
         const mo = Math.ceil((5.001 - taxHoldingYears) * 12);
-        items.push({ok:2, t:`所有期間が5年以下のため短期譲渡税率（39.63%）が適用中。あと約${mo}ヶ月待つと長期（20.315%）に下がります。`});
+        items.push({ok:2, t:`所有期間が5年以下のため短期譲渡税率（39.63%）が適用中です。あと約${mo}ヶ月待てば長期（20.315%）に下がり、<strong>税額がほぼ半分</strong>になります。急いで売らなくて良いなら、売却時期の調整も検討してください。`});
       }
       return `<div style="margin-top:16px;margin-left:36px;padding:14px 16px;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);font-size:0.7rem;line-height:1.7;">
         <div style="font-weight:700;font-size:0.72rem;margin-bottom:10px;color:var(--text);">📋 シミュレーション結果のまとめ</div>
@@ -2995,16 +2995,16 @@ function calcSale() {
   // 単独ローン：シミュレーション結果サマリー
   const singleSummary = (() => {
     const items = [];
-    if (capitalGain > 0) items.push({ok:1, t:`売却益が <strong>${fmtSale(capitalGain)}</strong> 出ています。`});
-    else if (capitalGain < 0) items.push({ok:0, t:`売却損が <strong>${fmtSale(-capitalGain)}</strong> あります（売却価格が取得費を下回る状態）。`});
-    else items.push({ok:2, t:`売却益・損はほぼゼロです。`});
-    if (tax === 0) items.push({ok:1, t: capitalGain <= 0 ? `売却益がないため、譲渡税はかかりません。` : `3,000万円特別控除で、譲渡税は <strong>0円</strong> です。`});
-    else items.push({ok:0, t:`<strong>${taxLabel}（${appliedRateText}）</strong> で、<strong>${fmtSale(tax)}</strong> の譲渡税がかかります。`});
-    if (netProceeds >= 0) items.push({ok:1, t:`残債・費用・税金をすべて差し引いた手取りは <strong>${fmtSale(netProceeds)}</strong> になります。`});
-    else items.push({ok:0, t:`手取りが <strong>${fmtSale(netProceeds)}</strong> でマイナスです。売却には <strong>${fmtSale(-netProceeds)}</strong> の自己資金が必要です。`});
+    if (capitalGain > 0) items.push({ok:1, t:`売却益が <strong>${fmtSale(capitalGain)}</strong> 出ています。この金額が課税対象となるため、翌年3月15日までに確定申告が必要です。`});
+    else if (capitalGain < 0) items.push({ok:0, t:`売却損が <strong>${fmtSale(-capitalGain)}</strong> あります（売却価格が取得費を下回る状態）。譲渡税はかかりませんが、ローン残高が売却代金を上回る「オーバーローン」になっていないか確認しましょう。`});
+    else items.push({ok:2, t:`売却益・損はほぼゼロです。譲渡税はかかりません。`});
+    if (tax === 0) items.push({ok:1, t: capitalGain <= 0 ? `売却益がないため、譲渡税はかかりません。確定申告も不要です。` : `3,000万円特別控除で、譲渡税は <strong>0円</strong> です。ただし<strong>控除を受けるには確定申告が必須</strong>です。申告を忘れると満額課税されてしまうので注意してください。`});
+    else items.push({ok:0, t:`<strong>${taxLabel}（${appliedRateText}）</strong> で、<strong>${fmtSale(tax)}</strong> の譲渡税がかかります。翌年3月15日までに確定申告・納税が必要です。売却後すぐに使い切らず、納税分のキャッシュを手元に残しておきましょう。`});
+    if (netProceeds >= 0) items.push({ok:1, t:`残債・費用・税金をすべて差し引いた手取りは <strong>${fmtSale(netProceeds)}</strong> になります。次の住宅購入の頭金や老後資金など、将来の資金計画に活用できます。`});
+    else items.push({ok:0, t:`手取りが <strong>${fmtSale(netProceeds)}</strong> でマイナスです。売却には <strong>${fmtSale(-netProceeds)}</strong> の自己資金が必要です。現金が用意できない場合は、売却時期や売値の見直しを検討しましょう。`});
     if (capitalGain > 0 && tax > 0 && taxHoldingYears <= 5) {
       const mo = Math.ceil((5.001 - taxHoldingYears) * 12);
-      items.push({ok:2, t:`所有期間が5年以下のため短期譲渡税率（39.63%）が適用中。あと約${mo}ヶ月待つと長期（20.315%）に下がります。`});
+      items.push({ok:2, t:`所有期間が5年以下のため短期譲渡税率（39.63%）が適用中です。あと約${mo}ヶ月待てば長期（20.315%）に下がり、<strong>税額がほぼ半分</strong>になります。急いで売らなくて良いなら、売却時期の調整も検討してください。`});
     }
     return `<div style="margin-top:16px;margin-left:36px;padding:14px 16px;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);font-size:0.7rem;line-height:1.7;">
       <div style="font-weight:700;font-size:0.72rem;margin-bottom:10px;color:var(--text);">📋 シミュレーション結果のまとめ</div>

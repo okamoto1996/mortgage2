@@ -355,7 +355,12 @@
   .step-title.c3 { color:var(--danger); }
   .step-title.c4 { color:var(--safe); }
 
-  .step-row {
+  .step-desc {
+    font-size:0.62rem; color:var(--muted); line-height:1.6;
+    margin-bottom:10px; margin-top:-4px;
+  }
+
+
     display:flex; justify-content:space-between; align-items:baseline;
     padding:5px 0; font-size:0.76rem; color:var(--text2);
   }
@@ -774,7 +779,7 @@
     </div>
     <div id="pairLoanInfoSection" style="display:none; margin-top:10px; padding:14px 16px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm);">
       <div style="font-size:0.68rem; color:var(--text2); line-height:1.7; margin-bottom:12px; padding:8px 10px; background:rgba(212,180,120,0.04); border:1px solid rgba(212,180,120,0.2); border-radius:var(--radius-sm);">
-        💡 上の「借入金額」はペアローンの<strong>合算額</strong>で入力してください。返済スケジュール・繰り上げ・借り換えシミュレーションは合算ベースで計算します。各自の借入金額は売却時の残高按分に使用します。
+        💡 上の「借入金額」はペアローンの<strong>合算額</strong>で入力してください。各自の借入金額を入力すると持分（%）が自動計算されます。返済・繰り上げ・借り換えシミュレーションは合算ベースで計算します。
       </div>
       <div class="form-grid">
         <div class="form-group">
@@ -786,11 +791,11 @@
           <input type="number" id="pairLoanAmountB" step="1" inputmode="decimal" readonly style="opacity:0.6;cursor:default;" placeholder="自動計算">
         </div>
         <div class="form-group">
-          <label>本人の持分 (%)</label>
-          <input type="number" id="pairRatioA" value="50" min="1" max="99" step="1" inputmode="numeric" oninput="syncPairRatioB()">
+          <label>本人の持分 <span style="font-size:0.6em;color:var(--muted);">（自動計算）</span></label>
+          <input type="number" id="pairRatioA" value="50" min="1" max="99" step="1" inputmode="numeric" readonly style="opacity:0.6;cursor:default;">
         </div>
         <div class="form-group">
-          <label>配偶者の持分 (%)</label>
+          <label>配偶者の持分 <span style="font-size:0.6em;color:var(--muted);">（自動計算）</span></label>
           <input type="number" id="pairRatioB" value="50" min="1" max="99" step="1" inputmode="numeric" readonly style="opacity:0.6;cursor:default;">
         </div>
       </div>
@@ -2710,7 +2715,16 @@ function syncPairLoanAmountB() {
   const a = parseFloat(document.getElementById('pairLoanAmountA').value) || 0;
   const b = Math.max(0, total - a);
   document.getElementById('pairLoanAmountB').value = b > 0 ? b : '';
-  // 残高の按分も再計算
+  // 持分を借入金額の比率から自動計算
+  if (total > 0 && a > 0) {
+    const ratioA = Math.round(a / total * 100);
+    const ratioB = 100 - ratioA;
+    document.getElementById('pairRatioA').value = Math.max(1, Math.min(99, ratioA));
+    document.getElementById('pairRatioB').value = Math.max(1, Math.min(99, ratioB));
+  } else {
+    document.getElementById('pairRatioA').value = 50;
+    document.getElementById('pairRatioB').value = 50;
+  }
   if (document.getElementById('saleBalanceA').value || document.getElementById('saleBalanceB').value) updateSaleBalance();
 }
 
@@ -2833,6 +2847,7 @@ function calcSale() {
       <div class="step-box">
         <span class="step-num s1">1</span>
         <div class="step-title c1">譲渡益の計算（全体）</div>
+        <div class="step-desc">まず物件全体の利益を計算します。この後、持分割合で二人に按分します。</div>
         <div class="step-row"><span>売却予定額</span><span>${fmtShort(sPrice)}円</span></div>
         <div class="step-row sub"><span><span class="step-sign">−</span>取得費${buildingRatio > 0 && depreciationAmount > 0 ? '（減価償却後）' : ''}</span><span>${fmtShort(acquisitionCost)}円</span></div>
         <div class="step-row sub"><span><span class="step-sign">−</span>売却諸費用（概算）</span><span>${fmtShort(sCost)}円</span></div>
@@ -2846,6 +2861,7 @@ function calcSale() {
       <div class="step-box">
         <span class="step-num s2">2</span>
         <div class="step-title c2">税率の判定（両者共通）</div>
+        <div class="step-desc">所有期間が5年超なら税率が低い長期譲渡、5年以下なら高い短期譲渡です。二人とも同じ税率が適用されます。</div>
         <div class="step-row"><span>所有期間</span><span>${Math.floor(taxHoldingYears)}年${Math.round((taxHoldingYears % 1) * 12)}ヶ月</span></div>
         <div style="font-size:0.56rem;color:var(--muted);margin-top:2px;">※ 譲渡年の1月1日時点で判定</div>
         <div class="step-row result" style="color:var(--info);"><span>判定</span>
@@ -2857,7 +2873,8 @@ function calcSale() {
 
       <div class="step-box"${totalTax>0?' style="border-color:rgba(224,120,104,0.25);"':''}>
         <span class="step-num s3">3</span>
-        <div class="step-title c3">各自の譲渡税</div>
+        <div class="step-title c3">各自の譲渡税と手取り</div>
+        <div class="step-desc">持分で按分した利益に、それぞれが3,000万円控除を適用できます（合計最大6,000万円）。</div>
         <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
           ${mkPersonCard('本人', ratioA, capitalGainA, taxableGainA, taxA, netA, use30mA, balA)}
           ${mkPersonCard('配偶者', ratioB, capitalGainB, taxableGainB, taxB, netB, use30mB, balB)}
@@ -2872,6 +2889,7 @@ function calcSale() {
       <div class="step-final">
         <span class="step-num s4">4</span>
         <div class="step-title c4">最終手取り額（合計）</div>
+        <div class="step-desc">二人合計の手取りです。売却額から残ローン・費用・税金を差し引いた実際に残るお金です。</div>
         <div class="step-final-items">
           <div class="step-final-item"><span>売却額</span><span>${fmtShort(sPrice)}円</span></div>
           <div class="step-final-item"><span>残債返済（本人＋配偶者）</span><span>−${fmtShort(totalBalance)}円</span></div>
@@ -2945,6 +2963,7 @@ function calcSale() {
     <div class="step-box">
       <span class="step-num s1">1</span>
       <div class="step-title c1">譲渡益の計算</div>
+      <div class="step-desc">売った価格から「買ったときの費用＋売却費用」を引いた利益です。プラスなら課税対象になります。</div>
       <div class="step-row"><span>売却予定額</span><span>${fmtShort(sPrice)}円</span></div>
       <div class="step-row sub"><span><span class="step-sign">−</span>取得費${buildingRatio > 0 && depreciationAmount > 0 ? '（減価償却後）' : ''}</span><span>${fmtShort(acquisitionCost)}円</span></div>
       <div class="step-row sub"><span><span class="step-sign">−</span>売却諸費用（概算）</span><span>${fmtShort(sCost)}円</span></div>
@@ -2997,6 +3016,7 @@ function calcSale() {
     <div class="step-box">
       <span class="step-num s2">2</span>
       <div class="step-title c2">税率の判定</div>
+      <div class="step-desc">所有期間が5年超かどうかで税率が大きく変わります。長く保有するほど税率は低くなります。</div>
       <div class="step-row"><span>所有期間</span><span>${Math.floor(taxHoldingYears)}年${Math.round((taxHoldingYears % 1) * 12)}ヶ月</span></div>
       <div style="font-size:0.56rem;color:var(--muted);margin-top:2px;">※ 譲渡年の1月1日時点で判定</div>
       <div class="step-row result" style="color:var(--info);"><span>判定</span>
@@ -3010,6 +3030,7 @@ function calcSale() {
     <div class="step-box"${tax > 0 ? ' style="border-color:rgba(224,120,104,0.25);"' : ''}>
       <span class="step-num s3">3</span>
       <div class="step-title c3">譲渡税</div>
+      <div class="step-desc">利益に税率をかけた税金です。3,000万円特別控除の範囲内なら0円になります。</div>
       ${tax > 0 ? `<div class="step-row"><span>課税譲渡所得</span><span>${fmtShort(taxableGain)}円</span></div>
       <div class="step-row sub"><span><span class="step-sign">×</span>税率</span><span>${appliedRateText}</span></div>
       <div class="step-row result negative"><span>＝ 譲渡税</span><span>${fmtShort(tax)}円</span></div>`
@@ -3022,6 +3043,7 @@ function calcSale() {
     <div class="step-final">
       <span class="step-num s4">4</span>
       <div class="step-title c4">最終手取り額</div>
+      <div class="step-desc">売却代金から残ローン・諸費用・税金をすべて引いた、実際に手元に残るお金です。</div>
       <div class="step-final-items">
         <div class="step-final-item"><span>売却額</span><span>${fmtShort(sPrice)}円</span></div>
         <div class="step-final-item"><span>残債返済</span><span>−${fmtShort(remainBalance)}円</span></div>

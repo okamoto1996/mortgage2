@@ -361,15 +361,17 @@
   }
 
 
+  .step-row {
     display:flex; justify-content:space-between; align-items:baseline;
-    padding:5px 0; font-size:0.76rem; color:var(--text2);
+    padding:6px 0; font-size:0.75rem; color:var(--text2); gap:8px;
   }
-  .step-row.sub { padding-left:10px; font-size:0.7rem; color:var(--muted); }
+  .step-row.sub { padding-left:12px; font-size:0.7rem; color:var(--muted); }
   .step-row.sub .step-sign { display:inline-block; width:14px; text-align:center; color:var(--muted); font-weight:600; }
-  .step-row span:last-child { font-family:'DM Mono',monospace; text-align:right; min-width:80px; white-space:nowrap; }
+  .step-row span:first-child { flex:1; min-width:0; }
+  .step-row span:last-child { font-family:'DM Mono',monospace; text-align:right; min-width:90px; white-space:nowrap; flex-shrink:0; }
   .step-row.result {
     border-top:1px solid var(--border2); margin-top:8px; padding-top:8px;
-    font-weight:700; font-size:0.82rem;
+    font-weight:700; font-size:0.84rem;
   }
   .step-row.result.positive { color:var(--safe); }
   .step-row.result.negative { color:var(--danger); }
@@ -394,9 +396,11 @@
     border:1px solid rgba(110,196,150,0.3); border-radius:var(--radius);
   }
   .step-final .step-row.result { border-top:none; margin-top:4px; padding-top:0; font-size:1.1rem; }
-  .step-final-items { display:grid; grid-template-columns:1fr 1fr; gap:2px 14px; margin-bottom:4px; }
-  .step-final-item { display:flex; justify-content:space-between; font-size:0.68rem; color:var(--muted); padding:3px 0; }
-  .step-final-item span:last-child { font-family:'DM Mono',monospace; color:var(--text2); }
+  .step-final-items { display:flex; flex-direction:column; gap:0; margin-bottom:10px; }
+  .step-final-item { display:flex; justify-content:space-between; align-items:baseline; gap:8px; font-size:0.73rem; color:var(--muted); padding:5px 0; border-bottom:1px solid var(--border); }
+  .step-final-item:last-child { border-bottom:none; }
+  .step-final-item span:first-child { flex:1; min-width:0; }
+  .step-final-item span:last-child { font-family:'DM Mono',monospace; color:var(--text2); white-space:nowrap; flex-shrink:0; text-align:right; }
 
   /* ── Depreciation comparison card ── */
   .dep-card {
@@ -1693,6 +1697,12 @@ function applyRounding(val) {
 }
 function fmtShort(val) { return Math.round(val).toLocaleString('ja-JP'); }
 function fmtMan(val) { return (val / 10000).toFixed(1) + '万円'; }
+// 売却シミュレーション用: 1万以上は整数万円表示（桁が短くて読みやすい）
+function fmtSale(val) {
+  const m = Math.round(val / 10000);
+  if (Math.abs(m) >= 1) return m.toLocaleString('ja-JP') + '万円';
+  return Math.round(val).toLocaleString('ja-JP') + '円';
+}
 function calculatePMT(principal, monthlyRate, numPayments) {
   if (monthlyRate === 0) return principal / numPayments;
   return principal * monthlyRate * Math.pow(1 + monthlyRate, numPayments) / (Math.pow(1 + monthlyRate, numPayments) - 1);
@@ -2830,15 +2840,15 @@ function calcSale() {
       const isLoss = cgI <= 0;
       return `<div style="width:100%;padding:12px 14px;background:var(--surface3);border:1px solid var(--border2);border-radius:var(--radius-sm);">
         <div style="font-size:0.7rem;font-weight:600;color:var(--accent);margin-bottom:8px;">${name}（持分 ${Math.round(ratio*100)}%）</div>
-        <div class="step-row"><span>按分後の譲渡益</span><span class="${isLoss?'negative':'positive'}">${cgI>=0?'+':''}${fmtShort(cgI)}円</span></div>
+        <div class="step-row"><span>按分後の譲渡益</span><span class="${isLoss?'negative':'positive'}">${cgI>=0?'+':''}${fmtSale(cgI)}</span></div>
         ${!isLoss && use30mI ? `<div class="step-row sub" style="color:var(--safe);"><span><span class="step-sign">−</span>3,000万円特別控除</span><span class="step-badge safe">適用</span></div>
-        <div class="step-row"><span>課税譲渡所得</span><span>${fmtShort(tgI)}円</span></div>` : ''}
-        <div class="step-row result ${taxI===0?'positive':'negative'}"><span>譲渡税</span><span>${taxI===0?'0円':fmtShort(taxI)+'円'}</span></div>
+        <div class="step-row"><span>課税譲渡所得</span><span>${fmtSale(tgI)}</span></div>` : ''}
+        <div class="step-row result ${taxI===0?'positive':'negative'}"><span>譲渡税</span><span>${taxI===0?'0万円':fmtSale(taxI)}</span></div>
         <div style="border-top:1px solid var(--border);margin-top:6px;padding-top:6px;">
-          <div class="step-row sub"><span>売却額×持分</span><span>${fmtShort(Math.round(sPrice*ratio))}円</span></div>
-          <div class="step-row sub"><span>残債返済</span><span>−${fmtShort(balI)}円</span></div>
-          <div class="step-row sub"><span>売却費用×持分</span><span>−${fmtShort(Math.round(sCost*ratio))}円</span></div>
-          <div class="step-row result ${netI>=0?'positive':'negative'}" style="font-weight:600;"><span>手取り</span><span>${netI>=0?'+':''}${fmtShort(netI)}円</span></div>
+          <div class="step-row sub"><span>売却額×持分</span><span>${fmtSale(Math.round(sPrice*ratio))}</span></div>
+          <div class="step-row sub"><span>残債返済</span><span>−${fmtSale(balI)}</span></div>
+          <div class="step-row sub"><span>売却費用×持分</span><span>−${fmtSale(Math.round(sCost*ratio))}</span></div>
+          <div class="step-row result ${netI>=0?'positive':'negative'}" style="font-weight:600;"><span>手取り</span><span>${netI>=0?'+':''}${fmtSale(netI)}</span></div>
         </div>
       </div>`;
     };
@@ -2848,10 +2858,10 @@ function calcSale() {
         <span class="step-num s1">1</span>
         <div class="step-title c1">譲渡益の計算（全体）</div>
         <div class="step-desc">まず物件全体の利益を計算します。この後、持分割合で二人に按分します。</div>
-        <div class="step-row"><span>売却予定額</span><span>${fmtShort(sPrice)}円</span></div>
-        <div class="step-row sub"><span><span class="step-sign">−</span>取得費${buildingRatio > 0 && depreciationAmount > 0 ? '（減価償却後）' : ''}</span><span>${fmtShort(acquisitionCost)}円</span></div>
-        <div class="step-row sub"><span><span class="step-sign">−</span>売却諸費用（概算）</span><span>${fmtShort(sCost)}円</span></div>
-        <div class="step-row result ${capitalGain>=0?'positive':'negative'}"><span>＝ 全体の譲渡益</span><span>${capitalGain>=0?'+':''}${fmtShort(capitalGain)}円</span></div>
+        <div class="step-row"><span>売却予定額</span><span>${fmtSale(sPrice)}</span></div>
+        <div class="step-row sub"><span><span class="step-sign">−</span>取得費${buildingRatio > 0 && depreciationAmount > 0 ? '（減価償却後）' : ''}</span><span>${fmtSale(acquisitionCost)}</span></div>
+        <div class="step-row sub"><span><span class="step-sign">−</span>売却諸費用（概算）</span><span>${fmtSale(sCost)}</span></div>
+        <div class="step-row result ${capitalGain>=0?'positive':'negative'}"><span>＝ 全体の譲渡益</span><span>${capitalGain>=0?'+':''}${fmtSale(capitalGain)}</span></div>
         <div style="font-size:0.6rem;color:var(--muted);margin-top:8px;line-height:1.6;">↓ 持分割合で按分（本人 ${pctA}%・配偶者 ${pctB}%）</div>
         ${buildingRatio > 0 && depreciationAmount > 0 ? `<div style="font-size:0.56rem;color:var(--muted);margin-top:4px;">📐 減価償却 ${holdingYears}年間 ${fmtMan(depreciationAmount)} 分が取得費から差し引かれています。</div>` : ''}
       </div>
@@ -2880,7 +2890,7 @@ function calcSale() {
           ${mkPersonCard('配偶者', ratioB, capitalGainB, taxableGainB, taxB, netB, use30mB, balB)}
         </div>
         <div class="step-row result ${totalTax===0?'positive':'negative'}" style="margin-top:10px;border-top:1px solid var(--border);padding-top:8px;">
-          <span>合計 譲渡税</span><span>${totalTax===0?'0円':fmtShort(totalTax)+'円'}</span>
+          <span>合計 譲渡税</span><span>${totalTax===0?'0万円':fmtSale(totalTax)}</span>
         </div>
       </div>
 
@@ -2891,13 +2901,13 @@ function calcSale() {
         <div class="step-title c4">最終手取り額（合計）</div>
         <div class="step-desc">二人合計の手取りです。売却額から残ローン・費用・税金を差し引いた実際に残るお金です。</div>
         <div class="step-final-items">
-          <div class="step-final-item"><span>売却額</span><span>${fmtShort(sPrice)}円</span></div>
-          <div class="step-final-item"><span>残債返済（本人＋配偶者）</span><span>−${fmtShort(totalBalance)}円</span></div>
-          <div class="step-final-item"><span>売却費用</span><span>−${fmtShort(sCost)}円</span></div>
-          <div class="step-final-item"><span>譲渡税（合計）</span><span>−${fmtShort(totalTax)}円</span></div>
+          <div class="step-final-item"><span>売却額</span><span>${fmtSale(sPrice)}</span></div>
+          <div class="step-final-item"><span>残債返済（本人＋配偶者）</span><span>−${fmtSale(totalBalance)}</span></div>
+          <div class="step-final-item"><span>売却費用</span><span>−${fmtSale(sCost)}</span></div>
+          <div class="step-final-item"><span>譲渡税（合計）</span><span>−${fmtSale(totalTax)}</span></div>
         </div>
-        <div class="step-row result ${totalNet>=0?'positive':'negative'}" style="font-size:1.1rem;">
-          <span>＝ 合計手取り額</span><span>${totalNet>=0?'+':''}${fmtShort(totalNet)}円</span>
+        <div class="step-row result ${totalNet>=0?'positive':'negative'}" style="font-size:1.05rem;">
+          <span>＝ 合計手取り額</span><span>${totalNet>=0?'+':''}${fmtSale(totalNet)}</span>
         </div>
       </div>
       <div style="font-size:0.6rem;color:var(--muted);text-align:right;margin-top:10px;margin-left:36px;">※売却諸費用は仲介手数料＋印紙代の概算です。</div>
@@ -2964,10 +2974,10 @@ function calcSale() {
       <span class="step-num s1">1</span>
       <div class="step-title c1">譲渡益の計算</div>
       <div class="step-desc">売った価格から「買ったときの費用＋売却費用」を引いた利益です。プラスなら課税対象になります。</div>
-      <div class="step-row"><span>売却予定額</span><span>${fmtShort(sPrice)}円</span></div>
-      <div class="step-row sub"><span><span class="step-sign">−</span>取得費${buildingRatio > 0 && depreciationAmount > 0 ? '（減価償却後）' : ''}</span><span>${fmtShort(acquisitionCost)}円</span></div>
-      <div class="step-row sub"><span><span class="step-sign">−</span>売却諸費用（概算）</span><span>${fmtShort(sCost)}円</span></div>
-      <div class="step-row result ${capitalGain >= 0 ? 'positive' : 'negative'}"><span>＝ 譲渡益</span><span>${capitalGain >= 0 ? '+' : ''}${fmtShort(capitalGain)}円</span></div>
+      <div class="step-row"><span>売却予定額</span><span>${fmtSale(sPrice)}</span></div>
+      <div class="step-row sub"><span><span class="step-sign">−</span>取得費${buildingRatio > 0 && depreciationAmount > 0 ? '（減価償却後）' : ''}</span><span>${fmtSale(acquisitionCost)}</span></div>
+      <div class="step-row sub"><span><span class="step-sign">−</span>売却諸費用（概算）</span><span>${fmtSale(sCost)}</span></div>
+      <div class="step-row result ${capitalGain >= 0 ? 'positive' : 'negative'}"><span>＝ 譲渡益</span><span>${capitalGain >= 0 ? '+' : ''}${fmtSale(capitalGain)}</span></div>
 
       ${buildingRatio > 0 && depreciationAmount > 0 ? `
       <div class="dep-card">
@@ -3002,12 +3012,12 @@ function calcSale() {
         </div>
       </div>
       ` : `${buildingRatio <= 0 ? `<div class="step-detail" style="font-size:0.56rem;">
-        取得費 ＝ 購入価格 ${fmtShort(pPrice)}円 + 諸費用 ${fmtShort(pCost)}円 ＝ ${fmtShort(acquisitionCostNoDep)}円<br>
+        取得費 ＝ 購入価格 ${fmtSale(pPrice)} + 諸費用 ${fmtSale(pCost)} ＝ ${fmtSale(acquisitionCostNoDep)}<br>
         <span style="color:var(--muted);">※ 建物割合を設定すると減価償却が考慮され、より正確な計算になります。</span>
       </div>` : ''}`}
       ${capitalGain > 0 && use30m ? `<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border);">
         <div class="step-row sub" style="color:var(--safe);"><span><span class="step-sign">−</span>3,000万円特別控除</span><span class="step-badge safe">適用</span></div>
-        <div class="step-row result positive"><span>＝ 課税譲渡所得</span><span>${fmtShort(taxableGain)}円</span></div>
+        <div class="step-row result positive"><span>＝ 課税譲渡所得</span><span>${fmtSale(taxableGain)}</span></div>
       </div>` : ''}
     </div>
 
@@ -3031,9 +3041,9 @@ function calcSale() {
       <span class="step-num s3">3</span>
       <div class="step-title c3">譲渡税</div>
       <div class="step-desc">利益に税率をかけた税金です。3,000万円特別控除の範囲内なら0円になります。</div>
-      ${tax > 0 ? `<div class="step-row"><span>課税譲渡所得</span><span>${fmtShort(taxableGain)}円</span></div>
+      ${tax > 0 ? `<div class="step-row"><span>課税譲渡所得</span><span>${fmtSale(taxableGain)}</span></div>
       <div class="step-row sub"><span><span class="step-sign">×</span>税率</span><span>${appliedRateText}</span></div>
-      <div class="step-row result negative"><span>＝ 譲渡税</span><span>${fmtShort(tax)}円</span></div>`
+      <div class="step-row result negative"><span>＝ 譲渡税</span><span>${fmtSale(tax)}</span></div>`
       : `<div class="step-row result positive"><span>＝ 譲渡税</span><span>0円</span></div>
       <div style="font-size:0.56rem;margin-top:4px;color:var(--safe);line-height:1.5;">${capitalGain <= 0 ? '譲渡益がないため非課税です。' : '3,000万円特別控除の枠内のため非課税です。'}</div>`}
     </div>
@@ -3045,14 +3055,14 @@ function calcSale() {
       <div class="step-title c4">最終手取り額</div>
       <div class="step-desc">売却代金から残ローン・諸費用・税金をすべて引いた、実際に手元に残るお金です。</div>
       <div class="step-final-items">
-        <div class="step-final-item"><span>売却額</span><span>${fmtShort(sPrice)}円</span></div>
-        <div class="step-final-item"><span>残債返済</span><span>−${fmtShort(remainBalance)}円</span></div>
-        <div class="step-final-item"><span>売却費用</span><span>−${fmtShort(sCost)}円</span></div>
-        <div class="step-final-item"><span>譲渡税</span><span>−${fmtShort(tax)}円</span></div>
+        <div class="step-final-item"><span>売却額</span><span>${fmtSale(sPrice)}</span></div>
+        <div class="step-final-item"><span>残債返済</span><span>−${fmtSale(remainBalance)}</span></div>
+        <div class="step-final-item"><span>売却費用</span><span>−${fmtSale(sCost)}</span></div>
+        <div class="step-final-item"><span>譲渡税</span><span>−${fmtSale(tax)}</span></div>
       </div>
-      <div class="step-row result ${netProceeds >= 0 ? 'positive' : 'negative'}" style="font-size:1.1rem;">
+      <div class="step-row result ${netProceeds >= 0 ? 'positive' : 'negative'}" style="font-size:1.05rem;">
         <span>＝ 手取り額</span>
-        <span>${netProceeds >= 0 ? '+' : ''}${fmtShort(netProceeds)}円</span>
+        <span>${netProceeds >= 0 ? '+' : ''}${fmtSale(netProceeds)}</span>
       </div>
     </div>
     <div style="font-size:0.6rem; color:var(--muted); text-align:right; margin-top:10px; margin-left:36px;">※売却諸費用は仲介手数料＋印紙代の概算です。</div>

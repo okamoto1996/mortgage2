@@ -128,7 +128,7 @@
   .total-cost-banner {
     background: var(--surface);
     border: 1px solid rgba(200,169,110,0.25);
-    border-radius: var(--radius); padding: 24px 20px 16px; margin-bottom: 12px; text-align: center;
+    border-radius: var(--radius); padding: 14px 16px 10px; margin-bottom: 12px; text-align: center;
     box-shadow: 0 1px 8px rgba(0,0,0,0.2);
   }
 
@@ -147,9 +147,9 @@
   .detail-section {
     animation: fadeIn 0.3s ease;
   }
-  .total-cost-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.08em; }
-  .total-cost-value { font-family: 'DM Mono', monospace; font-size: 2rem; color: var(--accent2); font-weight: 500; line-height: 1; }
-  .total-cost-detail { font-size: 0.75rem; color: var(--muted); margin-top: 10px; }
+  .total-cost-label { font-size: 0.65rem; color: var(--muted); margin-bottom: 4px; letter-spacing: 0.08em; }
+  .total-cost-value { font-family: 'DM Mono', monospace; font-size: 1.35rem; color: var(--accent2); font-weight: 500; line-height: 1; }
+  .total-cost-detail { font-size: 0.68rem; color: var(--muted); margin-top: 6px; }
   .total-cost-detail span { color: var(--text2); font-weight: 500; }
 
   /* ── Stats ── */
@@ -723,6 +723,22 @@
   <p>返済状況・変動金利シミュレーター</p>
 </div>
 
+<!-- ⑦ セクションナビ -->
+<div class="section-nav">
+  <a href="#" onclick="event.preventDefault();jumpTo('bodyPrepay')" class="section-nav-item" style="--nav-color:var(--accent2);">
+    <span class="section-nav-icon">📅</span>繰り上げ返済
+  </a>
+  <a href="#" onclick="event.preventDefault();jumpTo('bodyRefi')" class="section-nav-item" style="--nav-color:var(--info);">
+    <span class="section-nav-icon">🏦</span>借り換え
+  </a>
+  <a href="#" onclick="event.preventDefault();jumpTo('bodySale')" class="section-nav-item" style="--nav-color:var(--safe);">
+    <span class="section-nav-icon">🏠</span>売却
+  </a>
+  <a href="#" onclick="event.preventDefault();jumpTo('bodyTools')" class="section-nav-item" style="--nav-color:var(--muted);">
+    <span class="section-nav-icon">⚙</span>控除・設定
+  </a>
+</div>
+
 <div class="card">
   <div class="card-title collapsible-header" onclick="toggleCard('bodyLoan')" role="button" tabindex="0" aria-expanded="true" aria-controls="bodyLoan" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodyLoan')}">
     <span>ローン情報の入力</span>
@@ -873,14 +889,9 @@
         ・残り <span style="color:var(--text); font-family:'DM Mono',monospace;" id="remainMonths">—</span>
       </div>
     </div>
-    <!-- Toggle for detail section -->
-    <div class="detail-toggle" id="detailToggle" onclick="toggleDetailSection()">
-      <span id="detailToggleLabel">詳細を表示</span>
-      <span class="detail-toggle-icon" id="detailToggleIcon">▼</span>
-    </div>
   </div>
 
-  <div class="detail-section" id="detailSection" style="display:none;">
+  <div class="detail-section" id="detailSection">
 
   <!-- B: 今月の返済内訳サマリー -->
   <div class="today-card" id="todayCard" style="display:none;">
@@ -1001,22 +1012,6 @@
   </div>
 
   </div><!-- /detail-section -->
-
-  <!-- ⑦ セクションナビ -->
-  <div class="section-nav">
-    <a href="#" onclick="event.preventDefault();jumpTo('bodyPrepay')" class="section-nav-item" style="--nav-color:var(--accent2);">
-      <span class="section-nav-icon">📅</span>繰り上げ返済
-    </a>
-    <a href="#" onclick="event.preventDefault();jumpTo('bodyRefi')" class="section-nav-item" style="--nav-color:var(--info);">
-      <span class="section-nav-icon">🏦</span>借り換え
-    </a>
-    <a href="#" onclick="event.preventDefault();jumpTo('bodySale')" class="section-nav-item" style="--nav-color:var(--safe);">
-      <span class="section-nav-icon">🏠</span>売却
-    </a>
-    <a href="#" onclick="event.preventDefault();jumpTo('bodyTools')" class="section-nav-item" style="--nav-color:var(--muted);">
-      <span class="section-nav-icon">⚙</span>控除・設定
-    </a>
-  </div>
 
   <div class="card" style="border-left:3px solid var(--accent2)">
     <div class="card-title collapsible-header" onclick="toggleCard('bodyPrepay')" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyPrepay" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodyPrepay')}">
@@ -1503,16 +1498,6 @@ function toggleCard(bodyId) {
   if (icon) icon.classList.toggle('open', !isOpen);
   const header = body.parentElement.querySelector(`[aria-controls="${bodyId}"]`);
   if (header) header.setAttribute('aria-expanded', !isOpen);
-}
-
-function toggleDetailSection() {
-  const section = document.getElementById('detailSection');
-  const label = document.getElementById('detailToggleLabel');
-  const icon = document.getElementById('detailToggleIcon');
-  const isHidden = section.style.display === 'none';
-  section.style.display = isHidden ? 'block' : 'none';
-  label.textContent = isHidden ? '詳細を隠す' : '詳細を表示';
-  icon.classList.toggle('open', isHidden);
 }
 
 // ⑫ saveSettings統合

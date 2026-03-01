@@ -870,7 +870,14 @@
 </div>
 
 <div id="results">
-  
+
+  <div class="card">
+    <div class="card-title collapsible-header" onclick="toggleCard('bodyResults')" role="button" tabindex="0" aria-expanded="true" aria-controls="bodyResults" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodyResults')}">
+      <span>📊 ローン情報の入力結果</span>
+      <span class="collapse-icon open" id="iconResults">▼</span>
+    </div>
+    <div class="collapsible-body open" id="bodyResults">
+
   <div class="total-cost-banner">
     <div class="total-cost-label">毎月の住居費 合計</div>
     <div class="total-cost-value" id="totalMonthlyCost">0円</div>
@@ -1012,6 +1019,9 @@
   </div>
 
   </div><!-- /detail-section -->
+
+    </div><!-- /collapsible-body bodyResults -->
+  </div><!-- /card results -->
 
   <div class="card" style="border-left:3px solid var(--accent2)">
     <div class="card-title collapsible-header" onclick="toggleCard('bodyPrepay')" role="button" tabindex="0" aria-expanded="false" aria-controls="bodyPrepay" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('bodyPrepay')}">
